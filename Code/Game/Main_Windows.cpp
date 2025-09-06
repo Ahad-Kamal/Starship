@@ -12,7 +12,6 @@
 #include <gl/gl.h>					// Include basic OpenGL constants and function declarations
 #include <Engine/Math/Vec2.hpp>
 #include "PlayerShip.hpp"
-#include <iostream>
 #pragma comment( lib, "opengl32" )	// Link in the OpenGL32.lib static library
 
 
@@ -21,9 +20,6 @@
 //
 #define UNUSED(x) (void)(x);
 
-PlayerShip* g_ship1 = nullptr;
-PlayerShip* g_ship2 = nullptr;
-PlayerShip* g_ship3 = nullptr;
 
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: This will eventually go away once we add a Window engine class later on.
@@ -40,6 +36,38 @@ HDC g_displayDeviceContext = nullptr;				// ...becomes void* Window::m_displayCo
 HGLRC g_openGLRenderingContext = nullptr;			// ...becomes void* Renderer::m_apiRenderingContext
 char const* APP_NAME = "Windows OpenGL Test App";	// ...becomes ??? (Change this per project!)
 
+bool g_isPaused = false;
+bool g_isSlowMo = false;
+
+PlayerShip* g_ship1 = nullptr;
+PlayerShip* g_ship2 = nullptr;
+PlayerShip* g_ship3 = nullptr;
+
+//-----------------------------------------------------------------------------------------------
+// #SD1ToDo: This will become  App::Update( float deltaSeconds )
+void App_Update(float deltaSeconds)
+{
+	if (g_isPaused)
+	{
+		deltaSeconds = 0;
+	}
+
+	if (g_isSlowMo)
+	{
+		deltaSeconds *= 0.1f;
+	}
+
+	g_ship1->Update(deltaSeconds);
+	g_ship2->Update(deltaSeconds);
+	g_ship3->Update(deltaSeconds);
+
+	if (g_ship1->m_position.x > 200.f ||
+		g_ship2->m_position.x > 200.f ||
+		g_ship3->m_position.x > 200.f)
+	{
+		g_isQuitting = true;
+	}
+}
 
 //-----------------------------------------------------------------------------------------------
 // Handles Windows (Win32) messages/events; i.e. the OS is trying to tell us something happened.
@@ -64,11 +92,37 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 			unsigned char asKey = (unsigned char)wParam;
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-pressed event...
-			if( asKey == VK_ESCAPE ) // #SD1ToDo: move this "check for ESC pressed" code to App
+			if( asKey == 'Q' ) // #SD1ToDo: move this "check for ESC pressed" code to App
 			{
 				g_isQuitting = true;
 				return 0; // "Consumes" this message (tells Windows "okay, we handled it")
 			}
+
+			else if ( asKey == 'P' )
+			{
+				if (!g_isPaused)
+				{
+					g_isPaused = true;
+				}
+				else 
+				{
+					g_isPaused = false;
+				}
+				
+			}
+
+			else if ( asKey == 'T' )
+			{
+				g_isSlowMo = true;
+			}
+
+			else if (asKey == 'O')
+			{
+				g_isPaused = false;
+				App_Update(1.f / 60.f);
+				g_isPaused = true;		
+			}
+
 			break;
 		}
 
@@ -78,6 +132,11 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 			unsigned char asKey = (unsigned char) wParam;
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-released event...
+			if ( asKey == 'T' )
+			{
+				g_isSlowMo = false;
+			}
+
 			break;
 		}
 	}
@@ -265,18 +324,7 @@ void App_Destructor()
 }
 
 
-//-----------------------------------------------------------------------------------------------
-// #SD1ToDo: This will become  App::Update( float deltaSeconds )
-void App_Update( float deltaSeconds)
-{
-	g_ship1->Update( deltaSeconds );
-	g_ship2->Update( deltaSeconds );
-	g_ship3->Update( deltaSeconds );
 
-	if (g_ship2->m_position.x > 200.f) {
-		g_isQuitting = true;
-	}
-}
 
 struct Vec3
 {
