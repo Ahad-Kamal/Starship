@@ -11,6 +11,8 @@
 //
 #include <gl/gl.h>					// Include basic OpenGL constants and function declarations
 #include <Engine/Math/Vec2.hpp>
+#include "PlayerShip.hpp"
+#include <iostream>
 #pragma comment( lib, "opengl32" )	// Link in the OpenGL32.lib static library
 
 
@@ -19,6 +21,9 @@
 //
 #define UNUSED(x) (void)(x);
 
+PlayerShip* g_ship1 = nullptr;
+PlayerShip* g_ship2 = nullptr;
+PlayerShip* g_ship3 = nullptr;
 
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: This will eventually go away once we add a Window engine class later on.
@@ -238,8 +243,24 @@ void App_Constructor( void* applicationInstanceHandle, char const* commandLineSt
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: Move this function to Game/App.cpp and rename it to the App::~App() destructor function
 //
+
+void App_Startup() 
+{
+	g_ship1 = new PlayerShip( Vec2( 0.f, 30.f ), Vec2( 12.f, 0.f ) );
+	g_ship2 = new PlayerShip( Vec2( 0.f, 50.f ), Vec2( 20.f, 0.f ) ); 
+	g_ship3 = new PlayerShip( Vec2( 0.f, 70.f ), Vec2( 15.f, 0.f ) ); 
+}
+
 void App_Destructor()
 {
+	delete g_ship1;
+	g_ship1 = nullptr;
+
+	delete g_ship2;
+	g_ship2 = nullptr;
+
+	delete g_ship3;
+	g_ship3 = nullptr;
 }
 
 
@@ -247,7 +268,13 @@ void App_Destructor()
 // #SD1ToDo: This will become  App::Update( float deltaSeconds )
 void App_Update( float deltaSeconds)
 {
+	g_ship1->Update( deltaSeconds );
+	g_ship2->Update( deltaSeconds );
+	g_ship3->Update( deltaSeconds );
 
+	/*if (g_ship1->m_position.x > 200.f) {
+		g_isQuitting = true;
+	}*/
 }
 
 struct Vec3
@@ -315,42 +342,43 @@ void App_Render()
 		// First triangle (3 vertexes, each preceded by a color)
 		glColor4ub( 255, 255, 255, 255 );
 		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( 0.4f, 3.f );
+		glVertex2f( 0.4f + (g_ship1->m_position.x / 10.f), 3.f );
 
 		glColor4ub( 0, 0, 0, 255 );
 		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f, 3.2f );
+		glVertex2f( -0.2f + (g_ship1->m_position.x / 10.f), 3.2f );
 
 		glColor4ub( 0, 127, 255, 255 );
 		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f, 2.8f );
+		glVertex2f( -0.2f + (g_ship1->m_position.x / 10.f), 2.8f );
 
 		// Second triangle (3 vertexes, each preceded by a color)
 		glColor4ub( 255, 255, 255, 255 );
 		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( 0.4f, 5.f );
+		glVertex2f( 0.4f + (g_ship2->m_position.x / 10.f), 5.f );
 
 		glColor4ub( 0, 0, 0, 255 );
 		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f, 5.2f );
+		glVertex2f( -0.2f + (g_ship2->m_position.x / 10.f), 5.2f );
 
 		glColor4ub( 0, 127, 255, 255 );
 		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f, 4.8f );
+		glVertex2f( -0.2f + (g_ship2->m_position.x / 10.f), 4.8f );
 
 		// Third triangle (3 vertexes, each preceded by a color)
 		glColor4ub(255, 255, 255, 255);
 		glTexCoord2f(0.f, 0.f);
-		glVertex2f(0.4f, 7.f);
+		glVertex2f(0.4f + (g_ship3->m_position.x / 10.f), 7.f);
 
 		glColor4ub(0, 0, 0, 255);
 		glTexCoord2f(0.f, 0.f);
-		glVertex2f(-0.2f, 7.2f);
+		glVertex2f(-0.2f + (g_ship3->m_position.x / 10.f), 7.2f);
 
 		glColor4ub(0, 127, 255, 255);
 		glTexCoord2f(0.f, 0.f);
-		glVertex2f(-0.2f, 6.8f);
+		glVertex2f(-0.2f + (g_ship3->m_position.x / 10.f), 6.8f);
 	}
+
 	glEnd();
 }
 
@@ -359,6 +387,7 @@ void App_Render()
 // #SD1ToDo: This will become  App::Run()
 void App_Run()
 {
+	App_Startup();
 	// Program main loop; keep running frames until it's time to quit
 	while( !g_isQuitting )			// #SD1ToDo: ...becomes:  !g_theApp->IsQuitting()
 	{
@@ -377,7 +406,7 @@ void App_Run()
 		Sleep( 16 ); // Temporary code to "slow down" our app to ~60Hz until we have proper frame timing in
 
 		// #SD1ToDo: This call will move to Renderer::EndFrame() once we complete our Window refactor
-		// "Present" the backbuffer by swapping the front (visible) and back (working) screen buffers
+		// "Present" the back buffer by swapping the front (visible) and back (working) screen buffers
 		SwapBuffers( g_displayDeviceContext ); // Note: call this only once at the very end of each frame
 	}
 }
