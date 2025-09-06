@@ -11,6 +11,9 @@
 //
 #include <gl/gl.h>					// Include basic OpenGL constants and function declarations
 #include <Engine/Math/Vec2.hpp>
+#include <Engine/Math/Vec3.hpp>
+#include <Engine/Core/Rgba8.hpp>
+#include <Engine/Core/Vertex.hpp>
 #include "PlayerShip.hpp"
 #pragma comment( lib, "opengl32" )	// Link in the OpenGL32.lib static library
 
@@ -323,30 +326,6 @@ void App_Destructor()
 	g_ship3 = nullptr;
 }
 
-
-
-
-struct Vec3
-{
-	float x;
-	float y;
-	float z;
-};
-
-struct Rgba8 
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	unsigned char a;
-};
-
-struct Vertex
-{
-	Vec3 m_pos;
-	Rgba8 m_color;
-	Vec2 m_uvTexCoords;
-};
 
 void DrawVertexArray(int numVertexes, Vertex const* vertexArray) 
 {
