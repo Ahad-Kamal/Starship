@@ -28,7 +28,7 @@ PlayerShip* g_ship3 = nullptr;
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: This will eventually go away once we add a Window engine class later on.
 // 
-constexpr float CLIENT_ASPECT = 2.0f; // We are requesting a 2:1 aspect window area
+constexpr float CLIENT_ASPECT = 2.0f; // We are requesting a 1:1 aspect window area
 
 
 //-----------------------------------------------------------------------------------------------
@@ -122,6 +122,7 @@ void CreateOSWindow( void* applicationInstanceHandle, float clientAspect )
 	constexpr float maxClientFractionOfDesktop = 0.90f;
 	float clientWidth = desktopWidth * maxClientFractionOfDesktop;
 	float clientHeight = desktopHeight * maxClientFractionOfDesktop;
+	
 	if( clientAspect > desktopAspect )
 	{
 		// Client window has a wider aspect than desktop; shrink client height to match its width
@@ -272,9 +273,9 @@ void App_Update( float deltaSeconds)
 	g_ship2->Update( deltaSeconds );
 	g_ship3->Update( deltaSeconds );
 
-	/*if (g_ship1->m_position.x > 200.f) {
+	if (g_ship2->m_position.x > 200.f) {
 		g_isQuitting = true;
-	}*/
+	}
 }
 
 struct Vec3
@@ -328,7 +329,7 @@ void App_Render()
 	// Establish a 2D (orthographic) drawing coordinate system: (0,0) bottom-left to (10,10) top-right
 	// #SD1ToDo: This will be replaced by a call to g_renderer->BeginView( m_worldView ); or similar
 	glLoadIdentity();
-	glOrtho( 0.f, 10.f, 0.f, 10.f, 0.f, 1.f ); // arguments are: xLeft, xRight, yBottom, yTop, zNear, zFar
+	glOrtho( 0.f, 20.f, 0.f, 10.f, 0.f, 1.f ); // arguments are: xLeft, xRight, yBottom, yTop, zNear, zFar
 
 	// Clear all screen (backbuffer) pixels to medium-blue
 	// #SD1ToDo: This will become g_renderer->ClearColor( Rgba8( 0, 0, 127, 255 ) );
