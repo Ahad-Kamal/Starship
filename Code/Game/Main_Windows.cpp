@@ -37,7 +37,7 @@ bool g_isQuitting = false;							// ...becomes App::m_isQuitting instead
 HWND g_hWnd = nullptr;								// ...becomes void* Window::m_windowHandle
 HDC g_displayDeviceContext = nullptr;				// ...becomes void* Window::m_displayContext
 HGLRC g_openGLRenderingContext = nullptr;			// ...becomes void* Renderer::m_apiRenderingContext
-char const* APP_NAME = "Windows OpenGL Test App";	// ...becomes ??? (Change this per project!)
+char const* APP_NAME = "SD1-A02: Starship Prototype";	// ...becomes ??? (Change this per project!)
 
 bool g_isPaused = false;
 bool g_isSlowMo = false;
