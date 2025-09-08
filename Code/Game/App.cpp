@@ -1,4 +1,3 @@
-#include "Starship/Code/Game/App.hpp"
 #include "App.hpp"
 
 App::App()
@@ -33,7 +32,7 @@ void App::SetIsQuitting()
 
 bool App::IsQuitting() const
 {
-
+	return false;
 }
 
 void App::OnKeyDown(unsigned char keyCode)

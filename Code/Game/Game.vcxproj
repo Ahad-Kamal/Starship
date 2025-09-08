@@ -177,10 +177,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="Main_Windows.cpp" />
     <ClCompile Include="PlayerShip.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.hpp" />
     <ClInclude Include="PlayerShip.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

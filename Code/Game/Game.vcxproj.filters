@@ -16,9 +16,15 @@
     <ClCompile Include="PlayerShip.cpp">
       <Filter>Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerShip.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="App.hpp">
       <Filter>Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
