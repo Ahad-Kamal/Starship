@@ -10,12 +10,12 @@
 // Both of the following lines will eventually move to the top of Engine/Renderer/Renderer.cpp
 //
 #include <gl/gl.h>					// Include basic OpenGL constants and function declarations
+#pragma comment( lib, "opengl32" )	// Link in the OpenGL32.lib static library
 #include <Engine/Math/Vec2.hpp>
 #include <Engine/Math/Vec3.hpp>
 #include <Engine/Core/Rgba8.hpp>
 #include <Engine/Core/Vertex.hpp>
 #include "PlayerShip.hpp"
-#pragma comment( lib, "opengl32" )	// Link in the OpenGL32.lib static library
 
 
 //-----------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: This will eventually go away once we add a Window engine class later on.
 // 
-constexpr float CLIENT_ASPECT = 2.0f; // We are requesting a 1:1 aspect window area
+constexpr float CLIENT_ASPECT = 2.0f; // We are requesting a 2:1 aspect window area
 
 
 //-----------------------------------------------------------------------------------------------
@@ -303,16 +303,16 @@ void App_Constructor( void* applicationInstanceHandle, char const* commandLineSt
 }
 
 
-//-----------------------------------------------------------------------------------------------
-// #SD1ToDo: Move this function to Game/App.cpp and rename it to the App::~App() destructor function
-//
-
 void App_Startup() 
 {
 	g_ship1 = new PlayerShip( Vec2( 0.f, 30.f ), Vec2( 12.f, 0.f ) );
 	g_ship2 = new PlayerShip( Vec2( 0.f, 50.f ), Vec2( 20.f, 0.f ) ); 
 	g_ship3 = new PlayerShip( Vec2( 0.f, 70.f ), Vec2( 15.f, 0.f ) ); 
 }
+
+//-----------------------------------------------------------------------------------------------
+// #SD1ToDo: Move this function to Game/App.cpp and rename it to the App::~App() destructor function
+//
 
 void App_Destructor()
 {
