@@ -6,9 +6,7 @@
 class PlayerShip;
 class App;
 
-
-extern App* g_theApp;
-
+extern App* g_app;
 
 class App
 {

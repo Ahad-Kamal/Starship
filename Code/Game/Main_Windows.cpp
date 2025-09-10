@@ -15,7 +15,11 @@
 #include <Engine/Math/Vec3.hpp>
 #include <Engine/Core/Rgba8.hpp>
 #include <Engine/Core/Vertex.hpp>
+#include "App.hpp"
 #include "PlayerShip.hpp"
+#include "Engine/Core/Engine.hpp"
+#include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Renderer/Camera.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -45,6 +49,9 @@ bool g_isSlowMo = false;
 PlayerShip* g_ship1 = nullptr;
 PlayerShip* g_ship2 = nullptr;
 PlayerShip* g_ship3 = nullptr;
+
+//Rgba8* clearColor = nullptr;
+//Vertex* vertexes = nullptr;
 
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: This will become  App::Update( float deltaSeconds )
@@ -85,7 +92,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		// App close requested via "X" button, or right-click "Close Window" on task bar, or "Close" from system menu, or Alt-F4
 		case WM_CLOSE:
 		{
-			g_isQuitting = true;
+			g_app->m_isQuitting = true;
 			return 0; // "Consumes" this message (tells Windows "okay, we handled it")
 		}
 
@@ -97,33 +104,33 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-pressed event...
 			if( asKey == 'Q' ) // #SD1ToDo: move this "check for ESC pressed" code to App
 			{
-				g_isQuitting = true;
+				g_app->m_isQuitting = true;
 				return 0; // "Consumes" this message (tells Windows "okay, we handled it")
 			}
 
 			else if ( asKey == 'P' )
 			{
-				if (!g_isPaused)
+				if (!g_app->m_isPaused)
 				{
-					g_isPaused = true;
+					g_app->m_isPaused = true;
 				}
 				else 
 				{
-					g_isPaused = false;
+					g_app->m_isPaused = false;
 				}
 				
 			}
 
 			else if ( asKey == 'T' )
 			{
-				g_isSlowMo = true;
+				g_app->m_isSlowMo = true;
 			}
 
 			else if (asKey == 'O')
 			{
-				g_isPaused = false;
-				App_Update(1.f / 60.f);
-				g_isPaused = true;		
+				g_app->m_isPaused = false;
+				g_app->Update(1.f / 60.f);
+				g_app->m_isPaused = true;		
 			}
 
 			break;
@@ -137,7 +144,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-released event...
 			if ( asKey == 'T' )
 			{
-				g_isSlowMo = false;
+				g_app->m_isSlowMo = false;
 			}
 
 			break;
@@ -299,7 +306,8 @@ void App_Constructor( void* applicationInstanceHandle, char const* commandLineSt
 {
 	UNUSED( commandLineString );
 	CreateOSWindow( applicationInstanceHandle, CLIENT_ASPECT );	// #SD1ToDo: this will eventually move to Window.cpp
-	CreateRenderingContext();									// #SD1ToDo: this will move to Renderer.cpp, called by Renderer::Startup
+	//CreateRenderingContext();									// #SD1ToDo: this will move to Renderer.cpp, called by Renderer::Startup
+	g_engine->m_render->CreateRenderingContext();
 }
 
 
@@ -357,14 +365,17 @@ void App_Render()
 	// #SD1ToDo: This will be replaced by a call to g_renderer->BeginView( m_worldView ); or similar
 	glLoadIdentity();
 	glOrtho( 0.f, 20.f, 0.f, 10.f, 0.f, 1.f ); // arguments are: xLeft, xRight, yBottom, yTop, zNear, zFar
+	//g_engine->m_render->BeginCamera(*g_engine->m_camera);
 
 	// Clear all screen (backbuffer) pixels to medium-blue
 	// #SD1ToDo: This will become g_renderer->ClearColor( Rgba8( 0, 0, 127, 255 ) );
 	glClearColor( 0.4f, 0.2f, 0.f, 1.f ); // Note; glClearColor takes colors as floats in [0,1], not bytes in [0,255]
 	glClear( GL_COLOR_BUFFER_BIT ); // ALWAYS clear the screen at the top of each frame's Render()!
+	//g_engine->m_render->ClearScreen(*clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
 
 	// Draw some triangles (provide 3 vertexes each)
 	// #SD1ToDo: Move all OpenGL code into Renderer.cpp (only); call g_renderer->DrawVertexArray() instead
+	
 	glBegin( GL_TRIANGLES );
 	{
 		// First triangle (3 vertexes, each preceded by a color)
@@ -408,6 +419,9 @@ void App_Render()
 	}
 
 	glEnd();
+	
+	//g_engine->m_render->DrawVertexArray(3, vertexes); // note to self, vertexes is null, fine for now since its not currently in use but remember this for later
+
 }
 
 
@@ -415,7 +429,8 @@ void App_Render()
 // #SD1ToDo: This will become  App::Run()
 void App_Run()
 {
-	App_Startup();
+	//App_Startup();
+	
 	// Program main loop; keep running frames until it's time to quit
 	while( !g_isQuitting )			// #SD1ToDo: ...becomes:  !g_theApp->IsQuitting()
 	{
@@ -426,10 +441,10 @@ void App_Run()
 		float fakeDeltaSeconds = 1.f / 60.f;
 
 		// One "frame" of the game.  Generally: Input, Update, Render.  We call this 60+ times per second.
-		// g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
-		App_Update( fakeDeltaSeconds );		// #SD1ToDo: ...becomes just Update();		once this function becomes App::Run()
-		App_Render();		// #SD1ToDo: ...becomes just Render();		once this function becomes App::Run()
-		// g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
+		g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
+		g_app->Update( fakeDeltaSeconds );		// #SD1ToDo: ...becomes just Update();		once this function becomes App::Run()
+		g_app->Render();		// #SD1ToDo: ...becomes just Render();		once this function becomes App::Run()
+		g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
 
 		Sleep( 16 ); // Temporary code to "slow down" our app to ~60Hz until we have proper frame timing in
 
@@ -445,6 +460,7 @@ int WINAPI WinMain( HINSTANCE applicationInstanceHandle, HINSTANCE, LPSTR comman
 {
 	UNUSED( commandLineString );
 
+	g_app = new App();
 	App_Constructor( applicationInstanceHandle, commandLineString ); // This will get replaced with:
 	// #SD1ToDo: g_theApp = new App();
 
