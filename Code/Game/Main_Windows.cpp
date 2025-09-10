@@ -432,7 +432,7 @@ void App_Run()
 	//App_Startup();
 	
 	// Program main loop; keep running frames until it's time to quit
-	while( !g_isQuitting )			// #SD1ToDo: ...becomes:  !g_theApp->IsQuitting()
+	while( !g_app->m_isQuitting )			// #SD1ToDo: ...becomes:  !g_theApp->IsQuitting()
 	{
 		// #SD1ToDo: This call will move to Window::BeginFrame() once we have a Window engine system
 		// Process OS messages (keyboard/mouse button clicked, application lost/gained focus, etc.)
@@ -470,6 +470,8 @@ int WINAPI WinMain( HINSTANCE applicationInstanceHandle, HINSTANCE, LPSTR comman
 	App_Destructor(); // This will get replaced with:
 	// #SD1ToDo:	delete g_theApp;
 	// #SD1ToDo:	g_theApp = nullptr;
+	delete g_app;
+	g_app = nullptr;
 
 	return 0;
 }
