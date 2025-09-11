@@ -10,6 +10,19 @@ PlayerShip::PlayerShip(Vec2 const& startingPosition, Vec2 const& startingVelocit
 void PlayerShip::Update(float deltaSeconds)
 {
 	m_position += m_velocity * deltaSeconds;
+
+	/*
+	if (g_app->wasJustPressed(' '))
+	{
+		FireBullet();
+	}
+
+	if (g_app->isKeyDown('A')
+	{
+		orientationDegrees += playerTrnSpeedDegreesPerSecond * deltaSeconds
+	}
+	*/
+
 }
 
 void PlayerShip::Render() const

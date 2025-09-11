@@ -85,11 +85,11 @@ bool App::IsQuitting() const
 
 void App::OnKeyDown(unsigned char keyCode)
 {
-
+	// isKeyDownArray[keyCode] = true
 }
 
 void App::OnKeyUp(unsigned char keyCode)
 {
-
+	// isKeyDownArray[keyCode] = false && isKeyDownPrevArray = true
 }
 

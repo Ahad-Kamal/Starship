@@ -97,6 +97,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		}
 
 		// Raw physical keyboard "key-was-just-depressed" event (case-insensitive, not translated)
+		// Move to App Keydown
 		case WM_KEYDOWN:
 		{
 			unsigned char asKey = (unsigned char)wParam;
@@ -137,6 +138,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		}
 
 		// Raw physical keyboard "key-was-just-released" event (case-insensitive, not translated)
+		// Move to App Keyup
 		case WM_KEYUP:
 		{
 			unsigned char asKey = (unsigned char) wParam;
