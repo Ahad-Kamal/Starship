@@ -31,9 +31,9 @@ void PlayerShip::Render() const
 {
 	Vertex shipVerts[3];
 
-	shipVerts[0].m_pos = Vec3( (m_position.x / 10.f) + 4.f, m_position.y + 3.f, 0.f);
-	shipVerts[1].m_pos = Vec3( (m_position.x / 10.f) - 0.2f, m_position.y + 3.2f, 0.f);
-	shipVerts[2].m_pos = Vec3( (m_position.x / 10.f) - 0.2f, m_position.y + 2.8f, 0.f);
+	shipVerts[0].m_pos = Vec3( (m_position.x ) + 4.f, m_position.y, 0.f);
+	shipVerts[1].m_pos = Vec3( (m_position.x ) - 2.f, m_position.y + 2.0f, 0.f);
+	shipVerts[2].m_pos = Vec3( (m_position.x ) - 2.f, m_position.y - 2.0f, 0.f);
 
 	shipVerts[0].m_color = Rgba8( 255, 255, 255, 255 );
 	shipVerts[1].m_color = Rgba8( 0, 0, 0, 255 );
