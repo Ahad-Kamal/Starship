@@ -65,12 +65,16 @@ void App::Update(float deltaSeconds)
 
 void App::Render() const
 {
+	
 	g_engine->m_render->BeginCamera(*g_engine->m_camera);
-
 	g_engine->m_render->ClearScreen(*clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
 
-	g_engine->m_render->DrawVertexArray(3, vertexes); // note to self, vertexes is null, fine for now since its not currently in use but remember this for later
+	//g_engine->m_render->DrawVertexArray(3, vertexes); // note to self, vertexes is null, fine for now since its not currently in use but remember this for later
+	m_ship1->Render();
+	m_ship2->Render();
+	m_ship3->Render();
 
+	g_engine->m_render->EndCamera(*g_engine->m_camera);
 }
 
 void App::SetIsQuitting()
