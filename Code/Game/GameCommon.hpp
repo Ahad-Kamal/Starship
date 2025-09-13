@@ -1,5 +1,8 @@
 #pragma once
 
+struct Vec2;
+struct Rgba8;
+
 constexpr int NUM_STARTING_ASTEROIDS = 6;
 constexpr int MAX_ASTEROIDS = 12;
 constexpr int MAX_BULLETS = 20;
@@ -18,3 +21,6 @@ constexpr float PLAYER_SHIP_ACCELERATION = 30.f;
 constexpr float PLAYER_SHIP_TURN_SPEED = 300.f;
 constexpr float PLAYER_SHIP_PHYSICS_RADIUS = 1.75f;
 constexpr float PLAYER_SHIP_COSMETIC_RADIUS = 2.25f;
+
+
+void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
