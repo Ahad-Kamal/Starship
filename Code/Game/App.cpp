@@ -75,7 +75,7 @@ void App::Render() const
 	m_ship2->Render();
 	m_ship3->Render();
 
-	DebugDrawRing( Vec2( 50.f, 20.f ), 10.f, 2.f, Rgba8( 255, 100, 0) );
+	//DebugDrawRing( Vec2( 50.f, 20.f ), 10.f, 2.f, Rgba8( 255, 100, 0) );
 
 	g_engine->m_render->EndCamera(*g_engine->m_camera);
 }
