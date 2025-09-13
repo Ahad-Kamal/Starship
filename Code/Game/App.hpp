@@ -5,6 +5,7 @@
 
 class PlayerShip;
 class App;
+class Game;
 
 extern App* g_app;
 
@@ -33,7 +34,7 @@ public:
 	// Move this to Engine
 	Camera m_gameCamera;
 
-	// Game* m_game = nullptr
+	Game* m_game = nullptr;
 	bool m_isQuitting = false;
 	bool m_isPaused = false;
 	bool m_isSlowMo = false;

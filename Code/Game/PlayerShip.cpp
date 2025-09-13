@@ -3,7 +3,12 @@
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 
-PlayerShip::PlayerShip(Vec2 const& startingPosition, Vec2 const& startingVelocity)
+PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
+{
+	m_position = startingPosition;
+}
+
+PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& startingVelocity)
 {
 	m_position = startingPosition;
 	m_velocity = startingVelocity;

@@ -315,9 +315,9 @@ void App_Constructor( void* applicationInstanceHandle, char const* commandLineSt
 
 void App_Startup() 
 {
-	g_ship1 = new PlayerShip( Vec2( 0.f, 30.f ), Vec2( 12.f, 0.f ) );
-	g_ship2 = new PlayerShip( Vec2( 0.f, 50.f ), Vec2( 20.f, 0.f ) ); 
-	g_ship3 = new PlayerShip( Vec2( 0.f, 70.f ), Vec2( 15.f, 0.f ) ); 
+	g_ship1 = new PlayerShip(g_app->m_game, Vec2( 0.f, 30.f ), Vec2( 12.f, 0.f ) );
+	g_ship2 = new PlayerShip(g_app->m_game, Vec2( 0.f, 50.f ), Vec2( 20.f, 0.f ) ); 
+	g_ship3 = new PlayerShip(g_app->m_game, Vec2( 0.f, 70.f ), Vec2( 15.f, 0.f ) ); 
 }
 
 //-----------------------------------------------------------------------------------------------

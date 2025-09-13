@@ -14,9 +14,9 @@ App::App()
 {
 	g_engine = new Engine();
 
-	m_ship1 = new PlayerShip(Vec2(0.f, 30.f), Vec2(12.f, 0.f));
-	m_ship2 = new PlayerShip(Vec2(0.f, 50.f), Vec2(20.f, 0.f));
-	m_ship3 = new PlayerShip(Vec2(0.f, 70.f), Vec2(15.f, 0.f));
+	m_ship1 = new PlayerShip(m_game, Vec2(0.f, 30.f), Vec2(12.f, 0.f));
+	m_ship2 = new PlayerShip(m_game, Vec2(0.f, 50.f), Vec2(20.f, 0.f));
+	m_ship3 = new PlayerShip(m_game, Vec2(0.f, 70.f), Vec2(15.f, 0.f));
 }
 
 App::~App()
