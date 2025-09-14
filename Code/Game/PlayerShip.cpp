@@ -4,6 +4,7 @@
 #include "Engine/Renderer/Renderer.hpp"
 #include "Game/Entity.hpp"
 #include "Game/GameCommon.hpp"
+#include "Engine/Math/MathUtils.hpp"
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 	: Entity( owner, startingPosition )
@@ -40,6 +41,8 @@ void PlayerShip::Render() const
 		tempShipWorldVerts[vertIndex] = m_localVerts[vertIndex];
 	}
 
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipWorldVerts, 1.f, m_orientationDegrees, m_position );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipWorldVerts );
 
 	// Assignment 1 PlayerShip
 	/*Vertex shipVerts[3];
