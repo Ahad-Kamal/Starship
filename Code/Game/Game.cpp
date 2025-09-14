@@ -75,6 +75,7 @@ Asteroid* Game::SpawnRandomAsteroid()
 	}
 
 	ERROR_RECOVERABLE( "Can't spawn a new asteroid, max limit reached");
+	return nullptr;
 }
 
 Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
@@ -93,6 +94,7 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 	}
 
 	ERROR_RECOVERABLE( "Can't spawn a new bullet, max limit reached");
+	return nullptr;
 }
 
 void Game::UpdateEntities(float deltaSeconds)
