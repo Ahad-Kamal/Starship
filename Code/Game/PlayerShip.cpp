@@ -29,13 +29,20 @@ void PlayerShip::Update(float deltaSeconds)
 
 void PlayerShip::Render() const
 {
-	/*if( m_isDead )
+	if( m_isDead )
 	{
+		return;
+	}
 
-	}*/
+	Vertex tempShipWorldVerts[NUM_SHIP_VERTS];
+	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
+	{
+		tempShipWorldVerts[vertIndex] = m_localVerts[vertIndex];
+	}
+
 
 	// Assignment 1 PlayerShip
-	Vertex shipVerts[3];
+	/*Vertex shipVerts[3];
 
 	shipVerts[0].m_pos = Vec3( (m_position.x ) + 4.f, m_position.y, 0.f);
 	shipVerts[1].m_pos = Vec3( (m_position.x ) - 2.f, m_position.y + 2.0f, 0.f);
@@ -49,7 +56,7 @@ void PlayerShip::Render() const
 	shipVerts[1].m_uvTexCoords = Vec2( 0.f, 0.f );
 	shipVerts[2].m_uvTexCoords = Vec2( 0.f, 0.f );
 	
-	g_engine->m_render->DrawVertexArray( 3, shipVerts );
+	g_engine->m_render->DrawVertexArray( 3, shipVerts );*/
 }
 
 void PlayerShip::InitializeLocalVerts()

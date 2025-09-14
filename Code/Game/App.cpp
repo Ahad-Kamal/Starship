@@ -16,8 +16,8 @@ App::App()
 	g_engine = new Engine();
 
 	m_ship1 = new PlayerShip(m_game, Vec2(0.f, 30.f), Vec2(12.f, 0.f));
-	m_ship2 = new PlayerShip(m_game, Vec2(0.f, 50.f), Vec2(20.f, 0.f));
-	m_ship3 = new PlayerShip(m_game, Vec2(0.f, 70.f), Vec2(15.f, 0.f));
+	//m_ship2 = new PlayerShip(m_game, Vec2(0.f, 50.f), Vec2(20.f, 0.f));
+	//m_ship3 = new PlayerShip(m_game, Vec2(0.f, 70.f), Vec2(15.f, 0.f));
 }
 
 App::~App()
@@ -53,12 +53,13 @@ void App::Update(float deltaSeconds)
 	}
 
 	m_ship1->Update(deltaSeconds);
-	m_ship2->Update(deltaSeconds);
-	m_ship3->Update(deltaSeconds);
+	//m_ship2->Update(deltaSeconds);
+	//m_ship3->Update(deltaSeconds);
 
-	if (m_ship1->m_position.x > 200.f ||
-		m_ship2->m_position.x > 200.f ||
-		m_ship3->m_position.x > 200.f)
+	if (m_ship1->m_position.x > 200.f //||
+		//m_ship2->m_position.x > 200.f ||
+		//m_ship3->m_position.x > 200.f
+		)
 	{
 		m_isQuitting = true;
 	}
@@ -72,8 +73,8 @@ void App::Render() const
 
 	//g_engine->m_render->DrawVertexArray(3, vertexes); // note to self, vertexes is null, fine for now since its not currently in use but remember this for later
 	m_ship1->Render();
-	m_ship2->Render();
-	m_ship3->Render();
+	//m_ship2->Render();
+	//m_ship3->Render();
 
 	//DebugDrawRing( Vec2( 50.f, 20.f ), 10.f, 2.f, Rgba8( 255, 100, 0) );
 
