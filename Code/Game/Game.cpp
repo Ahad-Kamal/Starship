@@ -103,10 +103,24 @@ void Game::UpdateEntities(float deltaSeconds)
 void Game::RenderEntities() const
 {
 	// Draw Bullets
-
+	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	{
+		Bullet* bullet = m_bullets[ bulletIndex ];
+		if( bullet && !bullet->m_isDead )
+		{
+			bullet->Render();
+		}
+	}
 
 	// Draw Asteroids
-
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
+		if( asteroid && !asteroid->m_isDead )
+		{
+			asteroid->Render();
+		}
+	}
 
 	// Draw Player Ship
 	m_playerShip->Render();
@@ -145,14 +159,35 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 void Game::DebugRenderEntities() const
 {
 	//DebugDrawRing( Vec2( 50.f, 20.f ), 10.f, 2.f, Rgba8( 255, 100, 0) );
+	// Debug Draw Bullets
+	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	{
+		Bullet* bullet = m_bullets[bulletIndex];
+		if( bullet && !bullet->m_isDead )
+		{
+			bullet->DebugRender();
+		}
+	}
+
+	// Debug Draw Asteroids
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid* asteroid = m_asteroids[asteroidIndex];
+		if( asteroid && !asteroid->m_isDead )
+		{
+			asteroid->DebugRender();
+		}
+	}
+
+	// Debug Draw Player Ship
 	m_playerShip->DebugRender();
 }
 
 void Game::DeleteGarbageEntities()
 {
-	for( int astroidIndex = 0; astroidIndex < MAX_ASTEROIDS; astroidIndex++ )
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid*& asteroid = m_asteroids[ astroidIndex ];
+		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
 		if( asteroid && asteroid->m_isGarbage )
 		{
 			delete asteroid;

@@ -31,7 +31,7 @@ private:
 	void CheckBulletVsAsteroid( Bullet& bullet, Asteroid& asteroid );
 	void CheckAsteroidsVsShips();
 	void CheckAsteroidVsShip( Asteroid& asteroid, PlayerShip& ship );
-	void DoEntitiesOverlap( Entity const& a, Entity const& b);
+	bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 	void DebugRenderEntities() const;
 	void DeleteGarbageEntities();
 
