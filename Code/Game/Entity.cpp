@@ -17,12 +17,12 @@ Entity::~Entity()
 
 void Entity::DebugRender() const
 {
-	float lineThickness = 0.2f;
+	//float lineThickness = 0.2f;
 
 	//float velocityVector = m_velocity.GetLength();
 
-	DebugDrawRing( m_position, m_physicsRadius, lineThickness, Rgba8( 0, 255, 255 ) );
-	DebugDrawRing( m_position, m_cosmeticRadius, lineThickness, Rgba8( 255, 0, 255 ) );
+	DebugDrawRing( m_position, m_physicsRadius, DEBUG_LINE_THICKNESS, Rgba8( 0, 255, 255 ) );
+	DebugDrawRing( m_position, m_cosmeticRadius, DEBUG_LINE_THICKNESS, Rgba8( 255, 0, 255 ) );
 	//DebugDrawRing( m_position, m_position + m_velocity, lineThickness, Rgba8( 255, 255, 0 ) );
 	//DebugDrawRing( m_position, velocityVector, lineThickness, Rgba8( 255, 255, 0 ) );
 }
