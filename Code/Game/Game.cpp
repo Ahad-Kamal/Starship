@@ -1,5 +1,6 @@
 #include "Game/Game.hpp"
 #include "PlayerShip.hpp"
+#include "Game/App.hpp"
 
 Game::Game(App* owner)
 {
@@ -35,16 +36,16 @@ void Game::Render() const
 {
 	RenderEntities();
 
-	/*if (g_debugDraw)
+	if ( m_app->m_debugDraw )
 	{
 		DebugRenderEntities();
-	}*/
+	}
 }
 
 void Game::Shutdown()
 {
-	//delete m_playerShip;
-	//m_playerShip = nullptr
+	delete m_playerShip;
+	m_playerShip = nullptr;
 }
 
 //Asteroid* Game::SpawnRandomAsteroid()
@@ -101,7 +102,8 @@ void Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 
 void Game::DebugRenderEntities() const
 {
-
+	//DebugDrawRing( Vec2( 50.f, 20.f ), 10.f, 2.f, Rgba8( 255, 100, 0) );
+	m_playerShip->DebugRender();
 }
 
 void Game::DeleteGarbageEntities()
