@@ -22,6 +22,7 @@ Asteroid::~Asteroid()
 void Asteroid::Update( float deltaSeconds )
 {
 	m_position += ( m_velocity * deltaSeconds );
+	m_orientationDegrees += (m_angualrVelocity * deltaSeconds );
 
 	if( isOffScreen() )
 	{
