@@ -20,11 +20,11 @@ App::App()
 
 App::~App()
 {
-	delete g_engine;
-	g_engine = nullptr;
-
 	delete m_game;
 	m_game = nullptr;
+
+	delete g_engine;
+	g_engine = nullptr;
 }
 
 void App::RunFrame()
