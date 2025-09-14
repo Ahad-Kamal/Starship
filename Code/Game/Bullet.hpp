@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity.hpp"
+#include "Game/Entity.hpp"
 #include "Engine/Core/Vertex.hpp"
 
 constexpr int NUM_BULLET_TRIS = 2;

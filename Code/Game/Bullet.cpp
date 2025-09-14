@@ -38,9 +38,9 @@ void Bullet::Render() const
 	for( int vertIndex = 0; vertIndex < NUM_BULLET_VERTS; vertIndex++ )
 	{
 		tempWorldVerts[vertIndex] = m_localVerts[vertIndex];
-		TransformPositionXY3D(tempWorldVerts[vertIndex].m_pos, 1.f, m_orientationDegrees, m_position );
 	}
 
+	TransformVertexArrayXY3D( NUM_BULLET_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_BULLET_VERTS, tempWorldVerts );
 }
 
