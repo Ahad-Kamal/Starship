@@ -3,12 +3,13 @@
 
 Game::Game(App* owner)
 {
-	
+	m_app = owner;
+	Startup();
 }
 
 Game::~Game()
 {
-
+	
 }
 
 void Game::Startup()
@@ -42,12 +43,35 @@ void Game::Render() const
 
 void Game::Shutdown()
 {
-
+	//delete m_playerShip;
+	//m_playerShip = nullptr
 }
+
+//Asteroid* Game::SpawnRandomAsteroid()
+//{
+//	
+//}
+//
+//Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
+//{
+//
+//}
 
 void Game::UpdateEntities(float deltaSeconds)
 {
+	m_playerShip->Update( deltaSeconds );
+}
 
+void Game::RenderEntities() const
+{
+	// Draw Bullets
+
+
+	// Draw Asteroids
+
+
+	// Draw Player Ship
+	m_playerShip->Render();
 }
 
 void Game::CheckBulletsVsAsteroids()
@@ -73,17 +97,6 @@ void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
 void Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 {
 
-}
-
-void Game::RenderEntities() const
-{
-	// Draw Bullets
-
-
-	// Draw Asteroids
-
-
-	// Draw Player Ship
 }
 
 void Game::DebugRenderEntities() const
