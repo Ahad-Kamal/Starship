@@ -5,6 +5,8 @@
 #include "Game/Entity.hpp"
 #include "Game/GameCommon.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "App.hpp"
+#include "Game/Game.hpp"
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 	: Entity( owner, startingPosition )
@@ -100,17 +102,24 @@ void PlayerShip::InitializeLocalVerts()
 
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
-	/*
-	if (g_app->wasJustPressed(' '))
+	
+	if ( g_app->wasKeyJustPressed( ' ' ) )
 	{
-	FireBullet();
+		Vec2 bulletOffset = this->GetForwardNormal();
+		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
+		g_app->wasKeyDownPrev[ ' ' ] = false;
 	}
 
-	if (g_app->isKeyDown('A')
+	if ( g_app->isKeyDown( 'S' ) )
 	{
-	orientationDegrees += playerTrnSpeedDegreesPerSecond * deltaSeconds
+		m_orientationDegrees += PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
-	*/
+
+	if( g_app->isKeyDown( 'F' ) )
+	{
+		m_orientationDegrees -= PLAYER_SHIP_TURN_SPEED * deltaSeconds;
+	}
+	
 }
 
 void PlayerShip::BounceOffWalls()
