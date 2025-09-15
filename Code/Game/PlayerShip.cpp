@@ -18,6 +18,9 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& st
 	: Entity( owner, startingPosition )
 {
 	m_velocity = startingVelocity;
+	m_physicsRadius = PLAYER_SHIP_PHYSICS_RADIUS;
+	m_cosmeticRadius = PLAYER_SHIP_COSMETIC_RADIUS;
+	InitializeLocalVerts();
 }
 
 void PlayerShip::Update(float deltaSeconds)
