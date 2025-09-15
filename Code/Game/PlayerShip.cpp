@@ -27,7 +27,10 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& st
 
 void PlayerShip::Update(float deltaSeconds)
 {
-	UpdateFromKeyboard( deltaSeconds );
+	if( !m_isDead )
+	{
+		UpdateFromKeyboard( deltaSeconds );
+	}
 	BounceOffWalls();
 	
 	m_position += m_velocity * deltaSeconds;
@@ -65,6 +68,11 @@ void PlayerShip::Render() const
 	shipVerts[2].m_uvTexCoords = Vec2( 0.f, 0.f );
 	
 	g_engine->m_render->DrawVertexArray( 3, shipVerts );*/
+}
+
+void PlayerShip::Die()
+{
+	m_isDead = true;
 }
 
 void PlayerShip::InitializeLocalVerts()

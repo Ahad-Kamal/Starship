@@ -120,6 +120,7 @@ void Game::UpdateEntities(float deltaSeconds)
 	}
 
 	// Update Player Ship
+	
 	m_playerShip->Update( deltaSeconds );
 }
 
@@ -178,12 +179,24 @@ void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 
 void Game::CheckAsteroidsVsShips()
 {
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
 
+		if( asteroid && !m_playerShip->m_isDead )
+		{
+		CheckAsteroidVsShip( *asteroid, *m_playerShip );
+		}
+	}
 }
 
 void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
 {
-
+	if( DoEntitiesOverlap( asteroid, ship ) )
+	{
+		asteroid.TakeDamage( 1 );
+		ship.TakeDamage( 1 ); 
+	}
 }
 
 bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
