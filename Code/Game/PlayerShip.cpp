@@ -103,14 +103,25 @@ void PlayerShip::InitializeLocalVerts()
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
 	
-	if ( g_app->wasKeyJustPressed( ' ' ) )
+	if( g_app->wasKeyJustPressed( ' ' ) )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
 		g_app->wasKeyDownPrev[ ' ' ] = false;
 	}
 
-	if ( g_app->isKeyDown( 'S' ) )
+	if( g_app->wasKeyJustPressed( 'I' ) )
+	{
+		m_game->SpawnRandomAsteroid();
+		g_app->wasKeyDownPrev[ 'I' ] = false;
+	}
+
+	if( g_app->isKeyDown( 'E' ) )
+	{
+		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
+	}
+
+	if( g_app->isKeyDown( 'S' ) )
 	{
 		m_orientationDegrees += PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}

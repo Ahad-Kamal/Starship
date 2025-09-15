@@ -21,7 +21,7 @@ Game::~Game()
 void Game::Startup()
 {
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
-	m_playerShip = new PlayerShip( this, worldCenter, Vec2( 2.f, 1.f ) );
+	m_playerShip = new PlayerShip( this, worldCenter );
 
 	for (int i = 0; i < NUM_STARTING_ASTEROIDS; ++i)
 	{
