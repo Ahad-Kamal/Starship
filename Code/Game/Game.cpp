@@ -158,14 +158,22 @@ void Game::CheckBulletsVsAsteroids()
 		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 		{
 			Bullet* bullet = m_bullets[ bulletIndex ];
-			
+
+			if( bullet && asteroid )
+			{
+			CheckBulletVsAsteroid( *bullet, *asteroid );
+			}
 		}
 	}
 }
 
 void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 {
-
+	if( DoEntitiesOverlap( bullet, asteroid ) )
+	{
+		bullet.TakeDamage( 1 );
+		asteroid.TakeDamage( 1 );
+	}
 }
 
 void Game::CheckAsteroidsVsShips()
