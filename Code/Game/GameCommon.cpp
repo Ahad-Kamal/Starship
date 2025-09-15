@@ -67,19 +67,41 @@ void DebugDrawRing(Vec2 const& center, float radius, float thickness, Rgba8 cons
 
 void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color )
 {
-	/*constexpr int LINE_POINTS = 2;
-	Vertex verts[ LINE_POINTS ];
+	constexpr int NUM_VERTS = 6;
 
-	Vec3 startPos3D = Vec3( startPos.x, startPos.y, 0.f);
-	Vec3 endPos3D = Vec3( endPos.x, endPos.y, 0.f);
+	// Compute forward and left displacement steps
+	Vec2 forwardDisplacement = endPos - startPos;
+	Vec2 forwardNormal = forwardDisplacement.GetNormalized();
+	Vec2 forwardStep = forwardNormal * (thickness * 0.5f );
+	Vec2 leftStep = forwardStep.GetRotatedBy90Degrees();
 
-	verts[ 0 ].m_pos = startPos3D;
-	verts[ 0 ].m_color = color;
+	// Compute four corner positions
+	Vec2 startLeft = startPos - forwardStep + leftStep;
+	Vec2 startRight = startPos - forwardStep - leftStep;
+	Vec2 endLeft = endPos + forwardStep + leftStep;
+	Vec2 endRight = endPos + forwardStep - leftStep;
 
-	verts[ 1 ].m_pos = endPos3D;
-	verts[ 1 ].m_color = color;
+	// Create Vec3 positions
+	Vec3 startLeft3D = Vec3( startLeft.x, startLeft.y, 0.f );
+	Vec3 startRight3D = Vec3( startRight.x, startRight.y, 0.f );
+	Vec3 endLeft3D = Vec3( endLeft.x, endLeft.y, 0.f );
+	Vec3 endRight3D = Vec3( endRight.x, endRight.y, 0.f );
 
-	g_engine->m_render->DrawVertexArray( LINE_POINTS, verts );*/
+	// Create vertexes
+	Vertex verts[ NUM_VERTS ];
+	verts[ 0 ].m_pos = startLeft3D;
+	verts[ 1 ].m_pos = startRight3D;
+	verts[ 2 ].m_pos = endLeft3D;
+	
+	verts[ 3 ].m_pos = startRight3D;
+	verts[ 4 ].m_pos = endRight3D;
+	verts[ 5 ].m_pos = endLeft3D;
 
+	for( int vertIndex = 0; vertIndex < NUM_VERTS; vertIndex++ )
+	{
+		verts[ vertIndex ].m_color = color;
+	}
 
+	// Draw vertexes
+	g_engine->m_render->DrawVertexArray( NUM_VERTS, verts );
 }

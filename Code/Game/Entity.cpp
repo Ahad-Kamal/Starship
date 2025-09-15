@@ -17,12 +17,19 @@ Entity::~Entity()
 
 void Entity::DebugRender() const
 {
-	//float lineThickness = 0.2f;
+	Vec2 forwardNormal = GetForwardNormal();
+	Vec2 leftNormal = forwardNormal.GetRotatedBy90Degrees();
 
-	//float velocityVector = m_velocity.GetLength();
+	Vec2 forwardVector = m_position + (forwardNormal * m_physicsRadius );
+	Vec2 leftVector = m_position + ( leftNormal * m_physicsRadius );
 
+	Vec2 worldCenter = Vec2( WORLD_CENTER_X, WORLD_CENTER_Y );
+
+	DebugDrawLine( worldCenter, m_position, DEBUG_LINE_THICKNESS, Rgba8( 50, 50, 50, 255 ) );
 	DebugDrawRing( m_position, m_physicsRadius, DEBUG_LINE_THICKNESS, Rgba8( 0, 255, 255 ) );
 	DebugDrawRing( m_position, m_cosmeticRadius, DEBUG_LINE_THICKNESS, Rgba8( 255, 0, 255 ) );
+	DebugDrawLine( m_position, forwardVector, DEBUG_LINE_THICKNESS, Rgba8( 255, 0, 0) );
+	DebugDrawLine( m_position, leftVector, DEBUG_LINE_THICKNESS, Rgba8( 0, 255, 0 ) );
 	DebugDrawLine( m_position, m_position + m_velocity, DEBUG_LINE_THICKNESS, Rgba8( 255, 255, 0 ) );
 }
 
