@@ -49,6 +49,26 @@ void Game::Render() const
 
 void Game::Shutdown()
 {
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
+		if( asteroid )
+		{
+			delete asteroid;
+			asteroid = nullptr;
+		}
+	}
+
+	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	{
+		Bullet*& bullet = m_bullets[ bulletIndex ];
+		if( bullet )
+		{
+			delete bullet;
+			bullet = nullptr;
+		}
+	}
+	
 	delete m_playerShip;
 	m_playerShip = nullptr;
 }
