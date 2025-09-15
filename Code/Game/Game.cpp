@@ -25,7 +25,7 @@ void Game::Startup()
 
 	for (int i = 0; i < NUM_STARTING_ASTEROIDS; ++i)
 	{
-		//SpawnRandomAsteroid();
+		SpawnRandomAsteroid();
 	}
 }
 
