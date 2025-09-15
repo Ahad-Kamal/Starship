@@ -21,8 +21,11 @@ public:
 
 	void SetIsQuitting();
 	bool IsQuitting() const;
+
 	void OnKeyDown( unsigned char keyCode );
 	void OnKeyUp ( unsigned char keyCode );
+	bool isKeyDown ( unsigned char keyCode ) const;
+	bool wasKeyJustPressed ( unsigned char keyCode ) const;
 
 public:
 	Game* m_game = nullptr;
@@ -31,4 +34,6 @@ public:
 	bool m_isSlowMo = false;
 	bool m_pauseAfterNextUpdate = false;
 	bool m_debugDraw = false;
+	bool isKeyDownNow[256] = { false };
+	bool wasKeyDownPrev[256] = { false };
 };

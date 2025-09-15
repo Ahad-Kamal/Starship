@@ -97,13 +97,14 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		}
 
 		// Raw physical keyboard "key-was-just-depressed" event (case-insensitive, not translated)
-		// Move to App Keydown
+		// Move to App Keydown?
 		case WM_KEYDOWN:
 		{
 			unsigned char asKey = (unsigned char)wParam;
+			g_app->OnKeyDown( asKey );
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-pressed event...
-			if( asKey == 'Q' ) // #SD1ToDo: move this "check for ESC pressed" code to App
+			if( g_app->isKeyDown( asKey) ) // #SD1ToDo: move this "check for ESC pressed" code to App
 			{
 				g_app->m_isQuitting = true;
 				return 0; // "Consumes" this message (tells Windows "okay, we handled it")
@@ -138,10 +139,11 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		}
 
 		// Raw physical keyboard "key-was-just-released" event (case-insensitive, not translated)
-		// Move to App Keyup
+		// Move to App Keyup?
 		case WM_KEYUP:
 		{
 			unsigned char asKey = (unsigned char) wParam;
+			g_app->OnKeyUp( asKey );
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-released event...
 			if ( asKey == 'T' )

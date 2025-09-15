@@ -44,6 +44,8 @@ void App::Update(float deltaSeconds)
 		deltaSeconds *= 0.1f;
 	}
 
+	m_game->Update( deltaSeconds );
+
 	//m_ship1->Update(deltaSeconds);
 	//m_ship2->Update(deltaSeconds);
 	//m_ship3->Update(deltaSeconds);
@@ -87,11 +89,40 @@ bool App::IsQuitting() const
 
 void App::OnKeyDown(unsigned char keyCode)
 {
-	// isKeyDownArray[keyCode] = true
+	if( !isKeyDownNow[keyCode] )
+	{
+		isKeyDownNow[keyCode] = true;
+	}
+	else
+	{
+		wasKeyDownPrev[keyCode] = true;
+	}
 }
 
 void App::OnKeyUp(unsigned char keyCode)
 {
-	// isKeyDownArray[keyCode] = false && isKeyDownPrevArray = true
+	isKeyDownNow[keyCode] = false;
+	wasKeyDownPrev[keyCode] = true;
+}
+
+bool App::isKeyDown( unsigned char keyCode ) const
+{
+	if( isKeyDownNow[keyCode] )
+	{
+		return true;
+	}
+	
+	return false;
+
+}
+
+bool App::wasKeyJustPressed( unsigned char keyCode ) const
+{
+	if( wasKeyDownPrev[keyCode] )
+	{
+		return true;
+	}
+
+	return false;
 }
 
