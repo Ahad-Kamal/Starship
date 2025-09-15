@@ -26,7 +26,23 @@ void Entity::DebugRender() const
 	DebugDrawLine( m_position, m_position + m_velocity, DEBUG_LINE_THICKNESS, Rgba8( 255, 255, 0 ) );
 }
 
-bool Entity::isOffScreen() const
+void Entity::TakeDamage( int damage )
+{
+	m_health -= damage;
+
+	if( m_health <= 0 )
+	{
+		Die();
+	}
+}
+
+void Entity::Die()
+{
+	m_isDead = true;
+	m_isGarbage = true;
+}
+
+bool Entity::IsOffScreen() const
 {
 	if( m_position.x > WORLD_SIZE_X + m_cosmeticRadius )
 	{

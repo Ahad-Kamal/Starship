@@ -24,7 +24,7 @@ void Bullet::Update( float deltaSeconds )
 {
 	m_position += (m_velocity * deltaSeconds );
 
-	if( isOffScreen() )
+	if( IsOffScreen() )
 	{
 		m_isDead = true;
 		m_isGarbage = true;

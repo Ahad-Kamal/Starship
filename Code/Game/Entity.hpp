@@ -13,8 +13,10 @@ public:
 	virtual void Update( float deltaSeconds ) = 0;
 	virtual void Render() const = 0;
 	virtual void DebugRender() const;
+	virtual void TakeDamage( int damage );
+	virtual void Die();
 
-	bool	isOffScreen() const;
+	bool	IsOffScreen() const;
 	Vec2	GetForwardNormal() const;
 
 public:
