@@ -151,7 +151,16 @@ void Game::RenderEntities() const
 
 void Game::CheckBulletsVsAsteroids()
 {
-
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
+		
+		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+		{
+			Bullet* bullet = m_bullets[ bulletIndex ];
+			
+		}
+	}
 }
 
 void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
