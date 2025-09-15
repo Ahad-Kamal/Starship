@@ -27,10 +27,8 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& st
 
 void PlayerShip::Update(float deltaSeconds)
 {
-	if( !m_isDead )
-	{
-		UpdateFromKeyboard( deltaSeconds );
-	}
+	
+	UpdateFromKeyboard( deltaSeconds );	
 	BounceOffWalls();
 	
 	m_position += m_velocity * deltaSeconds;
@@ -122,19 +120,24 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 		m_game->SpawnRandomAsteroid();
 	}
 
-	if( g_app->isKeyDown( 'E' ) )
+	if( g_app->isKeyDown( 'E' ) && !m_isDead )
 	{
 		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
 	}
 
-	if( g_app->isKeyDown( 'S' ) )
+	if( g_app->isKeyDown( 'S' ) && !m_isDead )
 	{
 		m_orientationDegrees += PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_app->isKeyDown( 'F' ) )
+	if( g_app->isKeyDown( 'F' ) && !m_isDead )
 	{
 		m_orientationDegrees -= PLAYER_SHIP_TURN_SPEED * deltaSeconds;
+	}
+
+	if( g_app->isKeyDown( 'N' ) && m_isDead )
+	{
+		Respawn();
 	}
 	
 }
@@ -161,5 +164,7 @@ void PlayerShip::BounceOffWalls()
 
 void PlayerShip::Respawn()
 {
-
+	m_position = Vec2( WORLD_CENTER_X, WORLD_CENTER_Y );
+	m_velocity = Vec2( 0.f, 0.f );
+	m_isDead = false;
 }
