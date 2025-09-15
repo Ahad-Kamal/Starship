@@ -120,7 +120,6 @@ void Game::UpdateEntities(float deltaSeconds)
 	}
 
 	// Update Player Ship
-	
 	m_playerShip->Update( deltaSeconds );
 }
 
