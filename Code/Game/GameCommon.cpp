@@ -67,7 +67,7 @@ void DebugDrawRing(Vec2 const& center, float radius, float thickness, Rgba8 cons
 
 void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color )
 {
-	constexpr int LINE_POINTS = 2;
+	/*constexpr int LINE_POINTS = 2;
 	Vertex verts[ LINE_POINTS ];
 
 	Vec3 startPos3D = Vec3( startPos.x, startPos.y, 0.f);
@@ -79,5 +79,7 @@ void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, R
 	verts[ 1 ].m_pos = endPos3D;
 	verts[ 1 ].m_color = color;
 
-	g_engine->m_render->DrawVertexArray( LINE_POINTS, verts );
+	g_engine->m_render->DrawVertexArray( LINE_POINTS, verts );*/
+
+
 }
