@@ -25,3 +25,4 @@ constexpr float DEBUG_LINE_THICKNESS = 0.2f;
 
 
 void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
+void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color);

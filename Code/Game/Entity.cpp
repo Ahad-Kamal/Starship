@@ -23,8 +23,7 @@ void Entity::DebugRender() const
 
 	DebugDrawRing( m_position, m_physicsRadius, DEBUG_LINE_THICKNESS, Rgba8( 0, 255, 255 ) );
 	DebugDrawRing( m_position, m_cosmeticRadius, DEBUG_LINE_THICKNESS, Rgba8( 255, 0, 255 ) );
-	//DebugDrawRing( m_position, m_position + m_velocity, lineThickness, Rgba8( 255, 255, 0 ) );
-	//DebugDrawRing( m_position, velocityVector, lineThickness, Rgba8( 255, 255, 0 ) );
+	DebugDrawLine( m_position, m_position + m_velocity, DEBUG_LINE_THICKNESS, Rgba8( 255, 255, 0 ) );
 }
 
 bool Entity::isOffScreen() const
