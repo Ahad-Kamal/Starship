@@ -3,6 +3,8 @@
 struct Vec2;
 struct Rgba8;
 
+constexpr char FUNCTION_KEY_1 = 'p';
+constexpr char FUNCTION_KEY_8 = 'w';
 constexpr int NUM_STARTING_ASTEROIDS = 6;
 constexpr int MAX_ASTEROIDS = 12;
 constexpr int MAX_BULLETS = 20;

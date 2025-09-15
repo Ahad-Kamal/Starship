@@ -46,6 +46,7 @@ void App::Update(float deltaSeconds)
 
 	m_game->Update( deltaSeconds );
 
+	CheckFunctionInput();
 	UpdateKeyStates();
 
 	//m_ship1->Update(deltaSeconds);
@@ -87,6 +88,23 @@ void App::SetIsQuitting()
 bool App::IsQuitting() const
 {
 	return false;
+}
+
+void App::CheckFunctionInput()
+{
+	
+	if( wasKeyJustPressed( 'p' ) )
+	{
+		if( !m_debugDraw )
+		{
+			m_debugDraw = true;
+		}
+		else
+		{
+			m_debugDraw = false;
+		}
+	}
+
 }
 
 void App::UpdateKeyStates()

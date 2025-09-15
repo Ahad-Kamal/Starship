@@ -21,6 +21,7 @@ public:
 
 	void SetIsQuitting();
 	bool IsQuitting() const;
+	void CheckFunctionInput();
 
 	void UpdateKeyStates();
 	void OnKeyDown( unsigned char keyCode );
@@ -34,7 +35,7 @@ public:
 	bool m_isPaused = false;
 	bool m_isSlowMo = false;
 	bool m_pauseAfterNextUpdate = false;
-	bool m_debugDraw = true;
+	bool m_debugDraw = false;
 	bool isKeyDownNow[256] = { false };
 	bool wasKeyDownPrev[256] = { false };
 };
