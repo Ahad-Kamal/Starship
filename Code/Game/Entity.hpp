@@ -2,7 +2,7 @@
 #include "Engine/Math/Vec2.hpp"
 
 class Game;
-class Vec2;
+struct Vec2;
 
 class Entity
 {
