@@ -21,7 +21,7 @@ Game::~Game()
 void Game::Startup()
 {
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
-	m_playerShip = new PlayerShip( this, worldCenter );
+	m_playerShip = new PlayerShip( this, worldCenter, Vec2( 2.f, 1.f ) );
 
 	for (int i = 0; i < NUM_STARTING_ASTEROIDS; ++i)
 	{
@@ -99,6 +99,27 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 
 void Game::UpdateEntities(float deltaSeconds)
 {
+	// Update Bullets
+	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	{
+		Bullet* bullet = m_bullets[bulletIndex];
+		if( bullet && !bullet->m_isDead )
+		{
+			bullet->Update( deltaSeconds );
+		}
+	}
+
+	// Update Asteroids
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid* asteroid = m_asteroids[asteroidIndex];
+		if( asteroid && !asteroid->m_isDead )
+		{
+			asteroid->Update( deltaSeconds );
+		}
+	}
+
+	// Update Player Ship
 	m_playerShip->Update( deltaSeconds );
 }
 
