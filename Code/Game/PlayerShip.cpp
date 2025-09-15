@@ -105,9 +105,9 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	
 	if( g_app->wasKeyJustPressed( ' ' ) )
 	{
+		//g_app->wasKeyDownPrev[ ' ' ] = false;
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
-		g_app->wasKeyDownPrev[ ' ' ] = false;
 	}
 
 	if( g_app->wasKeyJustPressed( 'I' ) )

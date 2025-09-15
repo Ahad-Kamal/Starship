@@ -22,6 +22,7 @@ public:
 	void SetIsQuitting();
 	bool IsQuitting() const;
 
+	void UpdateKeyStates();
 	void OnKeyDown( unsigned char keyCode );
 	void OnKeyUp ( unsigned char keyCode );
 	bool isKeyDown ( unsigned char keyCode ) const;
