@@ -1,12 +1,12 @@
-#include "PlayerShip.hpp"
+#include "Game/PlayerShip.hpp"
+#include "Game/Entity.hpp"
+#include "Game/Game.hpp"
+#include "Game/App.hpp"
+#include "Game/GameCommon.hpp"
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
-#include "Game/Entity.hpp"
-#include "Game/GameCommon.hpp"
 #include "Engine/Math/MathUtils.hpp"
-#include "App.hpp"
-#include "Game/Game.hpp"
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 	: Entity( owner, startingPosition )
@@ -36,11 +36,6 @@ void PlayerShip::Update(float deltaSeconds)
 
 void PlayerShip::Render() const
 {
-	/*if( m_isDead )
-	{
-		return;
-	}*/
-
 	Vertex tempShipWorldVerts[NUM_SHIP_VERTS];
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
@@ -49,23 +44,6 @@ void PlayerShip::Render() const
 
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipWorldVerts );
-
-	// Assignment 1 PlayerShip
-	/*Vertex shipVerts[3];
-
-	shipVerts[0].m_pos = Vec3( (m_position.x ) + 4.f, m_position.y, 0.f);
-	shipVerts[1].m_pos = Vec3( (m_position.x ) - 2.f, m_position.y + 2.0f, 0.f);
-	shipVerts[2].m_pos = Vec3( (m_position.x ) - 2.f, m_position.y - 2.0f, 0.f);
-
-	shipVerts[0].m_color = Rgba8( 255, 255, 255, 255 );
-	shipVerts[1].m_color = Rgba8( 0, 0, 0, 255 );
-	shipVerts[2].m_color = Rgba8( 0, 127, 255, 255 );
-
-	shipVerts[0].m_uvTexCoords = Vec2( 0.f, 0.f );
-	shipVerts[1].m_uvTexCoords = Vec2( 0.f, 0.f );
-	shipVerts[2].m_uvTexCoords = Vec2( 0.f, 0.f );
-	
-	g_engine->m_render->DrawVertexArray( 3, shipVerts );*/
 }
 
 void PlayerShip::Die()

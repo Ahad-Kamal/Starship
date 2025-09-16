@@ -1,5 +1,5 @@
-#include "Entity.hpp"
-#include "GameCommon.hpp"
+#include "Game/Entity.hpp"
+#include "Game/GameCommon.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Core/Rgba8.hpp"
 #include "Engine/Math/MathUtils.hpp"

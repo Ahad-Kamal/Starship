@@ -37,47 +37,11 @@ constexpr float CLIENT_ASPECT = 2.0f; // We are requesting a 2:1 aspect window a
 //-----------------------------------------------------------------------------------------------
 // #SD1ToDo: We will move each of these items to its proper place, once that place is established later on
 // 
-bool g_isQuitting = false;							// ...becomes App::m_isQuitting instead
 HWND g_hWnd = nullptr;								// ...becomes void* Window::m_windowHandle
 HDC g_displayDeviceContext = nullptr;				// ...becomes void* Window::m_displayContext
 HGLRC g_openGLRenderingContext = nullptr;			// ...becomes void* Renderer::m_apiRenderingContext
 char const* APP_NAME = "SD1-A02: Starship Prototype";	// ...becomes ??? (Change this per project!)
 
-bool g_isPaused = false;
-bool g_isSlowMo = false;
-
-PlayerShip* g_ship1 = nullptr;
-PlayerShip* g_ship2 = nullptr;
-PlayerShip* g_ship3 = nullptr;
-
-//Rgba8* clearColor = nullptr;
-//Vertex* vertexes = nullptr;
-
-//-----------------------------------------------------------------------------------------------
-// #SD1ToDo: This will become  App::Update( float deltaSeconds )
-void App_Update(float deltaSeconds)
-{
-	if (g_isPaused)
-	{
-		deltaSeconds = 0;
-	}
-
-	if (g_isSlowMo)
-	{
-		deltaSeconds *= 0.1f;
-	}
-
-	g_ship1->Update(deltaSeconds);
-	g_ship2->Update(deltaSeconds);
-	g_ship3->Update(deltaSeconds);
-
-	if (g_ship1->m_position.x > 200.f ||
-		g_ship2->m_position.x > 200.f ||
-		g_ship3->m_position.x > 200.f)
-	{
-		g_isQuitting = true;
-	}
-}
 
 //-----------------------------------------------------------------------------------------------
 // Handles Windows (Win32) messages/events; i.e. the OS is trying to tell us something happened.
@@ -247,38 +211,6 @@ void CreateOSWindow( void* applicationInstanceHandle, float clientAspect )
 }
 
 
-//------------------------------------------------------------------------------------------------
-// Given an existing OS Window, create a Rendering Context (RC) for OpenGL or DirectX to draw to it.
-// #SD1ToDo: Move this to become Renderer::CreateRenderingContext() in Engine/Renderer/Renderer.cpp
-// #SD1ToDo: By the end of SD1-A1, this function will be called from the function Renderer::Startup
-//
-void CreateRenderingContext()
-{
-	// Creates an OpenGL rendering context (RC) and binds it to the current window's device context (DC)
-	PIXELFORMATDESCRIPTOR pixelFormatDescriptor;
-	memset( &pixelFormatDescriptor, 0, sizeof( pixelFormatDescriptor ) );
-	pixelFormatDescriptor.nSize = sizeof( pixelFormatDescriptor );
-	pixelFormatDescriptor.nVersion = 1;
-	pixelFormatDescriptor.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	pixelFormatDescriptor.iPixelType = PFD_TYPE_RGBA;
-	pixelFormatDescriptor.cColorBits = 24;
-	pixelFormatDescriptor.cDepthBits = 24;
-	pixelFormatDescriptor.cAccumBits = 0;
-	pixelFormatDescriptor.cStencilBits = 8;
-
-	// These two OpenGL-like functions (wglCreateContext and wglMakeCurrent) will remain here for now.
-	int pixelFormatCode = ChoosePixelFormat( g_displayDeviceContext, &pixelFormatDescriptor );
-	SetPixelFormat( g_displayDeviceContext, pixelFormatCode, &pixelFormatDescriptor );
-	g_openGLRenderingContext = wglCreateContext( g_displayDeviceContext );
-	wglMakeCurrent( g_displayDeviceContext, g_openGLRenderingContext );
-
-	// #SD1ToDo: move all OpenGL functions (including those below) to Renderer.cpp (only!)
-	glEnable( GL_BLEND );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-}
-
-
-
 //-----------------------------------------------------------------------------------------------
 // Processes all Windows messages (WM_xxx) for this app that have queued up since last frame.
 // For each message in the queue, our WindowsMessageHandlingProcedure (or "WinProc") function
@@ -315,118 +247,7 @@ void App_Constructor( void* applicationInstanceHandle, char const* commandLineSt
 }
 
 
-void App_Startup() 
-{
-	g_ship1 = new PlayerShip(g_app->m_game, Vec2( 0.f, 30.f ), Vec2( 12.f, 0.f ) );
-	g_ship2 = new PlayerShip(g_app->m_game, Vec2( 0.f, 50.f ), Vec2( 20.f, 0.f ) ); 
-	g_ship3 = new PlayerShip(g_app->m_game, Vec2( 0.f, 70.f ), Vec2( 15.f, 0.f ) ); 
-}
 
-//-----------------------------------------------------------------------------------------------
-// #SD1ToDo: Move this function to Game/App.cpp and rename it to the App::~App() destructor function
-//
-
-void App_Destructor()
-{
-	delete g_ship1;
-	g_ship1 = nullptr;
-
-	delete g_ship2;
-	g_ship2 = nullptr;
-
-	delete g_ship3;
-	g_ship3 = nullptr;
-}
-
-
-void DrawVertexArray(int numVertexes, Vertex const* vertexArray) 
-{
-	glBegin(GL_TRIANGLES);
-	for (int i = 0; i < numVertexes; ++i) 
-	{
-		Vertex vert = vertexArray[i];
-		glColor4ub(vert.m_color.r, vert.m_color.g, vert.m_color.b, vert.m_color.a);
-		glTexCoord2f(vert.m_uvTexCoords.x, vert.m_uvTexCoords.y);
-		glVertex3f(vert.m_pos.x, vert.m_pos.y, vert.m_pos.z);
-	}
-	glEnd(); // GL_TRIANGLES
-}
-
-//-----------------------------------------------------------------------------------------------
-// #SD1ToDo: This will become  App::Render() const
-//
-// Some simple OpenGL example drawing code.
-// This is the graphical equivalent of printing "Hello, world."
-// #SD1ToDo: Move this function to Game/App.cpp and rename it to  App::Render() const
-// #SD1ToDo: Move *ALL* OpenGL code to Renderer.cpp (only).
-//
-// Ultimately this function (App::Render) will only call methods on Renderer (like Renderer::DrawVertexArray)
-//	to draw things, never calling OpenGL (nor DirectX) functions directly.
-//
-void App_Render()
-{
-	// Establish a 2D (orthographic) drawing coordinate system: (0,0) bottom-left to (10,10) top-right
-	// #SD1ToDo: This will be replaced by a call to g_renderer->BeginView( m_worldView ); or similar
-	glLoadIdentity();
-	glOrtho( 0.f, 20.f, 0.f, 10.f, 0.f, 1.f ); // arguments are: xLeft, xRight, yBottom, yTop, zNear, zFar
-	//g_engine->m_render->BeginCamera(*g_engine->m_camera);
-
-	// Clear all screen (backbuffer) pixels to medium-blue
-	// #SD1ToDo: This will become g_renderer->ClearColor( Rgba8( 0, 0, 127, 255 ) );
-	glClearColor( 0.4f, 0.2f, 0.f, 1.f ); // Note; glClearColor takes colors as floats in [0,1], not bytes in [0,255]
-	glClear( GL_COLOR_BUFFER_BIT ); // ALWAYS clear the screen at the top of each frame's Render()!
-	//g_engine->m_render->ClearScreen(*clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
-
-	// Draw some triangles (provide 3 vertexes each)
-	// #SD1ToDo: Move all OpenGL code into Renderer.cpp (only); call g_renderer->DrawVertexArray() instead
-	
-	glBegin( GL_TRIANGLES );
-	{
-		// First triangle (3 vertexes, each preceded by a color)
-		glColor4ub( 255, 255, 255, 255 );
-		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( 0.4f + (g_ship1->m_position.x / 10.f), 3.f );
-
-		glColor4ub( 0, 0, 0, 255 );
-		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f + (g_ship1->m_position.x / 10.f), 3.2f );
-
-		glColor4ub( 0, 127, 255, 255 );
-		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f + (g_ship1->m_position.x / 10.f), 2.8f );
-
-		// Second triangle (3 vertexes, each preceded by a color)
-		glColor4ub( 255, 255, 255, 255 );
-		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( 0.4f + (g_ship2->m_position.x / 10.f), 5.f );
-
-		glColor4ub( 0, 0, 0, 255 );
-		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f + (g_ship2->m_position.x / 10.f), 5.2f );
-
-		glColor4ub( 0, 127, 255, 255 );
-		glTexCoord2f( 0.f, 0.f );
-		glVertex2f( -0.2f + (g_ship2->m_position.x / 10.f), 4.8f );
-
-		// Third triangle (3 vertexes, each preceded by a color)
-		glColor4ub(255, 255, 255, 255);
-		glTexCoord2f(0.f, 0.f);
-		glVertex2f(0.4f + (g_ship3->m_position.x / 10.f), 7.f);
-
-		glColor4ub(0, 0, 0, 255);
-		glTexCoord2f(0.f, 0.f);
-		glVertex2f(-0.2f + (g_ship3->m_position.x / 10.f), 7.2f);
-
-		glColor4ub(0, 127, 255, 255);
-		glTexCoord2f(0.f, 0.f);
-		glVertex2f(-0.2f + (g_ship3->m_position.x / 10.f), 6.8f);
-	}
-
-	glEnd();
-	
-	//g_engine->m_render->DrawVertexArray(3, vertexes); // note to self, vertexes is null, fine for now since its not currently in use but remember this for later
-
-}
 
 
 //-----------------------------------------------------------------------------------------------
@@ -471,7 +292,6 @@ int WINAPI WinMain( HINSTANCE applicationInstanceHandle, HINSTANCE, LPSTR comman
 	App_Run(); // This will get replaced with:
 	// #SD1ToDo: g_theApp->Run();
 
-	App_Destructor(); // This will get replaced with:
 	// #SD1ToDo:	delete g_theApp;
 	// #SD1ToDo:	g_theApp = nullptr;
 	delete g_app;

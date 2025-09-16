@@ -1,11 +1,11 @@
 #include "Game/Game.hpp"
-#include "PlayerShip.hpp"
+#include "Game/PlayerShip.hpp"
 #include "Game/App.hpp"
-#include "Bullet.hpp"
+#include "Game/Bullet.hpp"
+#include "Game/Asteroid.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
-#include "Asteroid.hpp"
 
 Game::Game(App* owner)
 {
@@ -239,7 +239,6 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 
 void Game::DebugRenderEntities() const
 {
-	//DebugDrawRing( Vec2( 50.f, 20.f ), 10.f, 2.f, Rgba8( 255, 100, 0) );
 	// Debug Draw Bullets
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
