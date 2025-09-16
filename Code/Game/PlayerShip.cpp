@@ -27,7 +27,6 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& st
 
 void PlayerShip::Update(float deltaSeconds)
 {
-	
 	UpdateFromKeyboard( deltaSeconds );	
 	BounceOffWalls();
 	

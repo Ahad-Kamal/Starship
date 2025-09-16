@@ -143,7 +143,7 @@ void Game::UpdateEntities(float deltaSeconds)
 	}
 
 	// Update Player Ship
-	if( m_playerShip && !m_playerShip->m_isDead )
+	if( m_playerShip )
 	{
 		m_playerShip->Update( deltaSeconds );
 	}
@@ -172,7 +172,7 @@ void Game::RenderEntities() const
 	}
 
 	// Draw Player Ship
-	if( m_playerShip && !m_playerShip->m_isDead)
+	if( m_playerShip && !m_playerShip->m_isDead )
 	{
 		m_playerShip->Render();
 	}
@@ -260,7 +260,7 @@ void Game::DebugRenderEntities() const
 	}
 
 	// Debug Draw Player Ship
-	if( m_playerShip && !m_playerShip->m_isDead )
+	if( m_playerShip )
 	{
 		m_playerShip->DebugRender();
 	}
