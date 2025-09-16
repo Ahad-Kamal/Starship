@@ -69,8 +69,11 @@ void Game::Shutdown()
 		}
 	}
 	
-	delete m_playerShip;
-	m_playerShip = nullptr;
+	if( m_playerShip )
+	{
+		delete m_playerShip;
+		m_playerShip = nullptr;
+	}
 }
 
 Asteroid* Game::SpawnRandomAsteroid()
@@ -140,7 +143,10 @@ void Game::UpdateEntities(float deltaSeconds)
 	}
 
 	// Update Player Ship
-	m_playerShip->Update( deltaSeconds );
+	if( m_playerShip && !m_playerShip->m_isDead )
+	{
+		m_playerShip->Update( deltaSeconds );
+	}
 }
 
 void Game::RenderEntities() const
@@ -166,7 +172,10 @@ void Game::RenderEntities() const
 	}
 
 	// Draw Player Ship
-	m_playerShip->Render();
+	if( m_playerShip && !m_playerShip->m_isDead)
+	{
+		m_playerShip->Render();
+	}
 }
 
 void Game::CheckBulletsVsAsteroids()
@@ -252,7 +261,10 @@ void Game::DebugRenderEntities() const
 	}
 
 	// Debug Draw Player Ship
-	m_playerShip->DebugRender();
+	if( m_playerShip && !m_playerShip->m_isDead )
+	{
+		m_playerShip->DebugRender();
+	}
 }
 
 void Game::DeleteGarbageEntities()

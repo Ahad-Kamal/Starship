@@ -22,6 +22,7 @@ public:
 	void SetIsQuitting();
 	bool IsQuitting() const;
 	void CheckFunctionInput();
+	void RestartGame();
 
 	void UpdateKeyStates();
 	void OnKeyDown( unsigned char keyCode );

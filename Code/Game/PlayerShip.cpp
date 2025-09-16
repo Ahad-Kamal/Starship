@@ -36,10 +36,10 @@ void PlayerShip::Update(float deltaSeconds)
 
 void PlayerShip::Render() const
 {
-	if( m_isDead )
+	/*if( m_isDead )
 	{
 		return;
-	}
+	}*/
 
 	Vertex tempShipWorldVerts[NUM_SHIP_VERTS];
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
@@ -166,5 +166,6 @@ void PlayerShip::Respawn()
 {
 	m_position = Vec2( WORLD_CENTER_X, WORLD_CENTER_Y );
 	m_velocity = Vec2( 0.f, 0.f );
+	m_orientationDegrees = 0.f;
 	m_isDead = false;
 }

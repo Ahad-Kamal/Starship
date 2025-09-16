@@ -93,7 +93,7 @@ bool App::IsQuitting() const
 void App::CheckFunctionInput()
 {
 	
-	if( wasKeyJustPressed( 'p' ) )
+	if( wasKeyJustPressed( FUNCTION_KEY_1 ) )
 	{
 		if( !m_debugDraw )
 		{
@@ -105,6 +105,21 @@ void App::CheckFunctionInput()
 		}
 	}
 
+	if( wasKeyJustPressed( FUNCTION_KEY_8 ) )
+	{
+		RestartGame();
+	}
+
+}
+
+void App::RestartGame()
+{
+	m_game->Shutdown();
+
+	delete m_game;
+	m_game = nullptr;
+
+	m_game = new Game( this );
 }
 
 void App::UpdateKeyStates()
