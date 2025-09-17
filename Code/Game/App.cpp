@@ -8,7 +8,7 @@
 
 App* g_app = nullptr;
 
-Rgba8* clearColor = new Rgba8();
+Rgba8 g_clearColor = Rgba8();
 
 App::App()
 {
@@ -52,7 +52,7 @@ void App::Render() const
 {
 	g_engine->m_render->BeginCamera(*g_engine->m_camera);
 	
-	g_engine->m_render->ClearScreen(*clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
+	g_engine->m_render->ClearScreen(g_clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
 
 	m_game->Render();
 
