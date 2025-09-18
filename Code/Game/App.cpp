@@ -5,6 +5,7 @@
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/GameCommon.hpp"
+#include "Engine/Input/InputSystem.hpp"
 
 App* g_app = nullptr;
 
@@ -44,7 +45,7 @@ void App::Update(float deltaSeconds)
 
 	m_game->Update( deltaSeconds );
 
-	//CheckFunctionInput();
+	CheckFunctionInput();
 	//UpdateKeyStates();
 }
 
@@ -72,7 +73,7 @@ bool App::IsQuitting() const
 void App::CheckFunctionInput()
 {
 	
-	if( wasKeyJustPressed( FUNCTION_KEY_1 ) )
+	if( g_engine->m_input->wasKeyJustPressed( KEYCODE_F1 ) )
 	{
 		if( !m_debugDraw )
 		{
@@ -84,7 +85,7 @@ void App::CheckFunctionInput()
 		}
 	}
 
-	if( wasKeyJustPressed( FUNCTION_KEY_8 ) )
+	if( g_engine->m_input->wasKeyJustPressed( KEYCODE_F8 ) )
 	{
 		RestartGame();
 	}
