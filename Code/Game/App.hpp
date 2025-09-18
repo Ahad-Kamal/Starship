@@ -21,7 +21,6 @@ public:
 
 	void SetIsQuitting();
 	bool IsQuitting() const;
-	void CheckFunctionInput();
 	void RestartGame();
 
 	void UpdateKeyStates();
@@ -29,6 +28,7 @@ public:
 	void OnKeyUp ( unsigned char keyCode );
 	bool isKeyDown ( unsigned char keyCode ) const;
 	bool wasKeyJustPressed ( unsigned char keyCode ) const;
+	void CheckFunctionInput();
 
 public:
 	Game* m_game = nullptr;

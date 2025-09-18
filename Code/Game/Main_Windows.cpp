@@ -11,15 +11,16 @@
 //
 #include <gl/gl.h>					// Include basic OpenGL constants and function declarations
 #pragma comment( lib, "opengl32" )	// Link in the OpenGL32.lib static library
-#include <Engine/Math/Vec2.hpp>
-#include <Engine/Math/Vec3.hpp>
-#include <Engine/Core/Rgba8.hpp>
-#include <Engine/Core/Vertex.hpp>
-#include "App.hpp"
-#include "PlayerShip.hpp"
+#include "Engine/Math/Vec2.hpp"
+#include "Engine/Math/Vec3.hpp"
+#include "Engine/Core/Rgba8.hpp"
+#include "Engine/Core/Vertex.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Engine/Renderer/Camera.hpp"
+#include "Engine/Input/InputSystem.hpp"
+#include "Game/App.hpp"
+#include "Game/PlayerShip.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -65,7 +66,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		case WM_KEYDOWN:
 		{
 			unsigned char asKey = (unsigned char)wParam;
-			g_app->OnKeyDown( asKey );
+			g_engine->m_input->HandleKeyPressed( asKey );
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-pressed event...
 			if( asKey == 'Q' ) // #SD1ToDo: move this "check for ESC pressed" code to App
@@ -107,7 +108,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 		case WM_KEYUP:
 		{
 			unsigned char asKey = (unsigned char) wParam;
-			g_app->OnKeyUp( asKey );
+			g_engine->m_input->HandleKeyReleased( asKey );
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-released event...
 			if ( asKey == 'T' )

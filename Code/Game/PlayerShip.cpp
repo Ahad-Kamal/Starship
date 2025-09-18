@@ -1,12 +1,13 @@
+#include "Engine/Core/Vertex.hpp"
+#include "Engine/Core/Engine.hpp"
+#include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Input/InputSystem.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/Entity.hpp"
 #include "Game/Game.hpp"
 #include "Game/App.hpp"
 #include "Game/GameCommon.hpp"
-#include "Engine/Core/Vertex.hpp"
-#include "Engine/Core/Engine.hpp"
-#include "Engine/Renderer/Renderer.hpp"
-#include "Engine/Math/MathUtils.hpp"
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 	: Entity( owner, startingPosition )
@@ -86,33 +87,33 @@ void PlayerShip::InitializeLocalVerts()
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
 	
-	if( g_app->wasKeyJustPressed( ' ' ) )
+	if( g_engine->m_input->wasKeyJustPressed( ' ' ) )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 
-	if( g_app->wasKeyJustPressed( 'I' ) )
+	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
 	{
 		m_game->SpawnRandomAsteroid();
 	}
 
-	if( g_app->isKeyDown( 'E' ) && !m_isDead )
+	if( g_engine->m_input->isKeyDown( 'E' ) && !m_isDead )
 	{
 		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
 	}
 
-	if( g_app->isKeyDown( 'S' ) && !m_isDead )
+	if( g_engine->m_input->isKeyDown( 'S' ) && !m_isDead )
 	{
 		m_orientationDegrees += PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_app->isKeyDown( 'F' ) && !m_isDead )
+	if( g_engine->m_input->isKeyDown( 'F' ) && !m_isDead )
 	{
 		m_orientationDegrees -= PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_app->isKeyDown( 'N' ) && m_isDead )
+	if( g_engine->m_input->isKeyDown( 'N' ) && m_isDead )
 	{
 		Respawn();
 	}

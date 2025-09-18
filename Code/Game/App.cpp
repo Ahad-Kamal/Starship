@@ -44,8 +44,8 @@ void App::Update(float deltaSeconds)
 
 	m_game->Update( deltaSeconds );
 
-	CheckFunctionInput();
-	UpdateKeyStates();
+	//CheckFunctionInput();
+	//UpdateKeyStates();
 }
 
 void App::Render() const
