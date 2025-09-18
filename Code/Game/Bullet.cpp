@@ -1,10 +1,10 @@
-#include "Game/Bullet.hpp"
-#include "Game/Entity.hpp"
-#include "Game/GameCommon.hpp"
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Game/Bullet.hpp"
+#include "Game/Entity.hpp"
+#include "Game/GameCommon.hpp"
 
 
 Bullet::Bullet( Game* owner, Vec2 const& startPos )

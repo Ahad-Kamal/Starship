@@ -1,8 +1,8 @@
-#include "Game/Entity.hpp"
-#include "Game/GameCommon.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Core/Rgba8.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "Game/Entity.hpp"
+#include "Game/GameCommon.hpp"
 
 Entity::Entity( Game* owner, Vec2 const& startPos )
 	: m_game( owner )

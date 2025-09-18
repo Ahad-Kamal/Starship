@@ -1,11 +1,11 @@
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Core/ErrorWarningAssert.hpp"
+#include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/App.hpp"
 #include "Game/Bullet.hpp"
 #include "Game/Asteroid.hpp"
-#include "Engine/Math/MathUtils.hpp"
-#include "Engine/Core/ErrorWarningAssert.hpp"
-#include "Engine/Math/RandomNumberGenerator.hpp"
 
 Game::Game(App* owner)
 {
