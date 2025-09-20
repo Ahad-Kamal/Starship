@@ -11,6 +11,9 @@ class Bullet;
 class Entity;
 
 //-----------------------------------------------------------------------------------------------
+
+// bool IsAlive( Entity* entity ) const
+
 class Game
 {
 public:

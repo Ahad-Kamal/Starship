@@ -31,6 +31,19 @@ void Game::Startup()
 
 void Game::Update(float deltaSeconds)
 {
+	/*
+	if( m_isAttractMode )
+	{
+		UpdateAttractMode();
+	}
+
+	// Check if we're still in attract mode
+	if( m_isAttractMode )
+	{
+		return;
+	}
+	*/
+
 	UpdateEntities( deltaSeconds );
 	CheckBulletsVsAsteroids();
 	CheckAsteroidsVsShips();
@@ -39,6 +52,14 @@ void Game::Update(float deltaSeconds)
 
 void Game::Render() const
 {
+	/*
+	if( m_isAttractMode )
+	{
+		RenderAttractMode();
+		return;
+	}
+	*/
+
 	RenderEntities();
 
 	if ( m_app->m_debugDraw )
@@ -265,6 +286,18 @@ void Game::DebugRenderEntities() const
 		m_playerShip->DebugRender();
 	}
 }
+
+/*
+bool Game::IsAlive( Entity* entity )
+{
+	if( entity == nullptr )
+	{
+		return false;
+	}
+	
+	return !entity->m_isDead;
+}
+*/
 
 void Game::DeleteGarbageEntities()
 {
