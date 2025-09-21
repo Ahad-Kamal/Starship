@@ -87,7 +87,7 @@ void PlayerShip::InitializeLocalVerts()
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
 	
-	if( g_engine->m_input->wasKeyJustPressed( ' ' ) )
+	if( g_engine->m_input->wasKeyJustPressed( ' ' ) && !m_isDead )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
