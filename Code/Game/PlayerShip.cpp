@@ -147,3 +147,36 @@ void PlayerShip::Respawn()
 	m_orientationDegrees = 0.f;
 	m_isDead = false;
 }
+
+void createFakePlayerShip( Vertex verts[] )
+{
+	// Nose Cone
+	verts[ 0 ].m_pos = Vec3( 1.f, 0.f, 0.f );
+	verts[ 1 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	verts[ 2 ].m_pos = Vec3( 0.f, -1.f, 0.f );
+
+	// Left Wing
+	verts[ 3 ].m_pos = Vec3( 2.f, 1.f, 0.f );
+	verts[ 4 ].m_pos = Vec3( 0.f, 2.f, 0.f );
+	verts[ 5 ].m_pos = Vec3( -2.f, 1.f, 0.f );
+
+	// Right Wing
+	verts[ 6 ].m_pos = Vec3( 2.f, -1.f, 0.f );
+	verts[ 7 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	verts[ 8 ].m_pos = Vec3( 0.f, -2.f, 0.f );
+
+	// Body (Quad Tri 1)
+	verts[ 9 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	verts[ 10 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	verts[ 11 ].m_pos = Vec3( 0.f, -1.f, 0.f );
+
+	// Body (Quad Tri 2)
+	verts[ 12 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	verts[ 13 ].m_pos = Vec3( -2.f, 1.f, 0.f );
+	verts[ 14 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+
+	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
+	{
+		verts[ vertIndex ].m_color = Rgba8( 102, 153, 204 );
+	}
+}

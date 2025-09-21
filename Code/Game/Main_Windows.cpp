@@ -69,7 +69,7 @@ LRESULT CALLBACK WindowsMessageHandlingProcedure( HWND windowHandle, UINT wmMess
 			g_engine->m_input->HandleKeyPressed( asKey );
 
 			// #SD1ToDo: Tell the App (or InputSystem later) about this key-pressed event...
-			if( asKey == 'Q' ) // #SD1ToDo: move this "check for ESC pressed" code to App
+			if( asKey == KEYCODE_ESC && g_app->m_isAttractMode ) // #SD1ToDo: move this "check for ESC pressed" code to App
 			{
 				g_app->m_isQuitting = true;
 				return 0; // "Consumes" this message (tells Windows "okay, we handled it")

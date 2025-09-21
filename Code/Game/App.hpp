@@ -18,11 +18,12 @@ public:
 	void RunFrame();
 	void Update( float deltaSeconds );
 	void Render() const;
+	void RenderAttractMode() const;
 
 	void SetIsQuitting();
 	bool IsQuitting() const;
 	void RestartGame();
-	void CheckFunctionInput();
+	void CheckInput();
 
 public:
 	Game* m_game = nullptr;
