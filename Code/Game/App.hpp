@@ -22,12 +22,6 @@ public:
 	void SetIsQuitting();
 	bool IsQuitting() const;
 	void RestartGame();
-
-	void UpdateKeyStates();
-	void OnKeyDown( unsigned char keyCode );
-	void OnKeyUp ( unsigned char keyCode );
-	bool isKeyDown ( unsigned char keyCode ) const;
-	bool wasKeyJustPressed ( unsigned char keyCode ) const;
 	void CheckFunctionInput();
 
 public:
@@ -37,6 +31,5 @@ public:
 	bool m_isSlowMo = false;
 	bool m_pauseAfterNextUpdate = false;
 	bool m_debugDraw = false;
-	bool isKeyDownNow[256] = { false };
-	bool wasKeyDownPrev[256] = { false };
+	bool m_isAttractMode = true;
 };

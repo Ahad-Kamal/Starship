@@ -102,48 +102,4 @@ void App::RestartGame()
 	m_game = new Game( this );
 }
 
-void App::UpdateKeyStates()
-{
-	for( int i = 0; i < 256; ++i )
-	{
-		wasKeyDownPrev[i] = isKeyDownNow[i];
-	}
-}
-
-void App::OnKeyDown(unsigned char keyCode)
-{
-	if( !isKeyDownNow[keyCode] )
-	{
-		isKeyDownNow[keyCode] = true;
-	}
-}
-
-void App::OnKeyUp(unsigned char keyCode)
-{
-	if( isKeyDownNow[keyCode] )
-	{
-		isKeyDownNow[keyCode] = false;
-	}
-}
-
-bool App::isKeyDown( unsigned char keyCode ) const
-{
-	if( isKeyDownNow[keyCode] )
-	{
-		return true;
-	}
-	
-	return false;
-
-}
-
-bool App::wasKeyJustPressed( unsigned char keyCode ) const
-{
-	if( isKeyDownNow[keyCode] == true && wasKeyDownPrev[keyCode] == false )
-	{
-		return true;
-	}
-
-	return false;
-}
 
