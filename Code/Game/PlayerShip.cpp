@@ -87,7 +87,7 @@ void PlayerShip::InitializeLocalVerts()
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
 	
-	if( g_engine->m_input->wasKeyJustPressed( ' ' ) && !m_isDead )
+	if( g_engine->m_input->wasKeyJustPressed( ' ' ) && IsAlive() )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
@@ -98,22 +98,22 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 		m_game->SpawnRandomAsteroid();
 	}
 
-	if( g_engine->m_input->isKeyDown( 'E' ) && !m_isDead )
+	if( g_engine->m_input->isKeyDown( 'E' ) && IsAlive() )
 	{
 		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
 	}
 
-	if( g_engine->m_input->isKeyDown( 'S' ) && !m_isDead )
+	if( g_engine->m_input->isKeyDown( 'S' ) && IsAlive() )
 	{
 		m_orientationDegrees += PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_engine->m_input->isKeyDown( 'F' ) && !m_isDead )
+	if( g_engine->m_input->isKeyDown( 'F' ) && IsAlive() )
 	{
 		m_orientationDegrees -= PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_engine->m_input->isKeyDown( 'N' ) && m_isDead )
+	if( g_engine->m_input->isKeyDown( 'N' ) && !IsAlive() )
 	{
 		Respawn();
 	}

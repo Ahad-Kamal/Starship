@@ -49,6 +49,16 @@ void Entity::Die()
 	m_isGarbage = true;
 }
 
+bool Entity::IsAlive()
+{
+	if( this == nullptr )
+	{
+		return false;
+	}
+
+	return !m_isDead;
+}
+
 bool Entity::IsOffScreen() const
 {
 	if( m_position.x > WORLD_SIZE_X + m_cosmeticRadius )
