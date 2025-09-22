@@ -36,10 +36,11 @@ void App::RunFrame()
 	float deltaSeconds = timeNow - m_lastFrameTime;
 	m_lastFrameTime = timeNow;
 
+	// One "frame" of the game.  Generally: Input, Update, Render.  We call this 60+ times per second.
 	g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
 	Update( deltaSeconds );		
 	Render();		
-	g_engine->EndFrame();
+	g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
 }
 
 void App::Update(float deltaSeconds)
