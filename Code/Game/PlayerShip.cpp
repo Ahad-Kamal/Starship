@@ -49,6 +49,8 @@ void PlayerShip::Render() const
 void PlayerShip::Die()
 {
 	m_isDead = true;
+
+	//m_game->SpawnNewDebrisCluster( 15, m_position, m_velocity * 0.5f, 0.3f, m_color, 2.f );
 }
 
 void PlayerShip::InitializeLocalVerts()

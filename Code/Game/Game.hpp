@@ -26,6 +26,11 @@ public:
 
 	Asteroid* SpawnRandomAsteroid();
 	Bullet* SpawnBullet(Vec2 const& pos, float forwardDegrees);
+	//Beetle* SpawnNewRandomBeetle();
+	//Wasp* SpawnNewRandomWasp();
+	//Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds )
+	//void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float radius, Rgba8 color, float lifetimeSeconds )
+	//GetRandomOffScreenPosition();
 
 private:
 	void UpdateEntities( float deltaSeconds );

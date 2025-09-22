@@ -31,4 +31,5 @@ public:
 	int		m_health = 1;
 	bool	m_isDead = false;	// gameplay idea of "dead"
 	bool	m_isGarbage = false;	// code idea of "dead"
+	float	m_ageSeconds = 0.f;
 };

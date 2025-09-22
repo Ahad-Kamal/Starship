@@ -322,3 +322,28 @@ void Game::DeleteGarbageEntities()
 	}
 }
 
+/*Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds )
+{
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
+	{
+		Debris*& debris = m_debris[debrisIndex];
+		if( debris == nullptr )
+		{
+			debris = new Debris( this, pos, vel, radius, color, lifetimeSeconds);
+			return;
+		}
+	}	
+}
+
+void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float radius, Rgba8 color, float lifetimeSeconds )
+{
+	for( int i = 0; i < count; i++ )
+	{
+		float heading = rng.RollRandomFloatInRange( 0.f, 360.f );
+		float speed = rng.RollRandomFloatInRange( 10.f, 100.f );
+		Vec2 localVelocity = MakeFromPolarDegrees( orientation, speed );
+		Vec2 worldVelocity = clusterVelocity + localVelocity;
+		SpawnNewDebris( pos, worldVelocity, radius, color, lifetimeSeconds );
+	}
+}
+*/
