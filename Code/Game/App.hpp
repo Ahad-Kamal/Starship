@@ -27,6 +27,7 @@ public:
 
 public:
 	Game* m_game = nullptr;
+	float m_lastFrameTime = 0.f;
 	bool m_isQuitting = false;
 	bool m_isPaused = false;
 	bool m_isSlowMo = false;

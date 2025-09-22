@@ -264,15 +264,22 @@ void App_Run()
 		// Process OS messages (keyboard/mouse button clicked, application lost/gained focus, etc.)
 		RunMessagePump(); // calls our own WindowsMessageHandlingProcedure() function for us!
 
-		float fakeDeltaSeconds = 1.f / 60.f;
+		//float fakeDeltaSeconds = 1.f / 60.f;
+		//float timeNow = GetCurrentTimeSecconds();
+		//float deltaSeconds = timeNow - m_lastFrameTime
+		//m_lastFrameTime = timeNow
+		// move the above to app RunFrame
 
-		// One "frame" of the game.  Generally: Input, Update, Render.  We call this 60+ times per second.
-		g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
-		g_app->Update( fakeDeltaSeconds );		// #SD1ToDo: ...becomes just Update();		once this function becomes App::Run()
-		g_app->Render();		// #SD1ToDo: ...becomes just Render();		once this function becomes App::Run()
-		g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
+		//// One "frame" of the game.  Generally: Input, Update, Render.  We call this 60+ times per second.
+		//g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
+		//g_app->Update( fakeDeltaSeconds );		// #SD1ToDo: ...becomes just Update();		once this function becomes App::Run()
+		//g_app->Render();		// #SD1ToDo: ...becomes just Render();		once this function becomes App::Run()
+		//g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
+		// move the above to app RunFrame
 
-		Sleep( 16 ); // Temporary code to "slow down" our app to ~60Hz until we have proper frame timing in
+		g_app->RunFrame();
+
+		//Sleep( 16 ); // Temporary code to "slow down" our app to ~60Hz until we have proper frame timing in
 
 		// #SD1ToDo: This call will move to Renderer::EndFrame() once we complete our Window refactor
 		// "Present" the back buffer by swapping the front (visible) and back (working) screen buffers

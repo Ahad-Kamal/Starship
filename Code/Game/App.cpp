@@ -1,12 +1,13 @@
 #include "Engine/Core/Rgba8.hpp"
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Input/InputSystem.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Core/Time.hpp"
 #include "Game/App.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/GameCommon.hpp"
-#include "Engine/Input/InputSystem.hpp"
-#include "Engine/Math/MathUtils.hpp"
 
 App* g_app = nullptr;
 
@@ -16,6 +17,8 @@ App::App()
 {
 	g_engine = new Engine();
 	m_game = new Game( this );
+
+	m_lastFrameTime = GetCurrentTimeSeconds();
 }
 
 App::~App()
@@ -29,7 +32,14 @@ App::~App()
 
 void App::RunFrame()
 {
+	float timeNow = GetCurrentTimeSeconds();
+	float deltaSeconds = timeNow - m_lastFrameTime;
+	m_lastFrameTime = timeNow;
 
+	g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
+	Update( deltaSeconds );		
+	Render();		
+	g_engine->EndFrame();
 }
 
 void App::Update(float deltaSeconds)
