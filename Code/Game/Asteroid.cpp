@@ -26,8 +26,22 @@ void Asteroid::Update( float deltaSeconds )
 
 	if( IsOffScreen() )
 	{
-		m_isDead = true;
-		m_isGarbage = true;
+		if( m_position.x < 0 - m_cosmeticRadius )
+		{
+			m_position.x = 200 + m_cosmeticRadius;
+		}
+		else if( m_position.x > 200 + m_cosmeticRadius )
+		{
+			m_position.x = 0 - m_cosmeticRadius;
+		}
+		else if( m_position.y < 0 - m_cosmeticRadius )
+		{
+			m_position.y = 100 + m_cosmeticRadius;
+		}
+		else if( m_position.y > 100 + m_cosmeticRadius )
+		{
+			m_position.y = 0 - m_cosmeticRadius;
+		}
 	}
 }
 
