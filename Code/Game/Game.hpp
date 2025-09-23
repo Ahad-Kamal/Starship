@@ -9,6 +9,7 @@ class PlayerShip;
 class Asteroid;
 class Bullet;
 class Entity;
+class Beetle;
 
 //-----------------------------------------------------------------------------------------------
 
@@ -26,7 +27,7 @@ public:
 
 	Asteroid* SpawnRandomAsteroid();
 	Bullet* SpawnBullet(Vec2 const& pos, float forwardDegrees);
-	//Beetle* SpawnNewRandomBeetle();
+	Beetle* SpawnNewRandomBeetle();
 	//Wasp* SpawnNewRandomWasp();
 	//Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds )
 	//void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float radius, Rgba8 color, float lifetimeSeconds )
@@ -35,10 +36,17 @@ public:
 private:
 	void UpdateEntities( float deltaSeconds );
 	void RenderEntities() const;
-	void CheckBulletsVsAsteroids();
+
+	//void CheckBulletsVsAsteroids();
 	void CheckBulletVsAsteroid( Bullet& bullet, Asteroid& asteroid );
-	void CheckAsteroidsVsShips();
+	void CheckBulletVsEnemies();
+	void CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle );
+	//void CheckAsteroidsVsShips();
 	void CheckAsteroidVsShip( Asteroid& asteroid, PlayerShip& ship );
+	void CheckEnemiesVsShips();
+	void CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship);
+	//void CheckWaspVsShip()
+
 	bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 	void DebugRenderEntities() const;
 	void DeleteGarbageEntities();
@@ -49,4 +57,5 @@ private:
 	PlayerShip* m_playerShip = nullptr;
 	Asteroid*	m_asteroids[MAX_ASTEROIDS] = {};
 	Bullet*		m_bullets[MAX_BULLETS] = {};
+	Beetle*		m_beetles[MAX_BEETLES];
 };

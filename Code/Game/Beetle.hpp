@@ -14,6 +14,7 @@ public:
 	Beetle( Game* owner, Vec2 const& startingPosition );
 	~Beetle() = default;
 
+	virtual void Update( float deltaSeconds ) override;
 	void Update( float deltaSeconds, PlayerShip const& ship );
 	virtual void Render() const override;
 

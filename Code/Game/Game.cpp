@@ -6,6 +6,9 @@
 #include "Game/App.hpp"
 #include "Game/Bullet.hpp"
 #include "Game/Asteroid.hpp"
+#include "Game/Beetle.hpp"
+
+RandomNumberGenerator rng;
 
 Game::Game(App* owner)
 {
@@ -23,43 +26,28 @@ void Game::Startup()
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 	m_playerShip = new PlayerShip( this, worldCenter );
 
-	for (int i = 0; i < NUM_STARTING_ASTEROIDS; ++i)
+	for( int i = 0; i < NUM_STARTING_ASTEROIDS; i++ )
 	{
 		SpawnRandomAsteroid();
+	}
+	for( int i = 0; i < 1; i++ )
+	{
+		SpawnNewRandomBeetle();
 	}
 }
 
 void Game::Update(float deltaSeconds)
 {
-	/*
-	if( m_isAttractMode )
-	{
-		UpdateAttractMode();
-	}
-
-	// Check if we're still in attract mode
-	if( m_isAttractMode )
-	{
-		return;
-	}
-	*/
 
 	UpdateEntities( deltaSeconds );
-	CheckBulletsVsAsteroids();
-	CheckAsteroidsVsShips();
+	CheckBulletVsEnemies();
+	CheckEnemiesVsShips();
 	DeleteGarbageEntities();
+
 }
 
 void Game::Render() const
 {
-	/*
-	if( m_isAttractMode )
-	{
-		RenderAttractMode();
-		return;
-	}
-	*/
-
 	RenderEntities();
 
 	if ( m_app->m_debugDraw )
@@ -70,6 +58,16 @@ void Game::Render() const
 
 void Game::Shutdown()
 {
+	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	{
+		Bullet*& bullet = m_bullets[ bulletIndex ];
+		if( bullet )
+		{
+			delete bullet;
+			bullet = nullptr;
+		}
+	}
+
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
@@ -80,13 +78,13 @@ void Game::Shutdown()
 		}
 	}
 
-	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
-		Bullet*& bullet = m_bullets[ bulletIndex ];
-		if( bullet )
+		Beetle*& beetle = m_beetles[ beetleIndex ];
+		if( beetle  )
 		{
-			delete bullet;
-			bullet = nullptr;
+			delete beetle;
+			beetle = nullptr;
 		}
 	}
 	
@@ -99,7 +97,6 @@ void Game::Shutdown()
 
 Asteroid* Game::SpawnRandomAsteroid()
 {
-	RandomNumberGenerator rng;
 	float x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 	float y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 
@@ -108,7 +105,7 @@ Asteroid* Game::SpawnRandomAsteroid()
 		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
 		if( !asteroid )
 		{
-			asteroid = new Asteroid( this, Vec2( x, y ));
+			asteroid = new Asteroid( this, Vec2( x, y ) );
 			asteroid->m_angualrVelocity = rng.RollRandomFloatInRange( -300.f, 300.f );
 			asteroid->m_orientationDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
 			float driftAngleDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
@@ -141,6 +138,28 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 	return nullptr;
 }
 
+Beetle* Game::SpawnNewRandomBeetle()
+{
+	float x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+	float y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle*& beetle = m_beetles[ beetleIndex ];
+		if( !beetle )
+		{
+			beetle = new Beetle( this, Vec2( x, y ) );
+			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
+			beetle->m_velocity.x = BEETLE_SPEED;
+			beetle->m_velocity.y = BEETLE_SPEED;
+			return beetle;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new beetle, max limit reached" );
+	return nullptr;
+}
+
 void Game::UpdateEntities(float deltaSeconds)
 {
 	// Update Bullets
@@ -160,6 +179,16 @@ void Game::UpdateEntities(float deltaSeconds)
 		if( asteroid && !asteroid->m_isDead )
 		{
 			asteroid->Update( deltaSeconds );
+		}
+	}
+
+	// Update Beetles
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+		if( beetle->IsAlive() )
+		{
+			beetle->Update( deltaSeconds, *m_playerShip );
 		}
 	}
 
@@ -192,28 +221,20 @@ void Game::RenderEntities() const
 		}
 	}
 
+	// Render Beetles
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+		if( beetle->IsAlive() )
+		{
+			beetle->Render();
+		}
+	}
+
 	// Draw Player Ship
 	if( m_playerShip && !m_playerShip->m_isDead )
 	{
 		m_playerShip->Render();
-	}
-}
-
-void Game::CheckBulletsVsAsteroids()
-{
-	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
-	{
-		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
-		
-		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
-		{
-			Bullet* bullet = m_bullets[ bulletIndex ];
-
-			if( bullet && asteroid )
-			{
-			CheckBulletVsAsteroid( *bullet, *asteroid );
-			}
-		}
 	}
 }
 
@@ -226,16 +247,45 @@ void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 	}
 }
 
-void Game::CheckAsteroidsVsShips()
+void Game::CheckBulletVsEnemies()
 {
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
 
-		if( asteroid && !m_playerShip->m_isDead )
+		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 		{
-		CheckAsteroidVsShip( *asteroid, *m_playerShip );
+			Bullet* bullet = m_bullets[ bulletIndex ];
+
+			if( bullet && asteroid )
+			{
+				CheckBulletVsAsteroid( *bullet, *asteroid );
+			}
 		}
+	}
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+
+		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+		{
+			Bullet* bullet = m_bullets[ bulletIndex ];
+
+			if( bullet && beetle )
+			{
+				CheckBulletVsBeetle( *bullet, *beetle );
+			}
+		}
+	}
+}
+
+void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
+{
+	if( DoEntitiesOverlap( bullet, beetle ) )
+	{
+		bullet.TakeDamage( 1 );
+		beetle.TakeDamage( 1 );
 	}
 }
 
@@ -245,6 +295,38 @@ void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
 	{
 		asteroid.TakeDamage( 1 );
 		ship.TakeDamage( 1 ); 
+	}
+}
+
+void Game::CheckEnemiesVsShips()
+{
+	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
+	{
+		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
+
+		if( asteroid && !m_playerShip->m_isDead )
+		{
+			CheckAsteroidVsShip( *asteroid, *m_playerShip );
+		}
+	}
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+		
+		if( beetle && m_playerShip->IsAlive() )
+		{
+			CheckBeetleVsShip( *beetle, *m_playerShip );
+		}
+	}
+}
+
+void Game::CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship )
+{
+	if( DoEntitiesOverlap( beetle, ship ) )
+	{
+		beetle.TakeDamage( 1 );
+		ship.TakeDamage( 1 );
 	}
 }
 
@@ -280,24 +362,22 @@ void Game::DebugRenderEntities() const
 		}
 	}
 
+	// Render Beetles
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+		if( beetle->IsAlive() )
+		{
+			beetle->DebugRender();
+		}
+	}
+
 	// Debug Draw Player Ship
 	if( m_playerShip )
 	{
 		m_playerShip->DebugRender();
 	}
 }
-
-/*
-bool Game::IsAlive( Entity* entity )
-{
-	if( entity == nullptr )
-	{
-		return false;
-	}
-	
-	return !entity->m_isDead;
-}
-*/
 
 void Game::DeleteGarbageEntities()
 {
@@ -318,6 +398,16 @@ void Game::DeleteGarbageEntities()
 		{
 			delete bullet;
 			bullet = nullptr;
+		}
+	}
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle*& beetle = m_beetles[ beetleIndex ];
+		if( beetle && beetle->m_isGarbage )
+		{
+			delete beetle;
+			beetle = nullptr;
 		}
 	}
 }

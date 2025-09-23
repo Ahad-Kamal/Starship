@@ -14,15 +14,20 @@ Beetle::Beetle( Game* owner, Vec2 const& startingPosition )
 	InitializeLocalVerts();
 }
 
+void Beetle::Update( float deltaSeconds )
+{
+	m_velocity += GetForwardNormal() * deltaSeconds;
+	m_position += ( m_velocity * deltaSeconds );
+}
+
 void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 {
-	m_position += ( m_velocity * deltaSeconds );
+	m_position += ( m_velocity * GetForwardNormal() * deltaSeconds );
 
 	if( ship.IsAlive() )
 	{
 		m_orientationDegrees = Atan2Degrees( ship.m_position.y - m_position.y, ship.m_position.x - m_position.x );
 	}
-	//m_orientationDegrees += ( m_angualrVelocity * deltaSeconds );
 }
 
 void Beetle::Render() const
@@ -56,24 +61,24 @@ void Beetle::InitializeLocalVerts()
 	m_localVerts[ 8 ].m_pos = Vec3( 2.f, 1.f, 0.f );
 
 	// Front Center Body (Quad Tri 3)
-	m_localVerts[ 6 ].m_pos = Vec3( 1.f, 0.f, 0.f );
-	m_localVerts[ 7 ].m_pos = Vec3( 2.f, -1.f, 0.f );
-	m_localVerts[ 8 ].m_pos = Vec3( 0.f, -1.f, 0.f );
-
-	// Right Body
-	m_localVerts[ 9 ].m_pos = Vec3( 0.f, -2.f, 0.f );
+	m_localVerts[ 9 ].m_pos = Vec3( 1.f, 0.f, 0.f );
 	m_localVerts[ 10 ].m_pos = Vec3( 2.f, -1.f, 0.f );
 	m_localVerts[ 11 ].m_pos = Vec3( 0.f, -1.f, 0.f );
 
+	// Right Body
+	m_localVerts[ 12 ].m_pos = Vec3( 0.f, -2.f, 0.f );
+	m_localVerts[ 13 ].m_pos = Vec3( 2.f, -1.f, 0.f );
+	m_localVerts[ 14 ].m_pos = Vec3( 0.f, -1.f, 0.f );
+
 	// Back (Quad Tri 1)
-	m_localVerts[ 11 ].m_pos = Vec3( 0.f, 1.f, 0.f );
-	m_localVerts[ 12 ].m_pos = Vec3( 0.f, -1.f, 0.f );
-	m_localVerts[ 13 ].m_pos = Vec3( -1.f, 0.f, 0.f );
+	m_localVerts[ 15 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	m_localVerts[ 16 ].m_pos = Vec3( 0.f, -1.f, 0.f );
+	m_localVerts[ 17 ].m_pos = Vec3( -1.f, 0.f, 0.f );
 
 	// Back (Quad Tri 2)
-	m_localVerts[ 14 ].m_pos = Vec3( -2.f, 1.f, 0.f );
-	m_localVerts[ 15 ].m_pos = Vec3( -2.f, -1.f, 0.f );
-	m_localVerts[ 16 ].m_pos = Vec3( -1.f, 0.f, 0.f );
+	m_localVerts[ 18 ].m_pos = Vec3( -2.f, 1.f, 0.f );
+	m_localVerts[ 19 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	m_localVerts[ 20 ].m_pos = Vec3( -1.f, 0.f, 0.f );
 
 	for( int vertIndex = 0; vertIndex < NUM_BEETLE_VERTS; vertIndex++ )
 	{
