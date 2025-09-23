@@ -35,6 +35,7 @@ void App::RunFrame()
 	float timeNow = GetCurrentTimeSeconds();
 	float deltaSeconds = timeNow - m_lastFrameTime;
 	m_lastFrameTime = timeNow;
+	deltaSeconds = GetClamped( deltaSeconds, 0.f, 0.1f );
 
 	// One "frame" of the game.  Generally: Input, Update, Render.  We call this 60+ times per second.
 	g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
