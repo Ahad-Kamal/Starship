@@ -55,30 +55,25 @@ void Beetle::InitializeLocalVerts()
 	m_localVerts[ 4 ].m_pos = Vec3( 0.f, 1.f, 0.f );
 	m_localVerts[ 5 ].m_pos = Vec3( 2.f, 1.f, 0.f );
 
-	// Head
-	m_localVerts[ 6 ].m_pos = Vec3( 1.f, 0.f, 0.f );
-	m_localVerts[ 7 ].m_pos = Vec3( 2.f, -0.5f, 0.f );
-	m_localVerts[ 8 ].m_pos = Vec3( 2.f, 0.5f, 0.f );
-
 	// Body (Quad Tri 2)
-	m_localVerts[ 9 ].m_pos = Vec3( 1.f, 0.f, 0.f );
+	m_localVerts[ 6 ].m_pos = Vec3( 1.f, 0.f, 0.f );
+	m_localVerts[ 7 ].m_pos = Vec3( 2.f, -1.f, 0.f );
+	m_localVerts[ 8 ].m_pos = Vec3( 0.f, -1.f, 0.f );
+
+	// Right Body
+	m_localVerts[ 9 ].m_pos = Vec3( 0.f, -2.f, 0.f );
 	m_localVerts[ 10 ].m_pos = Vec3( 2.f, -1.f, 0.f );
 	m_localVerts[ 11 ].m_pos = Vec3( 0.f, -1.f, 0.f );
 
-	// Right Body
-	m_localVerts[ 12 ].m_pos = Vec3( 0.f, -2.f, 0.f );
-	m_localVerts[ 13 ].m_pos = Vec3( 2.f, -1.f, 0.f );
-	m_localVerts[ 14 ].m_pos = Vec3( 0.f, -1.f, 0.f );
-
 	// Back (Quad Tri 1)
-	m_localVerts[ 15 ].m_pos = Vec3( 0.f, 1.f, 0.f );
-	m_localVerts[ 16 ].m_pos = Vec3( 0.f, -1.f, 0.f );
-	m_localVerts[ 17 ].m_pos = Vec3( -1.f, 0.f, 0.f );
+	m_localVerts[ 12 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	m_localVerts[ 13 ].m_pos = Vec3( 0.f, -1.f, 0.f );
+	m_localVerts[ 14 ].m_pos = Vec3( -1.f, 0.f, 0.f );
 
 	// Back (Quad Tri 2)
-	m_localVerts[ 18 ].m_pos = Vec3( -2.f, 1.f, 0.f );
-	m_localVerts[ 19 ].m_pos = Vec3( -2.f, -1.f, 0.f );
-	m_localVerts[ 20 ].m_pos = Vec3( -1.f, 0.f, 0.f );
+	m_localVerts[ 15 ].m_pos = Vec3( -2.f, 1.f, 0.f );
+	m_localVerts[ 16 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	m_localVerts[ 17 ].m_pos = Vec3( -1.f, 0.f, 0.f );
 
 	for( int vertIndex = 0; vertIndex < NUM_BEETLE_VERTS; vertIndex++ )
 	{
