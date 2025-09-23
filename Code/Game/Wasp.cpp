@@ -23,6 +23,7 @@ void Wasp::Update( float deltaSeconds )
 void Wasp::Update( float deltaSeconds, PlayerShip const& ship )
 {
 	m_velocity += GetForwardNormal() * WASP_ACCELERATION * deltaSeconds;
+	m_position += ( m_velocity * deltaSeconds );
 
 	if( ship.IsAlive() )
 	{

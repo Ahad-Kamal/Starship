@@ -7,6 +7,7 @@
 #include "Game/Bullet.hpp"
 #include "Game/Asteroid.hpp"
 #include "Game/Beetle.hpp"
+#include "Game/Wasp.hpp"
 
 RandomNumberGenerator rng;
 
@@ -33,6 +34,7 @@ void Game::Startup()
 	for( int i = 0; i < 1; i++ )
 	{
 		SpawnNewRandomBeetle();
+		SpawnNewRandomWasp();
 	}
 }
 
@@ -85,6 +87,16 @@ void Game::Shutdown()
 		{
 			delete beetle;
 			beetle = nullptr;
+		}
+	}
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( wasp )
+		{
+			delete wasp;
+			wasp = nullptr;
 		}
 	}
 	
@@ -160,13 +172,35 @@ Beetle* Game::SpawnNewRandomBeetle()
 	return nullptr;
 }
 
+Wasp* Game::SpawnNewRandomWasp()
+{
+	float x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+	float y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( !wasp )
+		{
+			wasp = new Wasp( this, Vec2( x, y ) );
+			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
+			wasp->m_velocity.x = WASP_ACCELERATION;
+			wasp->m_velocity.y = WASP_ACCELERATION;
+			return wasp;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new wasp, max limit reached" );
+	return nullptr;
+}
+
 void Game::UpdateEntities(float deltaSeconds)
 {
 	// Update Bullets
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
 		Bullet* bullet = m_bullets[bulletIndex];
-		if( bullet && !bullet->m_isDead )
+		if( bullet->IsAlive() )
 		{
 			bullet->Update( deltaSeconds );
 		}
@@ -176,7 +210,7 @@ void Game::UpdateEntities(float deltaSeconds)
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[asteroidIndex];
-		if( asteroid && !asteroid->m_isDead )
+		if( asteroid->IsAlive() )
 		{
 			asteroid->Update( deltaSeconds );
 		}
@@ -189,6 +223,16 @@ void Game::UpdateEntities(float deltaSeconds)
 		if( beetle->IsAlive() )
 		{
 			beetle->Update( deltaSeconds, *m_playerShip );
+		}
+	}
+
+	// Update Wasps
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( wasp->IsAlive() )
+		{
+			wasp->Update( deltaSeconds, *m_playerShip );
 		}
 	}
 
@@ -231,19 +275,20 @@ void Game::RenderEntities() const
 		}
 	}
 
+	// Render Wasps
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp* wasp = m_wasps[ waspIndex ];
+		if( wasp->IsAlive() )
+		{
+			wasp->Render();
+		}
+	}
+
 	// Draw Player Ship
 	if( m_playerShip && !m_playerShip->m_isDead )
 	{
 		m_playerShip->Render();
-	}
-}
-
-void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
-{
-	if( DoEntitiesOverlap( bullet, asteroid ) )
-	{
-		bullet.TakeDamage( 1 );
-		asteroid.TakeDamage( 1 );
 	}
 }
 
@@ -278,6 +323,30 @@ void Game::CheckBulletVsEnemies()
 			}
 		}
 	}
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp* wasp = m_wasps[ waspIndex ];
+
+		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+		{
+			Bullet* bullet = m_bullets[ bulletIndex ];
+
+			if( bullet && wasp )
+			{
+				CheckBulletVsWasp( *bullet, *wasp );
+			}
+		}
+	}
+}
+
+void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
+{
+	if( DoEntitiesOverlap( bullet, asteroid ) )
+	{
+		bullet.TakeDamage( 1 );
+		asteroid.TakeDamage( 1 );
+	}
 }
 
 void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
@@ -286,6 +355,15 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 	{
 		bullet.TakeDamage( 1 );
 		beetle.TakeDamage( 1 );
+	}
+}
+
+void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
+{
+	if( DoEntitiesOverlap( bullet, wasp ) )
+	{
+		bullet.TakeDamage( 1 );
+		wasp.TakeDamage( 1 );
 	}
 }
 
@@ -304,7 +382,7 @@ void Game::CheckEnemiesVsShips()
 	{
 		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
 
-		if( asteroid && !m_playerShip->m_isDead )
+		if( asteroid && !m_playerShip->IsAlive() )
 		{
 			CheckAsteroidVsShip( *asteroid, *m_playerShip );
 		}
@@ -319,6 +397,15 @@ void Game::CheckEnemiesVsShips()
 			CheckBeetleVsShip( *beetle, *m_playerShip );
 		}
 	}
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp* wasp = m_wasps[ waspIndex ];
+		if( wasp && m_playerShip->IsAlive() )
+		{
+			CheckWaspVsShip( *wasp, *m_playerShip );
+		}
+	}
 }
 
 void Game::CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship )
@@ -326,6 +413,15 @@ void Game::CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship )
 	if( DoEntitiesOverlap( beetle, ship ) )
 	{
 		beetle.TakeDamage( 1 );
+		ship.TakeDamage( 1 );
+	}
+}
+
+void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
+{
+	if( DoEntitiesOverlap( wasp, ship ) )
+	{
+		wasp.TakeDamage( 1 );
 		ship.TakeDamage( 1 );
 	}
 }
@@ -362,13 +458,23 @@ void Game::DebugRenderEntities() const
 		}
 	}
 
-	// Render Beetles
+	// Debug Draw Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle = m_beetles[ beetleIndex ];
 		if( beetle->IsAlive() )
 		{
 			beetle->DebugRender();
+		}
+	}
+
+	// Debug Draw Wasps
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp* wasp = m_wasps[ waspIndex ];
+		if( wasp->IsAlive() )
+		{
+			wasp->DebugRender();
 		}
 	}
 
@@ -408,6 +514,16 @@ void Game::DeleteGarbageEntities()
 		{
 			delete beetle;
 			beetle = nullptr;
+		}
+	}
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( wasp && wasp->m_isGarbage )
+		{
+			delete wasp;
+			wasp = nullptr;
 		}
 	}
 }
