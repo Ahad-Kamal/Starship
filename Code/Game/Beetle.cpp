@@ -55,12 +55,12 @@ void Beetle::InitializeLocalVerts()
 	m_localVerts[ 4 ].m_pos = Vec3( 0.f, 1.f, 0.f );
 	m_localVerts[ 5 ].m_pos = Vec3( 2.f, 1.f, 0.f );
 
-	// Front Center Body (Quad Tri 2)
+	// Head
 	m_localVerts[ 6 ].m_pos = Vec3( 1.f, 0.f, 0.f );
-	m_localVerts[ 7 ].m_pos = Vec3( 2.f, -1.f, 0.f );
-	m_localVerts[ 8 ].m_pos = Vec3( 2.f, 1.f, 0.f );
+	m_localVerts[ 7 ].m_pos = Vec3( 2.f, -0.5f, 0.f );
+	m_localVerts[ 8 ].m_pos = Vec3( 2.f, 0.5f, 0.f );
 
-	// Front Center Body (Quad Tri 3)
+	// Front Center Body (Quad Tri 2)
 	m_localVerts[ 9 ].m_pos = Vec3( 1.f, 0.f, 0.f );
 	m_localVerts[ 10 ].m_pos = Vec3( 2.f, -1.f, 0.f );
 	m_localVerts[ 11 ].m_pos = Vec3( 0.f, -1.f, 0.f );
