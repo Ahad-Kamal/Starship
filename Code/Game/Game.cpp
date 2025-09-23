@@ -367,22 +367,13 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 	}
 }
 
-void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
-{
-	if( DoEntitiesOverlap( asteroid, ship ) )
-	{
-		asteroid.TakeDamage( 1 );
-		ship.TakeDamage( 1 ); 
-	}
-}
-
 void Game::CheckEnemiesVsShips()
 {
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
 
-		if( asteroid && !m_playerShip->IsAlive() )
+		if( asteroid && m_playerShip->IsAlive() )
 		{
 			CheckAsteroidVsShip( *asteroid, *m_playerShip );
 		}
@@ -405,6 +396,15 @@ void Game::CheckEnemiesVsShips()
 		{
 			CheckWaspVsShip( *wasp, *m_playerShip );
 		}
+	}
+}
+
+void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
+{
+	if( DoEntitiesOverlap( asteroid, ship ) )
+	{
+		asteroid.TakeDamage( 1 );
+		ship.TakeDamage( 1 ); 
 	}
 }
 
