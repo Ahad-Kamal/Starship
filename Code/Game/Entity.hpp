@@ -16,7 +16,7 @@ public:
 	virtual void TakeDamage( int damage );
 	virtual void Die();
 
-	bool	IsAlive();
+	bool	IsAlive() const;
 	bool	IsOffScreen() const;
 	Vec2	GetForwardNormal() const;
 

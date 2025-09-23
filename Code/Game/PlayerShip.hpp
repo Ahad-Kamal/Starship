@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Math/Vec2.hpp"
-#include "Game/Entity.hpp"
 #include "Engine/Core/Vertex.hpp"
+#include "Game/Entity.hpp"
 
 class Game;
 constexpr int NUM_SHIP_TRIS = 5;

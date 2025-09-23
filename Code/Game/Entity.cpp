@@ -49,7 +49,7 @@ void Entity::Die()
 	m_isGarbage = true;
 }
 
-bool Entity::IsAlive()
+bool Entity::IsAlive() const
 {
 	if( this == nullptr )
 	{
