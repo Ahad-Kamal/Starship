@@ -459,7 +459,6 @@ void Game::CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship )
 {
 	if( DoEntitiesOverlap( beetle, ship ) )
 	{
-		beetle.TakeDamage( 1 );
 		ship.TakeDamage( 1 );
 	}
 }
@@ -468,7 +467,6 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 {
 	if( DoEntitiesOverlap( wasp, ship ) )
 	{
-		wasp.TakeDamage( 1 );
 		ship.TakeDamage( 1 );
 	}
 }
@@ -604,7 +602,7 @@ void Game::DeleteGarbageEntities()
 			debris = new Debris( this, pos, vel, radius, color, lifetimeSeconds);
 			return;
 		}
-	}	
+	}
 }
 
 void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float radius, Rgba8 color, float lifetimeSeconds )
