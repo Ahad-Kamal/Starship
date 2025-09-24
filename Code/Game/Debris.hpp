@@ -24,7 +24,7 @@ public:
 private:
 	void InitializeLocalVerts();
 
-private:
+public:
 	Vertex m_localVerts[ NUM_DEBRIS_VERTS ];
 	float m_lifeTimeSeconds = 2.f;
 };

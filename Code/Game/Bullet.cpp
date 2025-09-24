@@ -50,7 +50,7 @@ void Bullet::Die()
 	m_isDead = true;
 	m_isGarbage = true;
 
-	//m_game->SpawnNewDebrisCluster( 2, m_position, m_velocity * 0.5f, m_orientationDegrees, m_color );
+	m_game->SpawnNewDebrisCluster( 2, m_position, m_velocity * 0.5f, -3.f * GetForwardNormal(), Rgba8( 250.f, 250.f, 250.f ), 0.25f );
 }
 
 void Bullet::InitializeLocalVerts()

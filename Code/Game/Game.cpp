@@ -206,7 +206,7 @@ Wasp* Game::SpawnNewRandomWasp()
 	return nullptr;
 }
 
-Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
+Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale )
 {
 	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
 	{
@@ -216,12 +216,13 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
 			debris = new Debris( this, pos, vel, color );
 			debris->m_angualrVelocity = rng.RollRandomFloatInRange( -300.f, 300.f );
 			debris->m_orientationDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
+			TransformVertexArrayXY3D( NUM_DEBRIS_VERTS, debris->m_localVerts, scale, 0.f, Vec2( 0.f, 0.f ) );
 			return debris;
 		}
 	}
 }
 
-void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color )
+void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale )
 {
 	for( int i = 0; i < count; i++ )
 	{
@@ -229,7 +230,7 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 		float speed = rng.RollRandomFloatInRange( 10.f, 30.f );
 		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed ) * forwardVector;
 		Vec2 worldVelocity = clusterVelocity + localVelocity;
-		SpawnNewDebris( pos, worldVelocity, color );
+		SpawnNewDebris( pos, worldVelocity, color, scale );
 	}
 }
 
@@ -603,16 +604,3 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 }
-
-/*Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds )
-{
-	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
-	{
-		Debris*& debris = m_debris[debrisIndex];
-		if( debris == nullptr )
-		{
-			debris = new Debris( this, pos, vel, radius, color, lifetimeSeconds);
-			return;
-		}
-	}
-}*/

@@ -49,10 +49,7 @@ void Entity::Die()
 	m_isDead = true;
 	m_isGarbage = true;
 
-	Vec2 forwardNormal = GetForwardNormal();
-	Vec2 forwardVector = m_position + ( forwardNormal * m_physicsRadius );
-
-	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color );
+	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
 }
 
 bool Entity::IsAlive() const

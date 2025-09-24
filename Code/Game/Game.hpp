@@ -31,8 +31,8 @@ public:
 	Bullet* SpawnBullet(Vec2 const& pos, float forwardDegrees);
 	Beetle* SpawnNewRandomBeetle();
 	Wasp* SpawnNewRandomWasp();
-	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color );
-	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color );
+	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale );
+	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale );
 	//GetRandomOffScreenPosition();
 
 private:
