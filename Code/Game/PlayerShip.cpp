@@ -14,7 +14,7 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 {
 	m_physicsRadius = PLAYER_SHIP_PHYSICS_RADIUS;
 	m_cosmeticRadius = PLAYER_SHIP_COSMETIC_RADIUS;
-	m_color = Rgba8( 102, 153, 204 );
+	m_color = Rgba8( 102, 153, 204);
 	InitializeLocalVerts();
 }
 

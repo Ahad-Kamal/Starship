@@ -214,6 +214,8 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
 		if( !debris )
 		{
 			debris = new Debris( this, pos, vel, color );
+			debris->m_angualrVelocity = rng.RollRandomFloatInRange( -300.f, 300.f );
+			debris->m_orientationDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
 			return debris;
 		}
 	}

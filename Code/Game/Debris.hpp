@@ -6,7 +6,7 @@ class Game;
 class Vec2;
 class Rgba8;
 
-constexpr int NUM_DEBRIS_SIDES = 8;
+constexpr int NUM_DEBRIS_SIDES = 10;
 constexpr int NUM_DEBRIS_TRIS = NUM_DEBRIS_SIDES;
 constexpr int NUM_DEBRIS_VERTS = 3 * NUM_DEBRIS_TRIS;
 
