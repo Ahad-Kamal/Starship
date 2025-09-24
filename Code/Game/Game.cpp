@@ -1,5 +1,6 @@
-#include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
+#include "Engine/Math/Vec2.hpp"
+#include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
@@ -207,8 +208,7 @@ Wasp* Game::SpawnNewRandomWasp()
 
 Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
 {
-	
-	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex )
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
 	{
 		Debris*& debris = m_debris[ debrisIndex ];
 		if( !debris )
@@ -218,6 +218,18 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
 			debris->m_orientationDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
 			return debris;
 		}
+	}
+}
+
+void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float orientation, Rgba8 color )
+{
+	for( int i = 0; i < count; i++ )
+	{
+		float heading = rng.RollRandomFloatInRange( -45.f, 45.f ) + orientation;
+		float speed = rng.RollRandomFloatInRange( 10.f, 20.f );
+		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed );
+		Vec2 worldVelocity = clusterVelocity + localVelocity;
+		SpawnNewDebris( pos, worldVelocity, color );
 	}
 }
 
@@ -603,17 +615,4 @@ void Game::DeleteGarbageEntities()
 			return;
 		}
 	}
-}
-
-void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float radius, Rgba8 color, float lifetimeSeconds )
-{
-	for( int i = 0; i < count; i++ )
-	{
-		float heading = rng.RollRandomFloatInRange( 0.f, 360.f );
-		float speed = rng.RollRandomFloatInRange( 10.f, 100.f );
-		Vec2 localVelocity = MakeFromPolarDegrees( orientation, speed );
-		Vec2 worldVelocity = clusterVelocity + localVelocity;
-		SpawnNewDebris( pos, worldVelocity, radius, color, lifetimeSeconds );
-	}
-}
-*/
+}*/
