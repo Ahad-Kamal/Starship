@@ -3,6 +3,7 @@
 
 class Game;
 struct Vec2;
+struct Rgba8;
 
 class Entity
 {
@@ -24,6 +25,7 @@ public:
 	Game*	m_game = nullptr;
 	Vec2	m_position;
 	Vec2	m_velocity;
+	Rgba8	m_color;
 	float	m_orientationDegrees = 0.f; // counter-clockwise starting from +x
 	float	m_angualrVelocity = 0.f; // spin rate, in degrees per second
 	float	m_physicsRadius = 5.f;

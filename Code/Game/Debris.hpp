@@ -6,18 +6,22 @@ class Game;
 class Vec2;
 class Rgba8;
 
-constexpr int NUM_DEBRIS_SIDES = 16;
+constexpr int NUM_DEBRIS_SIDES = 8;
 constexpr int NUM_DEBRIS_TRIS = NUM_DEBRIS_SIDES;
 constexpr int NUM_DEBRIS_VERTS = 3 * NUM_DEBRIS_TRIS;
 
 class Debris : public Entity
 {
 public:
-	Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds );
+	//Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds );
+	Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, Rgba8 color );
 	~Debris() = default;
 
 	virtual void Update( float deltaSeconds ) override;
 	virtual void Render() const override; 
+
+private:
+	void InitializeLocalVerts();
 
 private:
 	Vertex m_localVerts[ NUM_DEBRIS_VERTS ];
