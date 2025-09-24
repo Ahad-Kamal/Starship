@@ -2,8 +2,9 @@
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
-#include "Game/Bullet.hpp"
+#include "Game/Game.hpp"
 #include "Game/Entity.hpp"
+#include "Game/Bullet.hpp"
 #include "Game/GameCommon.hpp"
 
 
@@ -42,6 +43,14 @@ void Bullet::Render() const
 
 	TransformVertexArrayXY3D( NUM_BULLET_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_BULLET_VERTS, tempWorldVerts );
+}
+
+void Bullet::Die()
+{
+	m_isDead = true;
+	m_isGarbage = true;
+
+	//m_game->SpawnNewDebrisCluster( 2, m_position, m_velocity * 0.5f, m_orientationDegrees, m_color );
 }
 
 void Bullet::InitializeLocalVerts()

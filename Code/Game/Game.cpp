@@ -221,13 +221,13 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
 	}
 }
 
-void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float orientation, Rgba8 color )
+void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color )
 {
 	for( int i = 0; i < count; i++ )
 	{
-		float heading = rng.RollRandomFloatInRange( -45.f, 45.f ) + orientation;
-		float speed = rng.RollRandomFloatInRange( 10.f, 20.f );
-		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed );
+		float heading = rng.RollRandomFloatInRange( -60.f, 60.f );
+		float speed = rng.RollRandomFloatInRange( 10.f, 30.f );
+		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed ) * forwardVector;
 		Vec2 worldVelocity = clusterVelocity + localVelocity;
 		SpawnNewDebris( pos, worldVelocity, color );
 	}

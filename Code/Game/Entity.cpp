@@ -1,6 +1,7 @@
-#include "Engine/Math/Vec2.hpp"
 #include "Engine/Core/Rgba8.hpp"
+#include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "Game/Game.hpp"
 #include "Game/Entity.hpp"
 #include "Game/GameCommon.hpp"
 
@@ -47,6 +48,11 @@ void Entity::Die()
 {
 	m_isDead = true;
 	m_isGarbage = true;
+
+	Vec2 forwardNormal = GetForwardNormal();
+	Vec2 forwardVector = m_position + ( forwardNormal * m_physicsRadius );
+
+	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color );
 }
 
 bool Entity::IsAlive() const

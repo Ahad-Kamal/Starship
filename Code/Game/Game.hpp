@@ -32,7 +32,7 @@ public:
 	Beetle* SpawnNewRandomBeetle();
 	Wasp* SpawnNewRandomWasp();
 	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color );
-	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float orientation, Rgba8 color );
+	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color );
 	//GetRandomOffScreenPosition();
 
 private:

@@ -51,8 +51,10 @@ void PlayerShip::Die()
 {
 	m_isDead = true;
 
-	//m_game->SpawnNewDebris( m_position, m_velocity * 0.5f , m_color );
-	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, m_orientationDegrees, m_color );
+	Vec2 forwardNormal = GetForwardNormal();
+	Vec2 forwardVector = m_position + ( forwardNormal * m_physicsRadius );
+
+	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, forwardVector, m_color );
 }
 
 void PlayerShip::InitializeLocalVerts()

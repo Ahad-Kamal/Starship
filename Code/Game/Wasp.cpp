@@ -11,6 +11,7 @@ Wasp::Wasp( Game* owner, Vec2 const& startingPosition )
 	m_health = 2;
 	m_physicsRadius = WASP_PHYSICS_RADIUS;
 	m_cosmeticRadius = WASP_COSMETIC_RADIUS;
+	m_color = Rgba8( 255, 255, 0 );
 	InitializeLocalVerts();
 }
 
@@ -90,7 +91,7 @@ void Wasp::InitializeLocalVerts()
 
 	for( int vertIndex = 0; vertIndex < NUM_WASP_VERTS; vertIndex++ )
 	{
-		m_localVerts[ vertIndex ].m_color = Rgba8( 255, 255, 0 );
+		m_localVerts[ vertIndex ].m_color = m_color;
 	}
 }
 

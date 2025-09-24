@@ -11,6 +11,7 @@ Beetle::Beetle( Game* owner, Vec2 const& startingPosition )
 	m_health = 3;
 	m_physicsRadius = BEETLE_PHYSICS_RADIUS;
 	m_cosmeticRadius = BEETLE_COSMETIC_RADIUS;
+	m_color = Rgba8( 0, 255, 0 );
 	InitializeLocalVerts();
 }
 
@@ -77,7 +78,7 @@ void Beetle::InitializeLocalVerts()
 
 	for( int vertIndex = 0; vertIndex < NUM_BEETLE_VERTS; vertIndex++ )
 	{
-		m_localVerts[ vertIndex ].m_color = Rgba8( 0, 255, 0 );
+		m_localVerts[ vertIndex ].m_color = m_color;
 	}
 }
 

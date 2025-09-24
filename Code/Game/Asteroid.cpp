@@ -11,6 +11,7 @@ Asteroid::Asteroid( Game* owner, Vec2 const& startPos )
 	m_health = 3;
 	m_physicsRadius = ASTEROID_PHYSICS_RADIUS;
 	m_cosmeticRadius = ASTEROID_COSMETIC_RADIUS;
+	m_color = Rgba8( 100, 100, 100 );
 	InitializeLocalVerts();
 }
 
@@ -101,7 +102,7 @@ void Asteroid::InitializeLocalVerts()
 	// Set Colors
 	for( int vertIndex = 0; vertIndex < NUM_ASTEROID_VERTS; vertIndex++ )
 	{
-		m_localVerts[ vertIndex ].m_color = Rgba8( 100, 100, 100 );
+		m_localVerts[ vertIndex ].m_color = m_color;
 	}
 }
 

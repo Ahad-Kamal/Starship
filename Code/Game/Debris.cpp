@@ -44,6 +44,12 @@ void Debris::Render() const
 	g_engine->m_render->DrawVertexArray( NUM_DEBRIS_VERTS, tempWorldVerts ); 
 }
 
+void Debris::Die() 
+{
+	m_isDead = true;
+	m_isGarbage = true;
+}
+
 void Debris::InitializeLocalVerts()
 {
 	// Precompute random radii along each triangle seam
