@@ -14,6 +14,7 @@ Debris::Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, Rgba8 col
 	m_physicsRadius = DEBRIS_PHYSICS_RADIUS;
 	m_cosmeticRadius = DEBRIS_COSMETIC_RADIUS;
 	m_color = color;
+	InitializeLocalVerts();
 }
 
 void Debris::Update( float deltaSeconds )

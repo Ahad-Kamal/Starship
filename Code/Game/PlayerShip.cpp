@@ -14,6 +14,7 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 {
 	m_physicsRadius = PLAYER_SHIP_PHYSICS_RADIUS;
 	m_cosmeticRadius = PLAYER_SHIP_COSMETIC_RADIUS;
+	m_color = Rgba8( 102, 153, 204 );
 	InitializeLocalVerts();
 }
 
@@ -50,6 +51,7 @@ void PlayerShip::Die()
 {
 	m_isDead = true;
 
+	m_game->SpawnNewDebris( m_position, m_velocity * 0.5f , m_color );
 	//m_game->SpawnNewDebrisCluster( 15, m_position, m_velocity * 0.5f, 0.3f, m_color, 2.f );
 }
 
@@ -82,7 +84,7 @@ void PlayerShip::InitializeLocalVerts()
 
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
-		m_localVerts[vertIndex].m_color = Rgba8( 102, 153, 204 );
+		m_localVerts[vertIndex].m_color = m_color;
 	}
 }
 

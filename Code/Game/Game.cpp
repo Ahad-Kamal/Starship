@@ -8,6 +8,7 @@
 #include "Game/Asteroid.hpp"
 #include "Game/Beetle.hpp"
 #include "Game/Wasp.hpp"
+#include "Game/Debris.hpp"
 
 RandomNumberGenerator rng;
 
@@ -105,6 +106,16 @@ void Game::Shutdown()
 		delete m_playerShip;
 		m_playerShip = nullptr;
 	}
+
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
+	{
+		Debris*& debris = m_debris[ debrisIndex ];
+		if( debris )
+		{
+			delete debris;
+			debris = nullptr;
+		}
+	}
 }
 
 Asteroid* Game::SpawnRandomAsteroid()
@@ -194,6 +205,20 @@ Wasp* Game::SpawnNewRandomWasp()
 	return nullptr;
 }
 
+Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color )
+{
+	
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex )
+	{
+		Debris*& debris = m_debris[ debrisIndex ];
+		if( !debris )
+		{
+			debris = new Debris( this, pos, vel, color );
+			return debris;
+		}
+	}
+}
+
 void Game::UpdateEntities(float deltaSeconds)
 {
 	// Update Bullets
@@ -240,6 +265,16 @@ void Game::UpdateEntities(float deltaSeconds)
 	if( m_playerShip )
 	{
 		m_playerShip->Update( deltaSeconds );
+	}
+
+	// Update Debris
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
+	{
+		Debris*& debris = m_debris[ debrisIndex ];
+		if( debris->IsAlive() )
+		{
+			debris->Update( deltaSeconds );
+		}
 	}
 }
 
@@ -289,6 +324,16 @@ void Game::RenderEntities() const
 	if( m_playerShip && !m_playerShip->m_isDead )
 	{
 		m_playerShip->Render();
+	}
+
+	// Draw Debris
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
+	{
+		Debris* debris = m_debris[ debrisIndex ];
+		if( debris->IsAlive() )
+		{
+			debris->Render();
+		}
 	}
 }
 
@@ -483,6 +528,15 @@ void Game::DebugRenderEntities() const
 	{
 		m_playerShip->DebugRender();
 	}
+
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
+	{
+		Debris* debris = m_debris[ debrisIndex ];
+		if( debris->IsAlive() )
+		{
+			debris->DebugRender();
+		}
+	}
 }
 
 void Game::DeleteGarbageEntities()
@@ -524,6 +578,16 @@ void Game::DeleteGarbageEntities()
 		{
 			delete wasp;
 			wasp = nullptr;
+		}
+	}
+
+	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
+	{
+		Debris*& debris = m_debris[ debrisIndex ];
+		if( debris && debris->m_isGarbage )
+		{
+			delete debris;
+			debris = nullptr;
 		}
 	}
 }

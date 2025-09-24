@@ -11,6 +11,7 @@ class Bullet;
 class Entity;
 class Beetle;
 class Wasp;
+class Debris;
 
 //-----------------------------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ public:
 	Bullet* SpawnBullet(Vec2 const& pos, float forwardDegrees);
 	Beetle* SpawnNewRandomBeetle();
 	Wasp* SpawnNewRandomWasp();
-	//Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds )
+	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color );
 	//void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, float radius, Rgba8 color, float lifetimeSeconds )
 	//GetRandomOffScreenPosition();
 
@@ -55,8 +56,9 @@ private:
 	App*		m_app = nullptr;
 	Camera*		m_gameCamera = nullptr;
 	PlayerShip* m_playerShip = nullptr;
-	Asteroid*	m_asteroids[MAX_ASTEROIDS] = {};
-	Bullet*		m_bullets[MAX_BULLETS] = {};
-	Beetle*		m_beetles[MAX_BEETLES];
-	Wasp*		m_wasps[MAX_WASPS];
+	Asteroid*	m_asteroids[ MAX_ASTEROIDS ] = {};
+	Bullet*		m_bullets[ MAX_BULLETS ] = {};
+	Beetle*		m_beetles[ MAX_BEETLES ];
+	Wasp*		m_wasps[ MAX_WASPS ];
+	Debris*		m_debris[ MAX_DEBRIS ];
 };
