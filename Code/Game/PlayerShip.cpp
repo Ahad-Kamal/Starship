@@ -54,7 +54,7 @@ void PlayerShip::Die()
 	m_isDead = true;
 
 	int count = g_rng->RollRandomIntInRange( 5, 30 );
-	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
+	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), m_color, 1.f);
 }
 
 void PlayerShip::InitializeLocalVerts()
