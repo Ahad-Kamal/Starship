@@ -11,7 +11,7 @@
 #include "Game/Wasp.hpp"
 #include "Game/Debris.hpp"
 
-RandomNumberGenerator rng;
+RandomNumberGenerator* g_rng = nullptr;
 
 Game::Game(App* owner)
 {
@@ -121,27 +121,27 @@ void Game::Shutdown()
 
 Asteroid* Game::SpawnRandomAsteroid()
 {
-	int side = rng.RollRandomIntInRange( 1, 4 );
+	int side = g_rng->RollRandomIntInRange( 1, 4 );
 
 	float x;
 	float y;
 	switch( side )
 	{
 		case 1:
-			x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+			x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 			y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
 			break;
 		case 2:
 			x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
-			y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+			y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 			break;
 		case 3:
-			x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+			x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 			y = 0.f - ASTEROID_COSMETIC_RADIUS;
 			break;
 		case 4:
 			x = 0.f - ASTEROID_COSMETIC_RADIUS;
-			y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+			y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 			break;
 	}
 
@@ -151,9 +151,9 @@ Asteroid* Game::SpawnRandomAsteroid()
 		if( !asteroid )
 		{
 			asteroid = new Asteroid( this, Vec2( x, y ) );
-			asteroid->m_angualrVelocity = rng.RollRandomFloatInRange( -300.f, 300.f );
-			asteroid->m_orientationDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
-			float driftAngleDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
+			asteroid->m_angualrVelocity = g_rng->RollRandomFloatInRange( -300.f, 300.f );
+			asteroid->m_orientationDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
+			float driftAngleDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 			asteroid->m_velocity.x = ASTEROID_SPEED * CosDegrees( driftAngleDegrees );
 			asteroid->m_velocity.y = ASTEROID_SPEED * SinDegrees( driftAngleDegrees );
 			return asteroid;
@@ -185,27 +185,27 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 
 Beetle* Game::SpawnNewRandomBeetle()
 {
-	int side = rng.RollRandomIntInRange( 1, 4 );
+	int side = g_rng->RollRandomIntInRange( 1, 4 );
 
 	float x;
 	float y;
 	switch( side )
 	{
 	case 1:
-		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 		y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
 		break;
 	case 2:
 		x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
-		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 		break;
 	case 3:
-		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 		y = 0.f - ASTEROID_COSMETIC_RADIUS;
 		break;
 	case 4:
 		x = 0.f - ASTEROID_COSMETIC_RADIUS;
-		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 		break;
 	}
 
@@ -228,27 +228,27 @@ Beetle* Game::SpawnNewRandomBeetle()
 
 Wasp* Game::SpawnNewRandomWasp()
 {
-	int side = rng.RollRandomIntInRange( 1, 4 );
+	int side = g_rng->RollRandomIntInRange( 1, 4 );
 
 	float x;
 	float y;
 	switch( side )
 	{
 	case 1:
-		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 		y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
 		break;
 	case 2:
 		x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
-		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 		break;
 	case 3:
-		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 		y = 0.f - ASTEROID_COSMETIC_RADIUS;
 		break;
 	case 4:
 		x = 0.f - ASTEROID_COSMETIC_RADIUS;
-		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 		break;
 	}
 
@@ -277,8 +277,8 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, flo
 		if( !debris )
 		{
 			debris = new Debris( this, pos, vel, color );
-			debris->m_angualrVelocity = rng.RollRandomFloatInRange( -300.f, 300.f );
-			debris->m_orientationDegrees = rng.RollRandomFloatInRange( 0.f, 360.f );
+			debris->m_angualrVelocity = g_rng->RollRandomFloatInRange( -300.f, 300.f );
+			debris->m_orientationDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 			TransformVertexArrayXY3D( NUM_DEBRIS_VERTS, debris->m_localVerts, scale, 0.f, Vec2( 0.f, 0.f ) );
 			return debris;
 		}
@@ -289,8 +289,8 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 {
 	for( int i = 0; i < count; i++ )
 	{
-		float heading = rng.RollRandomFloatInRange( -60.f, 60.f );
-		float speed = rng.RollRandomFloatInRange( 10.f, 30.f );
+		float heading = g_rng->RollRandomFloatInRange( -60.f, 60.f );
+		float speed = g_rng->RollRandomFloatInRange( 10.f, 30.f );
 		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed ) * forwardVector;
 		Vec2 worldVelocity = clusterVelocity + localVelocity;
 		SpawnNewDebris( pos, worldVelocity, color, scale );

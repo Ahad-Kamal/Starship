@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/GameCommon.hpp"
 #include "Engine/Math/Vec2.hpp"
+#include "Engine/Math/RandomNumberGenerator.hpp"
 
 //-----------------------------------------------------------------------------------------------
 class App;
@@ -15,6 +16,7 @@ class Debris;
 
 //-----------------------------------------------------------------------------------------------
 
+extern RandomNumberGenerator* g_rng;
 // bool IsAlive( Entity* entity ) const
 
 class Game

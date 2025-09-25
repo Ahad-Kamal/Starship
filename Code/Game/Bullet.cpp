@@ -1,6 +1,7 @@
 #include "Engine/Core/Vertex.hpp"
-#include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Engine.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Game/Game.hpp"
 #include "Game/Entity.hpp"
@@ -50,7 +51,8 @@ void Bullet::Die()
 	m_isDead = true;
 	m_isGarbage = true;
 
-	m_game->SpawnNewDebrisCluster( 2, m_position, -m_velocity * 0.5f, GetForwardNormal(), Rgba8( 250.f, 250.f, 250.f ), 0.25f );
+	int count = g_rng->RollRandomIntInRange( 1, 3 );
+	m_game->SpawnNewDebrisCluster( count, m_position, -m_velocity * 0.5f, GetForwardNormal(), Rgba8( 250.f, 250.f, 250.f ), 0.25f );
 }
 
 void Bullet::InitializeLocalVerts()

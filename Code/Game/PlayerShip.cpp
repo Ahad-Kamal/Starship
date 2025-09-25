@@ -2,12 +2,14 @@
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/Entity.hpp"
 #include "Game/Game.hpp"
 #include "Game/App.hpp"
 #include "Game/GameCommon.hpp"
+
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 	: Entity( owner, startingPosition )
@@ -51,6 +53,7 @@ void PlayerShip::Die()
 {
 	m_isDead = true;
 
+	int count = g_rng->RollRandomIntInRange( 5, 30 );
 	m_game->SpawnNewDebrisCluster( 5, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
 }
 
