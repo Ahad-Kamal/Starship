@@ -11,6 +11,7 @@ constexpr int MAX_BULLETS = 20;
 constexpr int MAX_BEETLES = 10;
 constexpr int MAX_WASPS = 10;
 constexpr int MAX_DEBRIS = 200;
+constexpr int NUM_WAVES = 5;
 constexpr float WORLD_SIZE_X = 200.f;
 constexpr float WORLD_SIZE_Y = 100.f;
 constexpr float WORLD_CENTER_X = WORLD_SIZE_X / 2.f;
