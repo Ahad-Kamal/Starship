@@ -50,6 +50,9 @@ private:
 	void CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship);
 	void CheckWaspVsShip( Wasp& wasp, PlayerShip& ship );
 
+	void CheckIfWaveNeedsToSpawn();
+	void SpawnWave();
+
 	bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 	void DebugRenderEntities() const;
 	void DeleteGarbageEntities();
@@ -64,7 +67,7 @@ private:
 	Wasp*		m_wasps[ MAX_WASPS ];
 	Debris*		m_debris[ MAX_DEBRIS ];
 	
-	int m_waveNumber = 0;
+	int m_waveNumber = 4;
 	int m_numAsteroidsPerWave[ NUM_WAVES ] = { 2, 2, 2, 2, 2 };
 	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 3, 0, 3, 5 };
 	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };

@@ -29,15 +29,7 @@ void Game::Startup()
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 	m_playerShip = new PlayerShip( this, worldCenter );
 
-	for( int i = 0; i < NUM_STARTING_ASTEROIDS; i++ )
-	{
-		SpawnRandomAsteroid();
-	}
-	for( int i = 0; i < 1; i++ )
-	{
-		SpawnNewRandomBeetle();
-		SpawnNewRandomWasp();
-	}
+	SpawnWave();
 }
 
 void Game::Update(float deltaSeconds)
@@ -47,6 +39,7 @@ void Game::Update(float deltaSeconds)
 	CheckBulletVsEnemies();
 	CheckEnemiesVsShips();
 	DeleteGarbageEntities();
+	CheckIfWaveNeedsToSpawn();
 
 }
 
@@ -510,6 +503,45 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 	}
 }
 
+
+void Game::CheckIfWaveNeedsToSpawn()
+{
+	Beetle* beetle = m_beetles[ 0 ];
+	Wasp* wasp = m_wasps[ 0 ];
+
+	if( !beetle->IsAlive() && !wasp->IsAlive() )
+	{
+		if( m_waveNumber < 5 )
+		{
+			SpawnWave();
+		}
+		else
+		{
+			g_app->m_isAttractMode = true;
+			g_app->RestartGame();
+		}
+	}
+}
+
+void Game::SpawnWave()
+{
+	for( int i = 0; i < m_numAsteroidsPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnRandomAsteroid();
+	}
+	for( int i = 0; i < m_numBeetlesPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomBeetle();
+	}
+	for( int i = 0; i < m_numWaspsPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomWasp();
+	}
+
+	m_waveNumber++;
+}
+
+
 bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 {
 	float dx = b.m_position.x - a.m_position.x;
@@ -529,7 +561,7 @@ void Game::DebugRenderEntities() const
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
 		Bullet* bullet = m_bullets[bulletIndex];
-		if( bullet && !bullet->m_isDead )
+		if( bullet->IsAlive() )
 		{
 			bullet->DebugRender();
 		}
@@ -539,7 +571,7 @@ void Game::DebugRenderEntities() const
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[asteroidIndex];
-		if( asteroid && !asteroid->m_isDead )
+		if( asteroid->IsAlive() )
 		{
 			asteroid->DebugRender();
 		}
