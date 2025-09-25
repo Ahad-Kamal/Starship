@@ -121,8 +121,29 @@ void Game::Shutdown()
 
 Asteroid* Game::SpawnRandomAsteroid()
 {
-	float x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-	float y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+	int side = rng.RollRandomIntInRange( 1, 4 );
+
+	float x;
+	float y;
+	switch( side )
+	{
+		case 1:
+			x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+			y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
+			break;
+		case 2:
+			x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
+			y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+			break;
+		case 3:
+			x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+			y = 0.f - ASTEROID_COSMETIC_RADIUS;
+			break;
+		case 4:
+			x = 0.f - ASTEROID_COSMETIC_RADIUS;
+			y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+			break;
+	}
 
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
@@ -164,8 +185,29 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 
 Beetle* Game::SpawnNewRandomBeetle()
 {
-	float x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-	float y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+	int side = rng.RollRandomIntInRange( 1, 4 );
+
+	float x;
+	float y;
+	switch( side )
+	{
+	case 1:
+		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
+		break;
+	case 2:
+		x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
+		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		break;
+	case 3:
+		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		y = 0.f - ASTEROID_COSMETIC_RADIUS;
+		break;
+	case 4:
+		x = 0.f - ASTEROID_COSMETIC_RADIUS;
+		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		break;
+	}
 
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
@@ -186,8 +228,29 @@ Beetle* Game::SpawnNewRandomBeetle()
 
 Wasp* Game::SpawnNewRandomWasp()
 {
-	float x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-	float y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+	int side = rng.RollRandomIntInRange( 1, 4 );
+
+	float x;
+	float y;
+	switch( side )
+	{
+	case 1:
+		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
+		break;
+	case 2:
+		x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
+		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		break;
+	case 3:
+		x = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		y = 0.f - ASTEROID_COSMETIC_RADIUS;
+		break;
+	case 4:
+		x = 0.f - ASTEROID_COSMETIC_RADIUS;
+		y = rng.RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		break;
+	}
 
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
