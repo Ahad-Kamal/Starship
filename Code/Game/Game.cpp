@@ -121,36 +121,14 @@ void Game::Shutdown()
 
 Asteroid* Game::SpawnRandomAsteroid()
 {
-	int side = g_rng->RollRandomIntInRange( 1, 4 );
-
-	float x;
-	float y;
-	switch( side )
-	{
-		case 1:
-			x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-			y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
-			break;
-		case 2:
-			x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
-			y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
-			break;
-		case 3:
-			x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-			y = 0.f - ASTEROID_COSMETIC_RADIUS;
-			break;
-		case 4:
-			x = 0.f - ASTEROID_COSMETIC_RADIUS;
-			y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
-			break;
-	}
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
 
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
 		if( !asteroid )
 		{
-			asteroid = new Asteroid( this, Vec2( x, y ) );
+			asteroid = new Asteroid( this, spawnPosition );
 			asteroid->m_angualrVelocity = g_rng->RollRandomFloatInRange( -300.f, 300.f );
 			asteroid->m_orientationDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 			float driftAngleDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
@@ -185,36 +163,14 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 
 Beetle* Game::SpawnNewRandomBeetle()
 {
-	int side = g_rng->RollRandomIntInRange( 1, 4 );
-
-	float x;
-	float y;
-	switch( side )
-	{
-	case 1:
-		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-		y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
-		break;
-	case 2:
-		x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
-		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
-		break;
-	case 3:
-		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-		y = 0.f - ASTEROID_COSMETIC_RADIUS;
-		break;
-	case 4:
-		x = 0.f - ASTEROID_COSMETIC_RADIUS;
-		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
-		break;
-	}
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
 
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle*& beetle = m_beetles[ beetleIndex ];
 		if( !beetle )
 		{
-			beetle = new Beetle( this, Vec2( x, y ) );
+			beetle = new Beetle( this, spawnPosition );
 			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
 			beetle->m_velocity.x = BEETLE_SPEED;
 			beetle->m_velocity.y = BEETLE_SPEED;
@@ -228,36 +184,14 @@ Beetle* Game::SpawnNewRandomBeetle()
 
 Wasp* Game::SpawnNewRandomWasp()
 {
-	int side = g_rng->RollRandomIntInRange( 1, 4 );
-
-	float x;
-	float y;
-	switch( side )
-	{
-	case 1:
-		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-		y = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
-		break;
-	case 2:
-		x = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
-		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
-		break;
-	case 3:
-		x = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
-		y = 0.f - ASTEROID_COSMETIC_RADIUS;
-		break;
-	case 4:
-		x = 0.f - ASTEROID_COSMETIC_RADIUS;
-		y = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
-		break;
-	}
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
 
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp*& wasp = m_wasps[ waspIndex ];
 		if( !wasp )
 		{
-			wasp = new Wasp( this, Vec2( x, y ) );
+			wasp = new Wasp( this, spawnPosition );
 			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
 			wasp->m_velocity.x = WASP_ACCELERATION;
 			wasp->m_velocity.y = WASP_ACCELERATION;
@@ -295,6 +229,35 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 		Vec2 worldVelocity = clusterVelocity + localVelocity;
 		SpawnNewDebris( pos, worldVelocity, color, scale );
 	}
+}
+
+Vec2 Game::GetRandomOffScreenPosition()
+{
+	int side = g_rng->RollRandomIntInRange( 1, 4 );
+
+	float xPos = 0;
+	float yPos = 0;
+	switch( side )
+	{
+	case 1:
+		xPos = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		yPos = WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS;
+		break;
+	case 2:
+		xPos = WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS;
+		yPos = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		break;
+	case 3:
+		xPos = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		yPos = 0.f - ASTEROID_COSMETIC_RADIUS;
+		break;
+	case 4:
+		xPos = 0.f - ASTEROID_COSMETIC_RADIUS;
+		yPos = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+		break;
+	}
+
+	return( Vec2( xPos, yPos ) );
 }
 
 void Game::UpdateEntities(float deltaSeconds)
@@ -556,6 +519,9 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 	float radiiSquared = combinedRadii * combinedRadii;
 	return distanceSquared < radiiSquared;
 }
+
+
+
 
 void Game::DebugRenderEntities() const
 {
