@@ -7,7 +7,7 @@ class Game;
 constexpr int NUM_SHIP_TRIS = 5;
 constexpr int NUM_SHIP_VERTS = 3 * NUM_SHIP_TRIS;
 
-void createFakePlayerShip( Vertex verts[] );
+void createFakePlayerShip( Vertex verts[], float transparency );
 
 //----------------------------------------------------------------------------------------------
 class PlayerShip : public Entity

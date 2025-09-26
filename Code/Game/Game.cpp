@@ -589,7 +589,7 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 void Game::DrawPlayerLives() const
 {
 	Vertex verts[ NUM_SHIP_VERTS ];
-	createFakePlayerShip( verts );
+	createFakePlayerShip( verts, 127 );
 
 	if( m_playerShip->m_lives > 1 )
 	{

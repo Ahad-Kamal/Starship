@@ -155,7 +155,7 @@ void PlayerShip::Respawn()
 	m_isDead = false;
 }
 
-void createFakePlayerShip( Vertex verts[] )
+void createFakePlayerShip( Vertex verts[], float transparency )
 {
 	// Nose Cone
 	verts[ 0 ].m_pos = Vec3( 1.f, 0.f, 0.f );
@@ -184,6 +184,6 @@ void createFakePlayerShip( Vertex verts[] )
 
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
-		verts[ vertIndex ].m_color = Rgba8( 102, 153, 204 );
+		verts[ vertIndex ].m_color = Rgba8( 102, 153, 204, transparency );
 	}
 }
