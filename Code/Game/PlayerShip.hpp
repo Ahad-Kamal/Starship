@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine/Math/Vec2.hpp"
 #include "Engine/Core/Vertex.hpp"
+#include "Engine/Math/Vec2.hpp"
 #include "Game/Entity.hpp"
 
 class Game;
@@ -31,7 +31,7 @@ public:
 	int m_lives = 4;
 
 private:
-	Vertex	m_localVerts[NUM_SHIP_VERTS];
+	Vertex	m_localVerts[ NUM_SHIP_VERTS ];
 	bool m_isTurningLeft = false;
 	bool m_isTurningRight = false;
 	bool m_isThrusting = false;

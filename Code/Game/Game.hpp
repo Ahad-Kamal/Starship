@@ -17,7 +17,6 @@ class Debris;
 //-----------------------------------------------------------------------------------------------
 
 extern RandomNumberGenerator* g_rng;
-// bool IsAlive( Entity* entity ) const
 
 class Game
 {

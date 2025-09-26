@@ -2,8 +2,6 @@
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Camera.hpp"
 
-
-class PlayerShip;
 class App;
 class Game;
 
@@ -25,6 +23,9 @@ public:
 	void RestartGame();
 	void CheckInput();
 
+private:
+	void InitializeStartTriangleVerts();
+
 public:
 	Game* m_game = nullptr;
 	float m_lastFrameTime = 0.f;
@@ -34,4 +35,7 @@ public:
 	bool m_pauseAfterNextUpdate = false;
 	bool m_debugDraw = false;
 	bool m_isAttractMode = true;
+
+private:
+	Vertex m_startVerts[ 3 ];
 };

@@ -19,6 +19,8 @@ App::App()
 	m_game = new Game( this );
 
 	m_lastFrameTime = GetCurrentTimeSeconds();
+	InitializeStartTriangleVerts();
+	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( WORLD_CENTER_X, WORLD_CENTER_Y ) );
 }
 
 App::~App()
@@ -93,15 +95,17 @@ void App::RenderAttractMode() const
 
 	g_engine->m_render->ClearScreen(g_clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
 
-	Vertex verts[ NUM_SHIP_VERTS ];
-	createFakePlayerShip( verts );
+	Vertex shipVerts[ NUM_SHIP_VERTS ];
+	createFakePlayerShip( shipVerts );
 
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 8.f, 0.f, Vec2( 50.f, 50.f ) );
-	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, shipVerts, 8.f, 0.f, Vec2( 50.f, 50.f ) );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, shipVerts );
 
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( -50.f, -50.f ) );
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 180.f, Vec2( 150.f, 50.f ) );
-	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, shipVerts, 1.f, 0.f, Vec2( -50.f, -50.f ) );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, shipVerts, 1.f, 180.f, Vec2( 150.f, 50.f ) );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, shipVerts );
+
+	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
 
 	g_engine->m_render->EndCamera( attractCamera );
 }
@@ -145,6 +149,18 @@ void App::CheckInput()
 		RestartGame();
 	}
 
+}
+
+void App::InitializeStartTriangleVerts() 
+{
+	m_startVerts[ 0 ].m_pos = Vec3( -20.f, 20.f, 0.f);
+	m_startVerts[ 1 ].m_pos = Vec3( -20.f, -20.f, 0.f );
+	m_startVerts[ 2 ].m_pos = Vec3( 20.f, 0.f, 0.f );
+
+	for( int vertIndex = 0; vertIndex < 3; vertIndex++ )
+	{
+		m_startVerts[ vertIndex ].m_color = Rgba8( 0, 255, 0 );
+	}
 }
 
 void App::RestartGame()
