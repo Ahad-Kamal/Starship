@@ -2,6 +2,7 @@
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
+#include "Engine/Renderer/Renderer.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/App.hpp"
@@ -40,12 +41,15 @@ void Game::Update(float deltaSeconds)
 	CheckEnemiesVsShips();
 	DeleteGarbageEntities();
 	CheckIfWaveNeedsToSpawn();
+	CheckForGameOver();
 
 }
 
 void Game::Render() const
 {
 	RenderEntities();
+
+	DrawPlayerLives();
 
 	if ( m_app->m_debugDraw )
 	{
@@ -504,6 +508,27 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 }
 
 
+void Game::CheckForGameOver()
+{
+	if( m_playerShip->m_lives <= 0 )
+	{
+		Debris* debris = m_debris[0];
+
+		if( !debris->IsAlive() )
+		{
+			if( m_endGameTimer < 60 )
+			{
+				m_endGameTimer++;
+			}
+			else
+			{
+				g_app->m_isAttractMode = true;
+				g_app->RestartGame();
+			}
+		}
+	}
+}
+
 void Game::CheckIfWaveNeedsToSpawn()
 {
 	Beetle* beetle = m_beetles[ 0 ];
@@ -554,6 +579,27 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 
 
 
+void Game::DrawPlayerLives() const
+{
+	Vertex verts[ NUM_SHIP_VERTS ];
+	createFakePlayerShip( verts );
+
+	if( m_playerShip->m_lives > 1 )
+	{
+		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 90.f, Vec2( 2.5f, 97.5f ) );
+		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
+	}
+	if( m_playerShip->m_lives > 2 )
+	{
+		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 5.f, 0.f ) );
+		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
+	}
+	if( m_playerShip->m_lives > 3 )
+	{
+		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 5.f, 0.f ) );
+		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
+	}
+}
 
 void Game::DebugRenderEntities() const
 {

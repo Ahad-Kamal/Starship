@@ -23,6 +23,10 @@ void Debris::Update( float deltaSeconds )
 	m_orientationDegrees += ( m_angualrVelocity * deltaSeconds );
 	m_ageSeconds += deltaSeconds;
 
+	if( IsOffScreen() )
+	{
+		Die();
+	}
 	if( m_ageSeconds >= m_lifeTimeSeconds)
 	{
 		Die();

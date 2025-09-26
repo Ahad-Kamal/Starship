@@ -52,6 +52,7 @@ void PlayerShip::Render() const
 void PlayerShip::Die()
 {
 	m_isDead = true;
+	m_lives--;
 
 	int count = g_rng->RollRandomIntInRange( 5, 30 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), m_color, 1.f);
@@ -119,7 +120,7 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 		m_orientationDegrees -= PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_engine->m_input->isKeyDown( 'N' ) && !IsAlive() )
+	if( g_engine->m_input->isKeyDown( 'N' ) && !IsAlive() && m_lives > 0 )
 	{
 		Respawn();
 	}

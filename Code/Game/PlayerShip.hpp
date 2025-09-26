@@ -27,6 +27,9 @@ private:
 	void BounceOffWalls();
 	void Respawn();
 
+public:
+	int m_lives = 4;
+
 private:
 	Vertex	m_localVerts[NUM_SHIP_VERTS];
 	bool m_isTurningLeft = false;

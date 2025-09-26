@@ -93,7 +93,7 @@ void App::RenderAttractMode() const
 
 	g_engine->m_render->ClearScreen(g_clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
 
-	Vertex verts[NUM_SHIP_VERTS];
+	Vertex verts[ NUM_SHIP_VERTS ];
 	createFakePlayerShip( verts );
 
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 8.f, 0.f, Vec2( 50.f, 50.f ) );
