@@ -532,10 +532,33 @@ void Game::CheckForGameOver()
 
 void Game::CheckIfWaveNeedsToSpawn()
 {
-	Beetle* beetle = m_beetles[ 0 ];
-	Wasp* wasp = m_wasps[ 0 ];
+	bool isThereBeetle = false;
+	bool isThereWasp = false;
+	
 
-	if( !beetle->IsAlive() && !wasp->IsAlive() )
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+
+		if( beetle->IsAlive() )
+		{
+			isThereBeetle = true;
+			break;
+		}
+	}
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp* wasp = m_wasps[ waspIndex ];
+
+		if( wasp->IsAlive() )
+		{
+			isThereWasp = true;
+			break;
+		}
+	}
+
+
+	if( !isThereBeetle && !isThereWasp )
 	{
 		if( m_waveNumber < 5 )
 		{
