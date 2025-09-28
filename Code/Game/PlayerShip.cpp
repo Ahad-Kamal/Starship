@@ -127,6 +127,11 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	
 }
 
+void PlayerShip::UpdateFromController( float deltaSeconds )
+{
+
+}
+
 void PlayerShip::BounceOffWalls()
 {
 	if( m_position.x > WORLD_SIZE_X - m_cosmeticRadius )
