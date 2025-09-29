@@ -1,9 +1,9 @@
-#include "Engine/Math/MathUtils.hpp"
-#include "Engine/Core/Engine.hpp"
-#include "Engine/Renderer/Renderer.hpp"
 #include "Game/Wasp.hpp"
 #include "Game/GameCommon.hpp"
 #include "Game/PlayerShip.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Core/Engine.hpp"
+#include "Engine/Renderer/Renderer.hpp"
 
 Wasp::Wasp( Game* owner, Vec2 const& startingPosition )
 	: Entity( owner, startingPosition )

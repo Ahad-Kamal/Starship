@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine/Core/Vertex.hpp"
 #include "Game/Entity.hpp"
+#include "Engine/Core/Vertex.hpp"
 
 class Game;
 class Vec2;

@@ -1,11 +1,11 @@
+#include "Game/Entity.hpp"
+#include "Game/Debris.hpp"
+#include "Game/GameCommon.hpp"
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Renderer/Renderer.hpp"
-#include "Game/Entity.hpp"
-#include "Game/Debris.hpp"
-#include "Game/GameCommon.hpp"
 
 Debris::Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, Rgba8 color )
 	: Entity( owner, startingPos )

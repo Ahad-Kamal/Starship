@@ -1,9 +1,9 @@
+#include "Game/Asteroid.hpp"
+#include "Game/GameCommon.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
-#include "Game/Asteroid.hpp"
-#include "Game/GameCommon.hpp"
 
 Asteroid::Asteroid( Game* owner, Vec2 const& startPos )
 	: Entity( owner, startPos )
