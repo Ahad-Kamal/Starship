@@ -1,7 +1,7 @@
 #pragma once
-#include "Game/Entity.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Core/Vertex.hpp"
+#include "Game/Entity.hpp"
 
 class Game;
 class PlayerShip;

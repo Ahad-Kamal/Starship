@@ -1,3 +1,8 @@
+#include "Engine/Core/ErrorWarningAssert.hpp"
+#include "Engine/Math/Vec2.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Math/RandomNumberGenerator.hpp"
+#include "Engine/Renderer/Renderer.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/App.hpp"
@@ -6,11 +11,6 @@
 #include "Game/Beetle.hpp"
 #include "Game/Wasp.hpp"
 #include "Game/Debris.hpp"
-#include "Engine/Core/ErrorWarningAssert.hpp"
-#include "Engine/Math/Vec2.hpp"
-#include "Engine/Math/MathUtils.hpp"
-#include "Engine/Math/RandomNumberGenerator.hpp"
-#include "Engine/Renderer/Renderer.hpp"
 
 RandomNumberGenerator* g_rng = nullptr;
 

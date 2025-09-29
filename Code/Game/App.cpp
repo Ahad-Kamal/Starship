@@ -1,13 +1,13 @@
+#include "Engine/Core/Rgba8.hpp"
+#include "Engine/Core/Vertex.hpp"
+#include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Input/InputSystem.hpp"
+#include "Engine/Math/MathUtils.hpp"
+#include "Engine/Core/Time.hpp"
 #include "Game/App.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/GameCommon.hpp"
-#include "Engine/Core/Rgba8.hpp"
-#include "Engine/Core/Vertex.hpp"
-#include "Engine/Core/Time.hpp"
-#include "Engine/Renderer/Renderer.hpp"
-#include "Engine/Input/InputSystem.hpp"
-#include "Engine/Math/MathUtils.hpp"
 
 App* g_app = nullptr;
 

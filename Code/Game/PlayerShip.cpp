@@ -1,14 +1,14 @@
-#include "Game/PlayerShip.hpp"
-#include "Game/Entity.hpp"
-#include "Game/Game.hpp"
-#include "Game/App.hpp"
-#include "Game/GameCommon.hpp"
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Input/InputSystem.hpp"
+#include "Game/PlayerShip.hpp"
+#include "Game/Entity.hpp"
+#include "Game/Game.hpp"
+#include "Game/App.hpp"
+#include "Game/GameCommon.hpp"
 
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)

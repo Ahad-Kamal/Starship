@@ -1,6 +1,6 @@
 #pragma once
-#include "Game/Entity.hpp"
 #include "Engine/Core/Vertex.hpp"
+#include "Game/Entity.hpp"
 
 constexpr int NUM_ASTEROID_SIDES = 16;
 constexpr int NUM_ASTEROID_TRIS = NUM_ASTEROID_SIDES;
