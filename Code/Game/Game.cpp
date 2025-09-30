@@ -39,9 +39,9 @@ void Game::Update(float deltaSeconds)
 	UpdateEntities( deltaSeconds );
 	CheckBulletVsEnemies();
 	CheckEnemiesVsShips();
-	CheckForGameOver();
 	DeleteGarbageEntities();
 	CheckIfWaveNeedsToSpawn();
+	CheckForGameOver();
 
 }
 
@@ -165,7 +165,7 @@ Beetle* Game::SpawnNewRandomBeetle()
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle*& beetle = m_beetles[ beetleIndex ];
-		if( !beetle )
+		if( !beetle && m_playerShip->IsAlive() )
 		{
 			beetle = new Beetle( this, spawnPosition );
 			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
@@ -186,7 +186,7 @@ Wasp* Game::SpawnNewRandomWasp()
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp*& wasp = m_wasps[ waspIndex ];
-		if( !wasp )
+		if( !wasp && m_playerShip->IsAlive() )
 		{
 			wasp = new Wasp( this, spawnPosition );
 			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
@@ -514,20 +514,25 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 
 void Game::CheckForGameOver()
 {
-	if( !m_playerShip->IsAlive() && m_playerShip->m_lives <= 0 )
+	if( this == nullptr || m_playerShip == nullptr )
+	{
+		return;
+	}
+
+	if( m_playerShip->m_isDead && m_playerShip->m_lives <= 0 )
 	{
 		Debris* debris = m_debris[0];
 
 		if( !debris->IsAlive() )
 		{
-			if( m_endGameTimer < 60 )
+			if( m_endGameTimer < 80 )
 			{
 				m_endGameTimer++;
 			}
 			else
 			{
-				g_app->RestartGame();
 				g_app->m_isAttractMode = true;
+				g_app->RestartGame();
 			}
 		}
 	}
@@ -535,9 +540,13 @@ void Game::CheckForGameOver()
 
 void Game::CheckIfWaveNeedsToSpawn()
 {
+	if( this == nullptr )
+	{
+		return;
+	}
+
 	bool isThereBeetle = false;
-	bool isThereWasp = false;
-	
+	bool isThereWasp = false;	
 
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
