@@ -18,7 +18,7 @@ App::App()
 	g_engine = new Engine();
 	m_game = new Game( this );
 
-	m_lastFrameTime = GetCurrentTimeSeconds();
+	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 	InitializeStartTriangleVerts();
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( WORLD_CENTER_X, WORLD_CENTER_Y ) );
 }
@@ -34,7 +34,7 @@ App::~App()
 
 void App::RunFrame()
 {
-	float timeNow = GetCurrentTimeSeconds();
+	float timeNow = static_cast<float>( GetCurrentTimeSeconds() );
 	float deltaSeconds = timeNow - m_lastFrameTime;
 	m_lastFrameTime = timeNow;
 	deltaSeconds = GetClamped( deltaSeconds, 0.f, 0.1f );

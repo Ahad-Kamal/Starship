@@ -39,9 +39,9 @@ void Game::Update(float deltaSeconds)
 	UpdateEntities( deltaSeconds );
 	CheckBulletVsEnemies();
 	CheckEnemiesVsShips();
+	CheckForGameOver();
 	DeleteGarbageEntities();
 	CheckIfWaveNeedsToSpawn();
-	CheckForGameOver();
 
 }
 
@@ -214,6 +214,9 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, flo
 			return debris;
 		}
 	}
+
+	ERROR_RECOVERABLE( "Can't spawn new debris, max limit reached" );
+	return nullptr;
 }
 
 void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale )

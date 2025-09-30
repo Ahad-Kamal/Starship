@@ -32,7 +32,7 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& st
 void PlayerShip::Update(float deltaSeconds)
 {
 	UpdateFromKeyboard( deltaSeconds );	
-	UpdateFromController( deltaSeconds );
+	UpdateFromController();
 	BounceOffWalls();
 	
 	if( m_isThrusting )
@@ -133,7 +133,7 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	
 }
 
-void PlayerShip::UpdateFromController( [[unused]] float deltaSeconds )
+void PlayerShip::UpdateFromController()
 {
 	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
 
@@ -221,6 +221,6 @@ void createFakePlayerShip( Vertex verts[], float transparency )
 
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
-		verts[ vertIndex ].m_color = Rgba8( 102, 153, 204, transparency );
+		verts[ vertIndex ].m_color = Rgba8( 102, 153, 204, static_cast<unsigned int>( transparency ) );
 	}
 }

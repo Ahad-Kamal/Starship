@@ -3,8 +3,8 @@
 #include "Game/Entity.hpp"
 
 class Game;
-class Vec2;
-class Rgba8;
+struct Vec2;
+struct Rgba8;
 
 constexpr int NUM_DEBRIS_SIDES = 10;
 constexpr int NUM_DEBRIS_TRIS = NUM_DEBRIS_SIDES;

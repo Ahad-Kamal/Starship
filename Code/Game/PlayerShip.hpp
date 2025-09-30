@@ -24,7 +24,7 @@ public:
 private:
 	void InitializeLocalVerts();
 	void UpdateFromKeyboard( float deltaSeconds );
-	void UpdateFromController( float deltaSeconds );
+	void UpdateFromController();
 	void BounceOffWalls();
 	void Respawn();
 
