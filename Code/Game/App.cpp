@@ -49,6 +49,7 @@ void App::RunFrame()
 void App::Update(float deltaSeconds)
 {
 	CheckInput();
+	g_engine->m_input->BeginFrame();
 
 	if( m_isAttractMode )
 	{
