@@ -48,7 +48,8 @@ void App::RunFrame()
 
 void App::Update(float deltaSeconds)
 {
-	CheckInput();
+	CheckKeyboardInput();
+	CheckControllerInput();
 	g_engine->m_input->BeginFrame();
 
 	if( m_isAttractMode )
@@ -121,7 +122,7 @@ bool App::IsQuitting() const
 	return false;
 }
 
-void App::CheckInput()
+void App::CheckKeyboardInput()
 {
 	if( m_isAttractMode && g_engine->m_input->wasKeyJustPressed( ' ' ) || g_engine->m_input->wasKeyJustPressed( 'N' ) )
 	{
@@ -152,6 +153,21 @@ void App::CheckInput()
 
 }
 
+void App::CheckControllerInput()
+{
+	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
+
+	if( m_isAttractMode && controller.WasButtonJustPressed( XboxButtonID::START ) )
+	{
+		m_isAttractMode = false;
+	}
+
+	if( !m_isAttractMode && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
+	{
+		m_isAttractMode = true;
+	}
+}
+
 void App::InitializeStartTriangleVerts() 
 {
 	m_startVerts[ 0 ].m_pos = Vec3( -20.f, 20.f, 0.f);
@@ -173,5 +189,4 @@ void App::RestartGame()
 
 	m_game = new Game( this );
 }
-
 

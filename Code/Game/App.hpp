@@ -21,7 +21,8 @@ public:
 	void SetIsQuitting();
 	bool IsQuitting() const;
 	void RestartGame();
-	void CheckInput();
+	void CheckKeyboardInput();
+	void CheckControllerInput();
 
 private:
 	void InitializeStartTriangleVerts();

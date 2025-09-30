@@ -36,4 +36,5 @@ private:
 	bool m_isTurningLeft = false;
 	bool m_isTurningRight = false;
 	bool m_isThrusting = false;
+	float m_thrustFraction = 0.f;
 };

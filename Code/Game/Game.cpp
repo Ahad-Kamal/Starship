@@ -511,7 +511,7 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 
 void Game::CheckForGameOver()
 {
-	if( m_playerShip != nullptr && m_playerShip->m_lives <= 0 )
+	if( !m_playerShip->IsAlive() && m_playerShip->m_lives <= 0 )
 	{
 		Debris* debris = m_debris[0];
 
@@ -523,8 +523,8 @@ void Game::CheckForGameOver()
 			}
 			else
 			{
-				g_app->m_isAttractMode = true;
 				g_app->RestartGame();
+				g_app->m_isAttractMode = true;
 			}
 		}
 	}

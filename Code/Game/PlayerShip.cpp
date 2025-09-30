@@ -32,8 +32,14 @@ PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition, Vec2 const& st
 void PlayerShip::Update(float deltaSeconds)
 {
 	UpdateFromKeyboard( deltaSeconds );	
+	UpdateFromController( deltaSeconds );
 	BounceOffWalls();
 	
+	if( m_isThrusting )
+	{
+		m_velocity += this->GetForwardNormal() * m_thrustFraction * PLAYER_SHIP_ACCELERATION * deltaSeconds;
+	}
+	m_velocity.GetClamped( 30.f );
 	m_position += m_velocity * deltaSeconds;
 }
 
@@ -127,9 +133,35 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	
 }
 
-void PlayerShip::UpdateFromController( float deltaSeconds )
+void PlayerShip::UpdateFromController( [[unused]] float deltaSeconds )
 {
+	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
 
+	if( m_isDead )
+	{
+		if( controller.WasButtonJustPressed( XboxButtonID::START ) && m_lives > 0 )
+		{
+			Respawn();
+		}
+	}
+
+	float leftStickMagnitude = controller.GetLeftStick().GetMagnitude();
+	if( leftStickMagnitude > 0.f )
+	{
+		m_isThrusting = true;
+		m_thrustFraction = leftStickMagnitude;
+		m_orientationDegrees = controller.GetLeftStick().GetOrientationDegrees();
+	}
+	else
+	{
+		m_isThrusting = false;
+	}
+
+	if( controller.WasButtonJustPressed( XboxButtonID::A ) )
+	{
+		Vec2 bulletOffset = this->GetForwardNormal();
+		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
+	}
 }
 
 void PlayerShip::BounceOffWalls()
