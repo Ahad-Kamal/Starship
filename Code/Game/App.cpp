@@ -157,7 +157,7 @@ void App::CheckControllerInput()
 {
 	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
 
-	if( m_isAttractMode && controller.WasButtonJustPressed( XboxButtonID::START ) )
+	if( m_isAttractMode && ( controller.WasButtonJustPressed( XboxButtonID::START ) || controller.WasButtonJustPressed( XboxButtonID::A ) ) )
 	{
 		m_isAttractMode = false;
 	}
