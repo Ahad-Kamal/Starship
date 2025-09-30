@@ -165,7 +165,7 @@ Beetle* Game::SpawnNewRandomBeetle()
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle*& beetle = m_beetles[ beetleIndex ];
-		if( !beetle && m_playerShip->IsAlive() )
+		if( !beetle )
 		{
 			beetle = new Beetle( this, spawnPosition );
 			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
@@ -186,7 +186,7 @@ Wasp* Game::SpawnNewRandomWasp()
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp*& wasp = m_wasps[ waspIndex ];
-		if( !wasp && m_playerShip->IsAlive() )
+		if( !wasp )
 		{
 			wasp = new Wasp( this, spawnPosition );
 			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
@@ -525,7 +525,7 @@ void Game::CheckForGameOver()
 
 		if( !debris->IsAlive() )
 		{
-			if( m_endGameTimer < 80 )
+			if( m_endGameTimer < 60 )
 			{
 				m_endGameTimer++;
 			}
