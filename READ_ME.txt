@@ -2,7 +2,9 @@ SD1-A03: Starship Playable
 Ahad Kamal
 9/30/2025
 
-No known build errors. There was an issue with the game crashing upon game over or win that I was encountering. That issue SHOULD be fixed, but there's a chance it could still be there
+No known build errors. There was an issue with the game crashing upon game over or win that I was encountering. I believe that the issue SHOULD be fixed, but there's a chance it could still occur
+
+Also to explain the random cut in my demo, the final wasp on my last wave was taking forever to come back into view so I had to cut out me waiting so the demo could stay under 5 minutes
 
 Keyboard Controls:
 - Space or N to start the game
