@@ -39,6 +39,7 @@ void Game::Update(float deltaSeconds)
 	UpdateEntities( deltaSeconds );
 	CheckBulletVsEnemies();
 	CheckEnemiesVsShips();
+	CheckEnemiesVsEnemies();
 	DeleteGarbageEntities();
 	CheckIfWaveNeedsToSpawn();
 	CheckForGameOver();
@@ -511,6 +512,31 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 	}
 }
 
+void Game::CheckEnemiesVsEnemies()
+{
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle1 = m_beetles[ beetleIndex ];
+
+		for( int secondBeetleIndex = beetleIndex + 1; secondBeetleIndex < MAX_BEETLES; secondBeetleIndex++ )
+		{
+			Beetle* beetle2 = m_beetles[ secondBeetleIndex ];
+
+			if( beetle1 && beetle2 )
+			{
+				CheckEnemyVsEnemy( *beetle1, *beetle2 );
+			}
+		}
+	}
+}
+
+void Game::CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 )
+{
+	if( DoEntitiesOverlap( enemy1, enemy2 ) )
+	{
+		PushDiscsOutOfEachOther2D( enemy1.m_position, enemy1.m_cosmeticRadius, enemy2.m_position, enemy2.m_cosmeticRadius );
+	}
+}
 
 void Game::CheckForGameOver()
 {
@@ -754,3 +780,23 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 }
+
+
+/*
+Update Cameras
+{
+	worldcamera.setOrthoview( Vec2(0.f o.f) Vec2(WorldSizeXm WORLDSIZEY));
+	screenCamera.setOrthoview( Vec3(o.f, 0.f), Vec2( ScreenSIZEX, SCREENSIZEY));
+
+	float maxCameraShake = (m_shakeamt * m_screenShaketrauma
+	float shake x = g.rngRollrandomFloatInRange( -m_shakeamt, m_shakeamt )
+	float shake y = g.rngRollrandomFloatInRange( -m_shakeamt, m_shakeamt )
+
+	camera.translate2D( Vec2 ( shakex, shakey ));
+
+	constexpr float MAXSSCREENSHAKE = 10.f
+	constexptrfloat SXREENSHAKEREDUCTION = 2.f;
+	m_screenshaketrauma -= SCREEN_SHAKE_REDUCTION * deltaseconds
+	m_screenshaketrauma = clamp( m_screenshale, 0.f, MAXSREENSHAKE
+}
+*/

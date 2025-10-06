@@ -48,6 +48,8 @@ private:
 	void CheckEnemiesVsShips();
 	void CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship);
 	void CheckWaspVsShip( Wasp& wasp, PlayerShip& ship );
+	void CheckEnemiesVsEnemies();
+	void CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 );
 
 	void CheckForGameOver();
 	void CheckIfWaveNeedsToSpawn();
