@@ -2,6 +2,7 @@
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
+#include "Engine/Audio/AudioSystem.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"

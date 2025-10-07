@@ -9,6 +9,7 @@
 #include "Game/Game.hpp"
 #include "Game/App.hpp"
 #include "Game/GameCommon.hpp"
+#include "Engine/Audio/AudioSystem.hpp"
 
 
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
@@ -104,6 +105,8 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
+		SoundID testSound = g_engine->m_audio->CreateOrGetSound( "Data/Audio/TestSound.mp3" );
+		g_engine->m_audio->StartSound( testSound );
 	}
 
 	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
