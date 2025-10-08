@@ -63,6 +63,7 @@ void PlayerShip::Die()
 
 	int count = g_rng->RollRandomIntInRange( 5, 30 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), m_color, 1.f);
+	m_game->m_isShaking = true;
 }
 
 void PlayerShip::InitializeLocalVerts()

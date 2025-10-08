@@ -18,8 +18,8 @@ class Debris;
 
 extern RandomNumberGenerator* g_rng;
 
-constexpr float MAX_SCREEN_SHAKE_AMOUNT = 10.f;
-constexpr float SCREEN_SHAKE_REDUCTION = 2.f;
+constexpr float MAX_SCREEN_SHAKE_AMOUNT = 5.f;
+constexpr float SCREEN_SHAKE_REDUCTION = 5.f;
 
 class Game
 {
@@ -67,6 +67,7 @@ private:
 public:
 	Camera* m_worldCamera;
 	Camera* m_screenCamera;
+	bool m_isShaking = false;
 
 private:
 	App*		m_app = nullptr;
@@ -84,5 +85,4 @@ private:
 	int m_endGameTimer = 0;
 
 	float m_screenShakeAmount = MAX_SCREEN_SHAKE_AMOUNT;
-	bool m_isShaking = false;
 };

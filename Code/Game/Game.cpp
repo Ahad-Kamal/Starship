@@ -346,6 +346,12 @@ void Game::UpdateCameras( float deltaSeconds )
 
 	m_screenShakeAmount -= SCREEN_SHAKE_REDUCTION * deltaSeconds;
 	m_screenShakeAmount = GetClamped( m_screenShakeAmount, 0.f, MAX_SCREEN_SHAKE_AMOUNT );
+
+	if( m_screenShakeAmount <= 0.f )
+	{
+		m_isShaking = false;
+		m_screenShakeAmount = MAX_SCREEN_SHAKE_AMOUNT;
+	}
 }
 
 void Game::RenderEntities() const
