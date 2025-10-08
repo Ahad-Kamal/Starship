@@ -677,24 +677,30 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 
 void Game::DrawPlayerLives() const
 {
+	g_engine->m_render->EndCamera( *m_worldCamera );
+	g_engine->m_render->BeginCamera( *m_screenCamera );
+
 	Vertex verts[ NUM_SHIP_VERTS ];
 	createFakePlayerShip( verts, 127 );
 
 	if( m_playerShip->m_lives > 1 )
 	{
-		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 90.f, Vec2( 2.5f, 97.5f ) );
+		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 8.f, 90.f, Vec2( 20.f, 780.f ) );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
 	}
 	if( m_playerShip->m_lives > 2 )
 	{
-		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 5.f, 0.f ) );
+		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 40.f, 0.f ) );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
 	}
 	if( m_playerShip->m_lives > 3 )
 	{
-		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 5.f, 0.f ) );
+		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 40.f, 0.f ) );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
 	}
+
+	g_engine->m_render->EndCamera( *m_screenCamera );
+	g_engine->m_render->BeginCamera( *m_worldCamera );
 }
 
 void Game::DebugRenderEntities() const
