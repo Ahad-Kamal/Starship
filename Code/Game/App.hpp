@@ -2,6 +2,7 @@
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Camera.hpp"
 #include "Game/GameCommon.hpp"
+#include "Game/PlayerShip.hpp"
 
 class App;
 class Game;
@@ -41,6 +42,8 @@ public:
 
 private:
 	Vertex m_startVerts[ 3 ];
+	Vertex m_fakeShipVerts[ NUM_SHIP_VERTS ];
 	float m_startAlpha = 255.f;
+	float m_shipRotation = 0.f;
 	float m_time = 0.f;
 };

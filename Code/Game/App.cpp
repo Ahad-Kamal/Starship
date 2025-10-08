@@ -12,8 +12,6 @@
 #include <math.h>
 
 App* g_app = nullptr;
-
-//Rgba8 g_clearColor = Rgba8( '0', '0', '0', '1' );
 Rgba8 g_clearColor = Rgba8( 0, 0, 0, 1 );
 
 App::App()
@@ -23,6 +21,7 @@ App::App()
 
 	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 	InitializeStartTriangleVerts();
+	createFakePlayerShip( m_fakeShipVerts, 255 );
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
 }
 
@@ -62,12 +61,18 @@ void App::Update(float deltaSeconds)
 
 	if( m_currentState == GAME_STATE_ATTRACT )
 	{
+		m_shipRotation += 0.5f;
+		if( m_shipRotation >= 360.f )
+		{
+			m_shipRotation = fmodf( m_shipRotation, 360.f );
+		}
+
 		m_time += deltaSeconds * 1.25f;
 		m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
 
 		for( int startIndex = 0; startIndex < 3; startIndex++ )
 		{
-			m_startVerts[ startIndex ].m_color = Rgba8( 0, 255, 0, (unsigned int)m_startAlpha );
+			m_startVerts[ startIndex ].m_color = Rgba8( 0, 255, 0, (unsigned int) m_startAlpha );
 		}
 		return;
 	}
@@ -104,21 +109,22 @@ void App::Render() const
 
 void App::RenderAttractMode() const
 {
-	//Camera attractCamera;
-	//attractCamera.SetOrthoView( Vec2( 0.f, 0.f), Vec2( 200.f, 100.f ) );
 	g_engine->m_render->BeginCamera( *m_game->m_screenCamera );
 
 	g_engine->m_render->ClearScreen( g_clearColor ); 
 
-	Vertex shipVerts[ NUM_SHIP_VERTS ];
-	createFakePlayerShip( shipVerts, 255 );
+	Vertex tempShipVerts[ NUM_SHIP_VERTS ];
+	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
+	{
+		tempShipVerts[ vertIndex ] = m_fakeShipVerts[ vertIndex ];
+	}
 
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, shipVerts, 80.f, 0.f, Vec2( 300.f, 400.f ) );
-	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, shipVerts );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 80.f, m_shipRotation, Vec2( 300.f, 400.f ) );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
 
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, shipVerts, 1.f, 0.f, Vec2( -300.f, -400.f ) );
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, shipVerts, 1.f, 180.f, Vec2( 1300.f, 400.f ) );
-	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, shipVerts );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 0.f, Vec2( -300.f, -400.f ) );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 180.f, Vec2( 1300.f, 400.f ) );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
 
 	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
 
