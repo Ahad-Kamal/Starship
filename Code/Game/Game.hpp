@@ -18,6 +18,9 @@ class Debris;
 
 extern RandomNumberGenerator* g_rng;
 
+constexpr float MAX_SCREEN_SHAKE_AMOUNT = 10.f;
+constexpr float SCREEN_SHAKE_REDUCTION = 2.f;
+
 class Game
 {
 public:
@@ -38,6 +41,7 @@ public:
 
 private:
 	void UpdateEntities( float deltaSeconds );
+	void UpdateCameras( float deltaSeconds );
 	void RenderEntities() const;
 
 	void CheckBulletVsAsteroid( Bullet& bullet, Asteroid& asteroid );
@@ -78,4 +82,7 @@ private:
 	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 3, 0, 3, 5 };
 	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
 	int m_endGameTimer = 0;
+
+	float m_screenShakeAmount = MAX_SCREEN_SHAKE_AMOUNT;
+	bool m_isShaking = false;
 };

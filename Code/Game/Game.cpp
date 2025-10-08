@@ -31,8 +31,8 @@ void Game::Startup()
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
 
-	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f) , Vec2( 200.f, 100.f) );
-	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f) , Vec2( 1600.f, 800.f) );
+	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ) );
+	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
 	
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 	m_playerShip = new PlayerShip( this, worldCenter );
@@ -50,6 +50,7 @@ void Game::Update(float deltaSeconds)
 	DeleteGarbageEntities();
 	CheckIfWaveNeedsToSpawn();
 	CheckForGameOver();
+	UpdateCameras( deltaSeconds );
 
 }
 
@@ -326,6 +327,25 @@ void Game::UpdateEntities(float deltaSeconds)
 			debris->Update( deltaSeconds );
 		}
 	}
+}
+
+void Game::UpdateCameras( float deltaSeconds )
+{
+	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ) );
+	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
+
+	if( !m_isShaking )
+	{
+		return;
+	}
+
+	float shakeX = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
+	float shakeY = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
+
+	m_worldCamera->Translate2D( Vec2( shakeX, shakeY ) );
+
+	m_screenShakeAmount -= SCREEN_SHAKE_REDUCTION * deltaSeconds;
+	m_screenShakeAmount = GetClamped( m_screenShakeAmount, 0.f, MAX_SCREEN_SHAKE_AMOUNT );
 }
 
 void Game::RenderEntities() const
