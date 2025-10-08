@@ -13,7 +13,8 @@
 
 App* g_app = nullptr;
 
-Rgba8 g_clearColor = Rgba8( 0.f, 0.f, 0.f, 1.f );
+//Rgba8 g_clearColor = Rgba8( '0', '0', '0', '1' );
+Rgba8 g_clearColor = Rgba8( 0, 0, 0, 1 );
 
 App::App()
 {
@@ -50,18 +51,23 @@ void App::RunFrame()
 
 void App::Update(float deltaSeconds)
 {
+	if( m_currentState != m_nextState )
+	{
+		m_currentState = m_nextState;
+	}
+
 	CheckKeyboardInput();
 	CheckControllerInput();
 	g_engine->m_input->BeginFrame();
 
-	if( m_isAttractMode )
+	if( m_currentState == GAME_STATE_ATTRACT )
 	{
 		m_time += deltaSeconds * 1.25f;
 		m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
 
 		for( int startIndex = 0; startIndex < 3; startIndex++ )
 		{
-			m_startVerts[ startIndex ].m_color = Rgba8( 0.f, 255.f, 0.f, m_startAlpha );
+			m_startVerts[ startIndex ].m_color = Rgba8( 0, 255, 0, (unsigned int)m_startAlpha );
 		}
 		return;
 	}
@@ -81,7 +87,7 @@ void App::Update(float deltaSeconds)
 
 void App::Render() const
 {
-	if( m_isAttractMode )
+	if( m_currentState == GAME_STATE_ATTRACT )
 	{
 		RenderAttractMode();
 		return;
@@ -131,17 +137,17 @@ bool App::IsQuitting() const
 
 void App::CheckKeyboardInput()
 {
-	if( m_isAttractMode && g_engine->m_input->wasKeyJustPressed( ' ' ) || g_engine->m_input->wasKeyJustPressed( 'N' ) )
+	if( m_currentState == GAME_STATE_ATTRACT && g_engine->m_input->wasKeyJustPressed( ' ' ) || g_engine->m_input->wasKeyJustPressed( 'N' ) )
 	{
-		m_isAttractMode = false;
+		m_nextState = GAME_STATE_PLAY;
 	}
 
-	if( !m_isAttractMode && g_engine->m_input->wasKeyJustPressed( KEYCODE_ESC ) )
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_ESC ) )
 	{
-		m_isAttractMode = true;
+		m_nextState = GAME_STATE_ATTRACT;
 	}
 	
-	if( !m_isAttractMode && g_engine->m_input->wasKeyJustPressed( KEYCODE_F1 ) )
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_F1 ) )
 	{
 		if( !m_debugDraw )
 		{
@@ -153,7 +159,7 @@ void App::CheckKeyboardInput()
 		}
 	}
 
-	if( !m_isAttractMode && g_engine->m_input->wasKeyJustPressed( KEYCODE_F8 ) )
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_F8 ) )
 	{
 		RestartGame();
 	}
@@ -164,14 +170,14 @@ void App::CheckControllerInput()
 {
 	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
 
-	if( m_isAttractMode && ( controller.WasButtonJustPressed( XboxButtonID::START ) || controller.WasButtonJustPressed( XboxButtonID::A ) ) )
+	if( m_currentState == GAME_STATE_ATTRACT && ( controller.WasButtonJustPressed( XboxButtonID::START ) || controller.WasButtonJustPressed( XboxButtonID::A ) ) )
 	{
-		m_isAttractMode = false;
+		m_nextState = GAME_STATE_PLAY;
 	}
 
-	if( !m_isAttractMode && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
+	if( m_currentState == GAME_STATE_PLAY && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
 	{
-		m_isAttractMode = true;
+		m_nextState = GAME_STATE_ATTRACT;
 	}
 }
 

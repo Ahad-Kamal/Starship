@@ -3,6 +3,13 @@
 struct Vec2;
 struct Rgba8;
 
+enum GameState
+{
+	GAME_STATE_INVALID = -1,
+	GAME_STATE_ATTRACT,
+	GAME_STATE_PLAY
+};
+
 constexpr char FUNCTION_KEY_1 = 'p';
 constexpr char FUNCTION_KEY_8 = 'w';
 constexpr int NUM_STARTING_ASTEROIDS = 6;

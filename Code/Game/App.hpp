@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Camera.hpp"
+#include "Game/GameCommon.hpp"
 
 class App;
 class Game;
@@ -35,7 +36,8 @@ public:
 	bool m_isSlowMo = false;
 	bool m_pauseAfterNextUpdate = false;
 	bool m_debugDraw = false;
-	bool m_isAttractMode = true;
+	GameState m_currentState = GAME_STATE_INVALID;
+	GameState m_nextState = GAME_STATE_ATTRACT;
 
 private:
 	Vertex m_startVerts[ 3 ];

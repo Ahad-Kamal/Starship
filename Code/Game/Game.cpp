@@ -584,7 +584,7 @@ void Game::CheckForGameOver()
 			}
 			else
 			{
-				g_app->m_isAttractMode = true;
+				g_app->m_nextState = GAME_STATE_ATTRACT;
 				g_app->RestartGame();
 			}
 		}
@@ -637,7 +637,7 @@ void Game::CheckIfWaveNeedsToSpawn()
 			}
 			else
 			{
-				g_app->m_isAttractMode = true;
+				g_app->m_nextState = GAME_STATE_ATTRACT;
 				g_app->RestartGame();
 			}
 		}
