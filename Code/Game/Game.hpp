@@ -60,9 +60,12 @@ private:
 	void DebugRenderEntities() const;
 	void DeleteGarbageEntities();
 
+public:
+	Camera* m_worldCamera;
+	Camera* m_screenCamera;
+
 private:
 	App*		m_app = nullptr;
-	Camera*		m_gameCamera = nullptr;
 	PlayerShip* m_playerShip = nullptr;
 	Asteroid*	m_asteroids[ MAX_ASTEROIDS ] = {};
 	Bullet*		m_bullets[ MAX_BULLETS ] = {};

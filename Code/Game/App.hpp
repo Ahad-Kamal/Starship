@@ -39,4 +39,6 @@ public:
 
 private:
 	Vertex m_startVerts[ 3 ];
+	float m_startAlpha = 255.f;
+	float m_time = 0.f;
 };

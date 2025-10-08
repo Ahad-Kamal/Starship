@@ -28,6 +28,12 @@ Game::~Game()
 
 void Game::Startup()
 {
+	m_worldCamera = new Camera();
+	m_screenCamera = new Camera();
+
+	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f) , Vec2( 200.f, 100.f) );
+	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f) , Vec2( 1600.f, 800.f) );
+	
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 	m_playerShip = new PlayerShip( this, worldCenter );
 

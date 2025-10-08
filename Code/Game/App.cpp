@@ -9,9 +9,11 @@
 #include "Game/PlayerShip.hpp"
 #include "Game/GameCommon.hpp"
 
+#include <math.h>
+
 App* g_app = nullptr;
 
-Rgba8 g_clearColor = Rgba8();
+Rgba8 g_clearColor = Rgba8( 0.f, 0.f, 0.f, 1.f );
 
 App::App()
 {
@@ -54,6 +56,13 @@ void App::Update(float deltaSeconds)
 
 	if( m_isAttractMode )
 	{
+		m_time += deltaSeconds * 1.25f;
+		m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
+
+		for( int startIndex = 0; startIndex < 3; startIndex++ )
+		{
+			m_startVerts[ startIndex ].m_color = Rgba8( 0.f, 255.f, 0.f, m_startAlpha );
+		}
 		return;
 	}
 
@@ -80,19 +89,21 @@ void App::Render() const
 		return;
 	}
 
-	g_engine->m_render->BeginCamera(*g_engine->m_camera);
+	//g_engine->m_render->BeginCamera(*g_engine->m_camera);
+	g_engine->m_render->BeginCamera( *m_game->m_worldCamera );
 	
-	g_engine->m_render->ClearScreen(g_clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
+	g_engine->m_render->ClearScreen( g_clearColor ); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
 
 	m_game->Render();
 
-	g_engine->m_render->EndCamera(*g_engine->m_camera);
+	//g_engine->m_render->EndCamera(*g_engine->m_camera);
+	g_engine->m_render->EndCamera( *m_game->m_worldCamera );
 }
 
 void App::RenderAttractMode() const
 {
 	Camera attractCamera;
-	attractCamera.SetOrthoView( Vec2( 0.f, 0.f), Vec2( 20.f, 10.f ) );
+	attractCamera.SetOrthoView( Vec2( 0.f, 0.f), Vec2( 200.f, 100.f ) );
 	g_engine->m_render->BeginCamera( attractCamera );
 
 	g_engine->m_render->ClearScreen(g_clearColor); // note to self, clearColor is null, fine for now since its not currently in use but remember this for later
