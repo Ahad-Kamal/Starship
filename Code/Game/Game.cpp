@@ -155,10 +155,17 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 		Bullet*& bullet = m_bullets[ bulletIndex ];
 		if( !bullet )
 		{
+			float bulletOffset = g_rng->RollRandomFloatInRange( -5.f, 5.f );
+			Vec2 bulletOffsetVector = Vec2( bulletOffset, bulletOffset );
+
 			bullet = new Bullet( this, pos );
 			bullet->m_orientationDegrees = forwardDegrees;
-			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees );
-			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees );
+			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees + bulletOffset );
+			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees + bulletOffset );
+
+			SoundID testSound = g_engine->m_audio->CreateOrGetSound( "Data/Audio/TestSound.mp3" );
+			g_engine->m_audio->StartSound( testSound );
+
 			return bullet;
 		}
 	}

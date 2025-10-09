@@ -42,8 +42,13 @@ void PlayerShip::Update(float deltaSeconds)
 	}
 	m_velocity.GetClamped( 30.f );
 	m_position += m_velocity * deltaSeconds;
-}
 
+	if( m_fireCooldown < MAX_FIRE_COOLDOWN )
+	{
+ 		m_fireCooldown += deltaSeconds;
+		m_fireCooldown = GetClamped( m_fireCooldown, 0.f, MAX_FIRE_COOLDOWN );
+	}
+}
 void PlayerShip::Render() const
 {
 	Vertex tempShipWorldVerts[ NUM_SHIP_VERTS_TOTAL ];
@@ -110,13 +115,11 @@ void PlayerShip::InitializeLocalVerts()
 
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
-	
-	if( g_engine->m_input->wasKeyJustPressed( ' ' ) && IsAlive() )
+	if( g_engine->m_input->isKeyDown( ' ' ) && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
 	{
+		m_fireCooldown = 0.f;
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
-		SoundID testSound = g_engine->m_audio->CreateOrGetSound( "Data/Audio/TestSound.mp3" );
-		g_engine->m_audio->StartSound( testSound );
 	}
 
 	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
@@ -179,8 +182,9 @@ void PlayerShip::UpdateFromController()
 		DeactivateThrust();
 	}
 
-	if( controller.WasButtonJustPressed( XboxButtonID::A ) && IsAlive() )
+	if( controller.IsButtonDown( XboxButtonID::A ) && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
 	{
+		m_fireCooldown = 0.f;
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
 	}

@@ -4,11 +4,14 @@
 #include "Game/Entity.hpp"
 
 class Game;
+
 constexpr int NUM_SHIP_TRIS = 5;
 constexpr int NUM_SHIP_VERTS = 3 * NUM_SHIP_TRIS;
 constexpr int NUM_THRUST_TRIS = 1;
 constexpr int NUM_THRUST_VERTS = 3 * NUM_THRUST_TRIS;
 constexpr int NUM_SHIP_VERTS_TOTAL = NUM_SHIP_VERTS + NUM_THRUST_VERTS;
+
+constexpr float MAX_FIRE_COOLDOWN = 0.2f;
 
 void createFakePlayerShip( Vertex verts[], float transparency );
 
@@ -43,4 +46,5 @@ private:
 	bool m_isKeyboardThrusting = false;
 	bool m_isControllerThrusting = false;
 	float m_thrustFraction = 0.f;
+	float m_fireCooldown = MAX_FIRE_COOLDOWN;
 };
