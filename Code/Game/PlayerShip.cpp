@@ -179,7 +179,7 @@ void PlayerShip::UpdateFromController()
 		DeactivateThrust();
 	}
 
-	if( controller.WasButtonJustPressed( XboxButtonID::A ) )
+	if( controller.WasButtonJustPressed( XboxButtonID::A ) && IsAlive() )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
