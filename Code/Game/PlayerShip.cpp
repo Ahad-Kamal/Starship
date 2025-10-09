@@ -189,7 +189,7 @@ void PlayerShip::UpdateFromController()
 void PlayerShip::ActivateThrust()
 {
 	float randomAlpha = g_rng->RollRandomFloatInRange( 80.f, 240.f );
-	float randomLength = g_rng->RollRandomFloatInRange( -4.f, -8.f );
+	float randomLength = GetClamped( g_rng->RollRandomFloatInRange( -4.f, -8.f ) * m_thrustFraction , -8.f, 0.f );
 
 	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
 	{
@@ -204,6 +204,7 @@ void PlayerShip::DeactivateThrust()
 	{
 		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, 0 );
 	}
+	m_localVerts[ NUM_SHIP_VERTS_TOTAL - 1 ].m_pos.x = -4.f;
 }
 
 void PlayerShip::BounceOffWalls()
