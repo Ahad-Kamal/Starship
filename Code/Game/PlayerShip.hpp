@@ -6,6 +6,9 @@
 class Game;
 constexpr int NUM_SHIP_TRIS = 5;
 constexpr int NUM_SHIP_VERTS = 3 * NUM_SHIP_TRIS;
+constexpr int NUM_THRUST_TRIS = 1;
+constexpr int NUM_THRUST_VERTS = 3 * NUM_THRUST_TRIS;
+constexpr int NUM_SHIP_VERTS_TOTAL = NUM_SHIP_VERTS + NUM_THRUST_VERTS;
 
 void createFakePlayerShip( Vertex verts[], float transparency );
 
@@ -25,6 +28,8 @@ private:
 	void InitializeLocalVerts();
 	void UpdateFromKeyboard( float deltaSeconds );
 	void UpdateFromController();
+	void ActivateThrust();
+	void DeactivateThrust();
 	void BounceOffWalls();
 	void Respawn();
 
@@ -32,9 +37,10 @@ public:
 	int m_lives = 4;
 
 private:
-	Vertex	m_localVerts[ NUM_SHIP_VERTS ];
+	Vertex	m_localVerts[ NUM_SHIP_VERTS_TOTAL ];
 	bool m_isTurningLeft = false;
 	bool m_isTurningRight = false;
 	bool m_isThrusting = false;
+	bool m_showThrust = false;
 	float m_thrustFraction = 0.f;
 };

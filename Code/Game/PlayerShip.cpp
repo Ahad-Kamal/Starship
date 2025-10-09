@@ -46,14 +46,14 @@ void PlayerShip::Update(float deltaSeconds)
 
 void PlayerShip::Render() const
 {
-	Vertex tempShipWorldVerts[NUM_SHIP_VERTS];
-	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
+	Vertex tempShipWorldVerts[ NUM_SHIP_VERTS_TOTAL ];
+	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS_TOTAL; vertIndex++ )
 	{
-		tempShipWorldVerts[vertIndex] = m_localVerts[vertIndex];
+		tempShipWorldVerts[ vertIndex ] = m_localVerts[ vertIndex ];
 	}
 
-	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipWorldVerts, 1.f, m_orientationDegrees, m_position );
-	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipWorldVerts );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS_TOTAL, tempShipWorldVerts, 1.f, m_orientationDegrees, m_position );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS_TOTAL, tempShipWorldVerts );
 }
 
 void PlayerShip::Die()
@@ -69,34 +69,43 @@ void PlayerShip::Die()
 void PlayerShip::InitializeLocalVerts()
 {
 	// Nose Cone
-	m_localVerts[0].m_pos = Vec3( 1.f, 0.f, 0.f );
-	m_localVerts[1].m_pos = Vec3( 0.f, 1.f, 0.f );
-	m_localVerts[2].m_pos = Vec3( 0.f, -1.f, 0.f );
+	m_localVerts[ 0 ].m_pos = Vec3( 1.f, 0.f, 0.f );
+	m_localVerts[ 1 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	m_localVerts[ 2 ].m_pos = Vec3( 0.f, -1.f, 0.f );
 
 	// Left Wing
-	m_localVerts[3].m_pos = Vec3( 2.f, 1.f, 0.f );
-	m_localVerts[4].m_pos = Vec3( 0.f, 2.f, 0.f );
-	m_localVerts[5].m_pos = Vec3( -2.f, 1.f, 0.f );
+	m_localVerts[ 3 ].m_pos = Vec3( 2.f, 1.f, 0.f );
+	m_localVerts[ 4 ].m_pos = Vec3( 0.f, 2.f, 0.f );
+	m_localVerts[ 5 ].m_pos = Vec3( -2.f, 1.f, 0.f );
 
 	// Right Wing
-	m_localVerts[6].m_pos = Vec3( 2.f, -1.f, 0.f );
-	m_localVerts[7].m_pos = Vec3( -2.f, -1.f, 0.f );
-	m_localVerts[8].m_pos = Vec3( 0.f, -2.f, 0.f );
+	m_localVerts[ 6 ].m_pos = Vec3( 2.f, -1.f, 0.f );
+	m_localVerts[ 7 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	m_localVerts[ 8 ].m_pos = Vec3( 0.f, -2.f, 0.f );
 
 	// Body (Quad Tri 1)
-	m_localVerts[9].m_pos = Vec3( 0.f, 1.f, 0.f );
-	m_localVerts[10].m_pos = Vec3( -2.f, -1.f, 0.f );
-	m_localVerts[11].m_pos = Vec3( 0.f, -1.f, 0.f );
+	m_localVerts[ 9 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	m_localVerts[ 10 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	m_localVerts[ 11 ].m_pos = Vec3( 0.f, -1.f, 0.f );
 
 	// Body (Quad Tri 2)
-	m_localVerts[12].m_pos = Vec3( 0.f, 1.f, 0.f );
-	m_localVerts[13].m_pos = Vec3( -2.f, 1.f, 0.f );
-	m_localVerts[14].m_pos = Vec3( -2.f, -1.f, 0.f );
+	m_localVerts[ 12 ].m_pos = Vec3( 0.f, 1.f, 0.f );
+	m_localVerts[ 13 ].m_pos = Vec3( -2.f, 1.f, 0.f );
+	m_localVerts[ 14 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+
+	// Thruster
+	m_localVerts[ 15 ].m_pos = Vec3( -2.f, 1.f, 0.f );
+	m_localVerts[ 16 ].m_pos = Vec3( -2.f, -1.f, 0.f );
+	m_localVerts[ 17 ].m_pos = Vec3( -5.f, 0.f, 0.f );
 
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
-		m_localVerts[vertIndex].m_color = m_color;
+		m_localVerts[ vertIndex ].m_color = m_color;
 	}
+	/*for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
+	{
+		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, 200 );
+	}*/
 }
 
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
@@ -118,6 +127,11 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	if( g_engine->m_input->isKeyDown( 'E' ) && IsAlive() )
 	{
 		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
+		ActivateThrust();
+	}
+	else
+	{
+		DeactivateThrust();
 	}
 
 	if( g_engine->m_input->isKeyDown( 'S' ) && IsAlive() )
@@ -155,16 +169,35 @@ void PlayerShip::UpdateFromController()
 		m_isThrusting = true;
 		m_thrustFraction = leftStickMagnitude;
 		m_orientationDegrees = controller.GetLeftStick().GetOrientationDegrees();
+		ActivateThrust();
 	}
 	else
 	{
 		m_isThrusting = false;
+		DeactivateThrust();
 	}
 
 	if( controller.WasButtonJustPressed( XboxButtonID::A ) )
 	{
 		Vec2 bulletOffset = this->GetForwardNormal();
 		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
+	}
+}
+
+void PlayerShip::ActivateThrust()
+{
+	float randomAlpha = g_rng->RollRandomFloatInRange( 0, 200 );
+	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
+	{
+		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, randomAlpha );
+	}
+}
+
+void PlayerShip::DeactivateThrust()
+{
+	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
+	{
+		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, 0 );
 	}
 }
 
