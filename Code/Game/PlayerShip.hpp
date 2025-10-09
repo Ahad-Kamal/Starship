@@ -40,7 +40,7 @@ private:
 	Vertex	m_localVerts[ NUM_SHIP_VERTS_TOTAL ];
 	bool m_isTurningLeft = false;
 	bool m_isTurningRight = false;
-	bool m_isThrusting = false;
-	bool m_showThrust = false;
+	bool m_isKeyboardThrusting = false;
+	bool m_isControllerThrusting = false;
 	float m_thrustFraction = 0.f;
 };

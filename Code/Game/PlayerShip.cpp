@@ -36,7 +36,7 @@ void PlayerShip::Update(float deltaSeconds)
 	UpdateFromController();
 	BounceOffWalls();
 	
-	if( m_isThrusting )
+	if( m_isControllerThrusting )
 	{
 		m_velocity += this->GetForwardNormal() * m_thrustFraction * PLAYER_SHIP_ACCELERATION * deltaSeconds;
 	}
@@ -96,7 +96,7 @@ void PlayerShip::InitializeLocalVerts()
 	// Thruster
 	m_localVerts[ 15 ].m_pos = Vec3( -2.f, 1.f, 0.f );
 	m_localVerts[ 16 ].m_pos = Vec3( -2.f, -1.f, 0.f );
-	m_localVerts[ 17 ].m_pos = Vec3( -5.f, 0.f, 0.f );
+	m_localVerts[ 17 ].m_pos = Vec3( -4.f, 0.f, 0.f );
 
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
@@ -127,10 +127,12 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	if( g_engine->m_input->isKeyDown( 'E' ) && IsAlive() )
 	{
 		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
+		m_isKeyboardThrusting = true;
 		ActivateThrust();
 	}
-	else
+	else if( !m_isControllerThrusting )
 	{
+		m_isKeyboardThrusting = false;
 		DeactivateThrust();
 	}
 
@@ -166,14 +168,14 @@ void PlayerShip::UpdateFromController()
 	float leftStickMagnitude = controller.GetLeftStick().GetMagnitude();
 	if( leftStickMagnitude > 0.f )
 	{
-		m_isThrusting = true;
+		m_isControllerThrusting = true;
 		m_thrustFraction = leftStickMagnitude;
 		m_orientationDegrees = controller.GetLeftStick().GetOrientationDegrees();
 		ActivateThrust();
 	}
-	else
+	else if( !m_isKeyboardThrusting )
 	{
-		m_isThrusting = false;
+		m_isControllerThrusting = false;
 		DeactivateThrust();
 	}
 
@@ -186,11 +188,14 @@ void PlayerShip::UpdateFromController()
 
 void PlayerShip::ActivateThrust()
 {
-	float randomAlpha = g_rng->RollRandomFloatInRange( 0, 200 );
+	float randomAlpha = g_rng->RollRandomFloatInRange( 80.f, 240.f );
+	float randomLength = g_rng->RollRandomFloatInRange( -4.f, -8.f );
+
 	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
 	{
 		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, randomAlpha );
 	}
+	m_localVerts[ NUM_SHIP_VERTS_TOTAL - 1 ].m_pos.x = randomLength;
 }
 
 void PlayerShip::DeactivateThrust()
