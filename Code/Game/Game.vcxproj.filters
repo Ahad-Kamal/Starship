@@ -78,5 +78,8 @@
     <ClInclude Include="EngineBuildPreferences.hpp">
       <Filter>Framework</Filter>
     </ClInclude>
+    <ClInclude Include="Sounds.hpp">
+      <Filter>Framework</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

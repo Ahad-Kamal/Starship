@@ -163,9 +163,6 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees + bulletOffset );
 			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees + bulletOffset );
 
-			SoundID testSound = g_engine->m_audio->CreateOrGetSound( "Data/Audio/TestSound.mp3" );
-			g_engine->m_audio->StartSound( testSound );
-
 			return bullet;
 		}
 	}
