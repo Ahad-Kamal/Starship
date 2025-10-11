@@ -193,7 +193,7 @@ void PlayerShip::UpdateFromController()
 void PlayerShip::ActivateThrust()
 {
 	float randomAlpha = g_rng->RollRandomFloatInRange( 80.f, 240.f );
-	float randomLength = GetClamped( g_rng->RollRandomFloatInRange( -4.f, -8.f ) * m_thrustFraction , -8.f, 0.f );
+	float randomLength = GetClamped( g_rng->RollRandomFloatInRange( -4.f, -8.f ) * m_thrustFraction , -8.f, -2.f );
 
 	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
 	{
