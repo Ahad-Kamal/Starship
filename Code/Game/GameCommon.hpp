@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Audio/AudioSystem.hpp"
 
 struct Vec2;
 struct Rgba8;
@@ -61,8 +62,6 @@ SoundID audio_waveStart;
 SoundID audio_victory;
 SoundID audio_gameOver;
 
-void CreateSounds();
-
-
 void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
 void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color);
+void CreateSounds();
