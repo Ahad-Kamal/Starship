@@ -58,18 +58,18 @@ constexpr float DEBUG_LINE_THICKNESS = 0.2f;
 //	SOUNDS_ICE_SHOOT,
 //};
 
-static SoundID audio_music;
-static SoundID audio_selectSound;
-static SoundID audio_fireShoot;
-static SoundID audio_fireExplosion;
-static SoundID audio_iceShoot;
-static SoundID audio_iceExplosion;
-static SoundID audio_hurt;
-static SoundID audio_shipExplosion;
-static SoundID audio_enemyExplosion;
-static SoundID audio_waveStart;
-static SoundID audio_victory;
-static SoundID audio_gameOver;
+extern SoundID audio_music;
+extern SoundID audio_selectSound;
+extern SoundID audio_fireShoot;
+extern SoundID audio_fireExplosion;
+extern SoundID audio_iceShoot;
+extern SoundID audio_iceExplosion;
+extern SoundID audio_hurt;
+extern SoundID audio_shipExplosion;
+extern SoundID audio_enemyExplosion;
+extern SoundID audio_waveStart;
+extern SoundID audio_victory;
+extern SoundID audio_gameOver;
 
 void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
 void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color);

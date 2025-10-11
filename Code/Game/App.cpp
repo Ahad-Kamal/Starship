@@ -55,7 +55,7 @@ void App::Update(float deltaSeconds)
 	if( m_currentState != m_nextState )
 	{
 		m_currentState = m_nextState;
-		//g_engine->m_audio->StartSound( audio_selectSound );
+		g_engine->m_audio->StartSound( audio_selectSound );
 	}
 
 	CheckKeyboardInput();
