@@ -200,7 +200,6 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameCommon.hpp" />
     <ClInclude Include="PlayerShip.hpp" />
-    <ClInclude Include="Sounds.hpp" />
     <ClInclude Include="Wasp.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
