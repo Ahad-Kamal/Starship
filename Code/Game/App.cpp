@@ -1,6 +1,7 @@
 #include "Engine/Core/Rgba8.hpp"
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Renderer/SimpleTriangleFont.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Time.hpp"
@@ -19,6 +20,7 @@ App::App()
 	g_engine = new Engine();
 	m_game = new Game( this );
 
+	CreateSounds();
 	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 	InitializeStartTriangleVerts();
 	createFakePlayerShip( m_fakeShipVerts, 255 );
@@ -53,6 +55,7 @@ void App::Update(float deltaSeconds)
 	if( m_currentState != m_nextState )
 	{
 		m_currentState = m_nextState;
+		//g_engine->m_audio->StartSound( audio_selectSound );
 	}
 
 	CheckKeyboardInput();
@@ -113,6 +116,7 @@ void App::RenderAttractMode() const
 
 	g_engine->m_render->ClearScreen( g_clearColor ); 
 
+	// Draw Ships
 	Vertex tempShipVerts[ NUM_SHIP_VERTS ];
 	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
 	{
@@ -126,7 +130,25 @@ void App::RenderAttractMode() const
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 180.f, Vec2( 1300.f, 400.f ) );
 	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
 
+	// Draw Start Button
 	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
+
+	// Draw Text
+	std::vector<Vertex> textStarshipDropShadowVerts;
+	AddVertsForTextTriangles2D( textStarshipDropShadowVerts, "Starship", Vec2( 622.f, 699.f ), 40.f, Rgba8( 0, 153, 204 ) );
+	g_engine->m_render->DrawVertexArray( (int)textStarshipDropShadowVerts.size(), textStarshipDropShadowVerts.data() );
+
+	std::vector<Vertex> textStarshipVerts;
+	AddVertsForTextTriangles2D( textStarshipVerts, "Starship", Vec2( 620.f, 700.f), 40.f, Rgba8( 255, 25, 25 ) );
+	g_engine->m_render->DrawVertexArray( (int) textStarshipVerts.size(), textStarshipVerts.data() );
+
+	std::vector<Vertex> textGoldDropShadowVerts;
+	AddVertsForTextTriangles2D( textGoldDropShadowVerts, "Gold", Vec2( 862.f, 699.f ), 40.f, Rgba8( 204, 25, 25 ) );
+	g_engine->m_render->DrawVertexArray( (int)textGoldDropShadowVerts.size(), textGoldDropShadowVerts.data() );
+
+	std::vector<Vertex> textGoldVerts;
+	AddVertsForTextTriangles2D( textGoldVerts, "Gold", Vec2( 860.f, 700.f ), 40.f, Rgba8( 51, 204, 255 ) );
+	g_engine->m_render->DrawVertexArray( (int)textGoldVerts.size(), textGoldVerts.data() );
 
 	g_engine->m_render->EndCamera( *m_game->m_screenCamera );
 }

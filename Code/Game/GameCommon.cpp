@@ -117,7 +117,7 @@ void CreateSounds()
 	audio_hurt = g_engine->m_audio->CreateOrGetSound("Data/Audio/Hit_Hurt.mp3");
 	audio_shipExplosion = g_engine->m_audio->CreateOrGetSound("Data/Audio/Ship_Explosion.mp3");
 	audio_enemyExplosion = g_engine->m_audio->CreateOrGetSound("Data/Audio/Enemy_Explosion.mp3");
-	audio_waveStart = g_engine->m_audio->CreateOrGetSound("Data/Audio/Wave_Start");
+	audio_waveStart = g_engine->m_audio->CreateOrGetSound("Data/Audio/Wave_Start.mp3");
 	audio_victory = g_engine->m_audio->CreateOrGetSound("Data/Audio/Victory.mp3");
 	audio_gameOver = g_engine->m_audio->CreateOrGetSound("Data/Audio/Game_Over.mp3");
 }

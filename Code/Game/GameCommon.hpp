@@ -49,18 +49,27 @@ constexpr float DEBRIS_PHYSICS_RADIUS = 0.5f;
 constexpr float DEBRIS_COSMETIC_RADIUS = 2.f;
 constexpr float DEBUG_LINE_THICKNESS = 0.2f;
 
-SoundID audio_music;
-SoundID audio_selectSound;
-SoundID audio_fireShoot;
-SoundID audio_fireExplosion;
-SoundID audio_iceShoot;
-SoundID audio_iceExplosion;
-SoundID audio_hurt;
-SoundID audio_shipExplosion;
-SoundID audio_enemyExplosion;
-SoundID audio_waveStart;
-SoundID audio_victory;
-SoundID audio_gameOver;
+//enum Sounds
+//{
+//	SOUNDS_MUSIC,
+//	SOUNDS_SELECT_SOUND,
+//	SOUNDS_FIRE_SHOOT,
+//	SOUNDS_FIRE_EXPLOSION,
+//	SOUNDS_ICE_SHOOT,
+//};
+
+static SoundID audio_music;
+static SoundID audio_selectSound;
+static SoundID audio_fireShoot;
+static SoundID audio_fireExplosion;
+static SoundID audio_iceShoot;
+static SoundID audio_iceExplosion;
+static SoundID audio_hurt;
+static SoundID audio_shipExplosion;
+static SoundID audio_enemyExplosion;
+static SoundID audio_waveStart;
+static SoundID audio_victory;
+static SoundID audio_gameOver;
 
 void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
 void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color);
