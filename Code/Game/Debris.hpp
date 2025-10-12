@@ -13,7 +13,6 @@ constexpr int NUM_DEBRIS_VERTS = 3 * NUM_DEBRIS_TRIS;
 class Debris : public Entity
 {
 public:
-	//Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, float radius, Rgba8 color, float lifetimeSeconds );
 	Debris( Game* owner, Vec2 const& startingPos, Vec2 const& vel, Rgba8 color );
 	~Debris() = default;
 
