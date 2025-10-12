@@ -33,4 +33,13 @@ public:
 	bool	m_isDead = false;	// gameplay idea of "dead"
 	bool	m_isGarbage = false;	// code idea of "dead"
 	float	m_ageSeconds = 0.f;
+
+protected:
+	void	TakeFireDamage();
+
+protected:
+	bool	m_isOnFire = false;
+	bool	m_isSlow = false;
+	float	m_FireTick;
+	float	m_SlowTimer;
 };

@@ -265,7 +265,7 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 {
 	for( int i = 0; i < count; i++ )
 	{
-		float heading = g_rng->RollRandomFloatInRange( -60.f, 60.f );
+		float heading = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 		float speed = g_rng->RollRandomFloatInRange( 10.f, 30.f );
 		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed ) * forwardVector;
 		Vec2 worldVelocity = clusterVelocity + localVelocity;

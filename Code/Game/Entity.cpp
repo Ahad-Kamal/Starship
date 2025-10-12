@@ -92,3 +92,11 @@ Vec2 Entity::GetForwardNormal() const
 	return Vec2( CosDegrees( m_orientationDegrees ), SinDegrees( m_orientationDegrees ) );
 }
 
+void Entity::TakeFireDamage()
+{
+	if( !m_isOnFire )
+	{
+		return;
+	}
+}
+

@@ -8,7 +8,7 @@
 Wasp::Wasp( Game* owner, Vec2 const& startingPosition )
 	: Entity( owner, startingPosition )
 {
-	m_health = 2;
+	m_health = 5;
 	m_physicsRadius = WASP_PHYSICS_RADIUS;
 	m_cosmeticRadius = WASP_COSMETIC_RADIUS;
 	m_color = Rgba8( 255, 255, 0 );

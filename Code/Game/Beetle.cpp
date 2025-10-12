@@ -8,7 +8,7 @@
 Beetle::Beetle( Game* owner, Vec2 const& startingPosition )
 	: Entity( owner, startingPosition )
 {
-	m_health = 3;
+	m_health = 10;
 	m_physicsRadius = BEETLE_PHYSICS_RADIUS;
 	m_cosmeticRadius = BEETLE_COSMETIC_RADIUS;
 	m_color = Rgba8( 0, 255, 0 );
