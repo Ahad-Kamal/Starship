@@ -37,6 +37,7 @@ public:
 
 	Asteroid* SpawnRandomAsteroid();
 	Bullet* SpawnFireBullet(Vec2 const& pos, float forwardDegrees);
+	Bullet* SpawnIceBullet(Vec2 const& pos, float forwardDegrees);
 	Beetle* SpawnNewRandomBeetle();
 	Wasp* SpawnNewRandomWasp();
 	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale );

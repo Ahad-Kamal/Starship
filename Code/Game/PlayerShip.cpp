@@ -43,10 +43,15 @@ void PlayerShip::Update(float deltaSeconds)
 	m_velocity.GetClamped( 30.f );
 	m_position += m_velocity * deltaSeconds;
 
-	if( m_fireCooldown < MAX_FIRE_COOLDOWN )
+	if( m_fireBulletCooldown < MAX_FIRE_BULLET_COOLDOWN )
 	{
- 		m_fireCooldown += deltaSeconds;
-		m_fireCooldown = GetClamped( m_fireCooldown, 0.f, MAX_FIRE_COOLDOWN );
+ 		m_fireBulletCooldown += deltaSeconds;
+		m_fireBulletCooldown = GetClamped( m_fireBulletCooldown, 0.f, MAX_FIRE_BULLET_COOLDOWN );
+	}
+	if( m_iceBulletCooldown < MAX_ICE_BULLET_COOLDOWN )
+	{
+		m_iceBulletCooldown += deltaSeconds;
+		m_iceBulletCooldown = GetClamped( m_iceBulletCooldown, 0.f, MAX_ICE_BULLET_COOLDOWN );
 	}
 }
 void PlayerShip::Render() const
@@ -115,11 +120,17 @@ void PlayerShip::InitializeLocalVerts()
 
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
-	if( g_engine->m_input->isKeyDown( ' ' ) && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
+	if( g_engine->m_input->isKeyDown( 'W' ) && IsAlive() && m_fireBulletCooldown == MAX_FIRE_BULLET_COOLDOWN )
 	{
-		m_fireCooldown = 0.f;
+		m_fireBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
 		m_game->SpawnFireBullet( m_position + bulletOffset, m_orientationDegrees );
+	}
+	if( g_engine->m_input->isKeyDown( 'R' ) && IsAlive() && m_iceBulletCooldown == MAX_ICE_BULLET_COOLDOWN )
+	{
+		m_fireBulletCooldown = 0.f;
+		Vec2 bulletOffset = Vec2( 2.f, 1.f ).GetRotatedByDegrees( m_orientationDegrees );
+		m_game->SpawnIceBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 
 	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
@@ -182,11 +193,17 @@ void PlayerShip::UpdateFromController()
 		DeactivateThrust();
 	}
 
-	if( controller.GetRightTrigger() == 1.f && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
+	if( controller.GetRightTrigger() == 1.f && IsAlive() && m_fireBulletCooldown == MAX_FIRE_BULLET_COOLDOWN )
 	{
-		m_fireCooldown = 0.f;
+		m_fireBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
 		m_game->SpawnFireBullet( m_position + bulletOffset, m_orientationDegrees );
+	}
+	if( controller.GetLeftTrigger() == 1.f && IsAlive() && m_iceBulletCooldown == MAX_ICE_BULLET_COOLDOWN )
+	{
+		m_iceBulletCooldown = 0.f;
+		Vec2 bulletOffset = Vec2( 2.f, 1.f ).GetRotatedByDegrees( m_orientationDegrees );
+		m_game->SpawnIceBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 }
 

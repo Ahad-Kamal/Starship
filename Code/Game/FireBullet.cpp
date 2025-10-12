@@ -1,6 +1,5 @@
 #include "Game/FireBullet.hpp"
 #include "Game/Bullet.hpp"
-#include "Game/GameCommon.hpp"
 
 FireBullet::FireBullet( Game* owner, Vec2 const& startPos )
 	: Bullet( owner, startPos )

@@ -12,7 +12,8 @@
 #include "Game/Beetle.hpp"
 #include "Game/Wasp.hpp"
 #include "Game/Debris.hpp"
-#include "FireBullet.hpp"
+#include "Game/FireBullet.hpp"
+#include "Game/IceBullet.hpp"
 
 RandomNumberGenerator* g_rng = nullptr;
 
@@ -173,6 +174,29 @@ Bullet* Game::SpawnFireBullet( Vec2 const& pos, float forwardDegrees )
 	}
 
 	ERROR_RECOVERABLE( "Can't spawn a new bullet, max limit reached");
+	return nullptr;
+}
+
+Bullet* Game::SpawnIceBullet( Vec2 const& pos, float forwardDegrees )
+{
+	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
+	{
+		Bullet*& bullet = m_bullets[ bulletIndex ];
+		if( !bullet )
+		{
+			float bulletOffset = g_rng->RollRandomFloatInRange( -5.f, 5.f );
+			Vec2 bulletOffsetVector = Vec2( bulletOffset, bulletOffset );
+
+			bullet = new IceBullet( this, pos );
+			bullet->m_orientationDegrees = forwardDegrees;
+			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees + bulletOffset );
+			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees + bulletOffset );
+
+			return bullet;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new bullet, max limit reached" );
 	return nullptr;
 }
 
