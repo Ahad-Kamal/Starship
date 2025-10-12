@@ -228,26 +228,6 @@ void PlayerShip::DeactivateThrust()
 	m_localVerts[ NUM_SHIP_VERTS_TOTAL - 1 ].m_pos.x = -4.f;
 }
 
-void PlayerShip::BounceOffWalls()
-{
-	if( m_position.x > WORLD_SIZE_X - m_cosmeticRadius )
-	{
-		m_velocity.x *= -1;
-	}
-	else if( m_position.y > WORLD_SIZE_Y - m_cosmeticRadius )
-	{
-		m_velocity.y *= -1;
-	}
-	else if( m_position.x < m_cosmeticRadius )
-	{
-		m_velocity.x *= -1;
-	}
-	else if( m_position. y < m_cosmeticRadius )
-	{
-		m_velocity.y *= -1;
-	}
-}
-
 void PlayerShip::Respawn()
 {
 	m_position = Vec2( WORLD_CENTER_X, WORLD_CENTER_Y );

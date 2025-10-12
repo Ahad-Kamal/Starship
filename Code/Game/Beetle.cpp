@@ -36,6 +36,10 @@ void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 
 	TakeFireDamage();
 	BeSlowed();
+	if( IsOffScreen() )
+	{
+		BounceOffWalls();
+	}
 }
 
 void Beetle::Render() const

@@ -835,8 +835,8 @@ void Game::CreateStarfield()
 		Vertex& vert5Far = m_starVertsFar[ 6 * starNumber + 4 ];
 		Vertex& vert6Far = m_starVertsFar[ 6 * starNumber + 5 ];
 
-		float starX = g_rng->RollRandomFloatInRange( -200.f, WORLD_SIZE_X + 200.f  );
-		float starY = g_rng->RollRandomFloatInRange( -100.f, WORLD_SIZE_Y + 100.f );
+		float starX = g_rng->RollRandomFloatInRange( -WORLD_VIEW_SIZE_X, WORLD_SIZE_X + WORLD_VIEW_SIZE_X );
+		float starY = g_rng->RollRandomFloatInRange( -WORLD_VIEW_SIZE_Y, WORLD_SIZE_Y + WORLD_VIEW_SIZE_Y );
 
 		vert1Near.m_pos = Vec3( starX + 0.5, starY, -0.f );
 		vert2Near.m_pos = Vec3( starX - 0.5, starY, 0.f );

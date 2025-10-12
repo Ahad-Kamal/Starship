@@ -34,7 +34,6 @@ private:
 	void UpdateFromController();
 	void ActivateThrust();
 	void DeactivateThrust();
-	void BounceOffWalls();
 	void Respawn();
 
 public:

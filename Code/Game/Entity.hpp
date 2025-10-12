@@ -22,7 +22,6 @@ public:
 	virtual void Die();
 
 	bool	IsAlive() const;
-	bool	IsOffScreen() const;
 	Vec2	GetForwardNormal() const;
 
 	void	ResetFireTick();
@@ -48,6 +47,8 @@ public:
 	bool	m_isSlow = false;
 
 protected:
+	bool	IsOffScreen() const;
+	void	BounceOffWalls();
 	void	TakeFireDamage();
 	void	BeSlowed();
 

@@ -86,6 +86,26 @@ bool Entity::IsOffScreen() const
 	return false;
 }
 
+void Entity::BounceOffWalls()
+{
+	if( m_position.x > WORLD_SIZE_X - m_cosmeticRadius )
+	{
+		m_velocity.x *= -1;
+	}
+	else if( m_position.y > WORLD_SIZE_Y - m_cosmeticRadius )
+	{
+		m_velocity.y *= -1;
+	}
+	else if( m_position.x < m_cosmeticRadius )
+	{
+		m_velocity.x *= -1;
+	}
+	else if( m_position.y < m_cosmeticRadius )
+	{
+		m_velocity.y *= -1;
+	}
+}
+
 Vec2 Entity::GetForwardNormal() const
 {
 	return Vec2( CosDegrees( m_orientationDegrees ), SinDegrees( m_orientationDegrees ) );

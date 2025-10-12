@@ -21,8 +21,8 @@ constexpr int MAX_WASPS = 60;
 constexpr int MAX_DEBRIS = 600;
 constexpr int MAX_STARS = 2000;
 constexpr int NUM_WAVES = 5;
-constexpr float WORLD_SIZE_X = 800.f;
-constexpr float WORLD_SIZE_Y = 400.f;
+constexpr float WORLD_SIZE_X = 400.f;
+constexpr float WORLD_SIZE_Y = 200.f;
 constexpr float WORLD_VIEW_SIZE_X = 200.f;
 constexpr float WORLD_VIEW_SIZE_Y = 100.f;
 constexpr float SCREEN_SIZE_X = 1600.f;
@@ -42,7 +42,7 @@ constexpr float PLAYER_SHIP_ACCELERATION = 45.f;
 constexpr float PLAYER_SHIP_TURN_SPEED = 300.f;
 constexpr float PLAYER_SHIP_PHYSICS_RADIUS = 1.75f;
 constexpr float PLAYER_SHIP_COSMETIC_RADIUS = 2.25f;
-constexpr float BEETLE_SPEED = 10.f;
+constexpr float BEETLE_SPEED = 20.f;
 constexpr float BEETLE_PHYSICS_RADIUS = 1.75f;
 constexpr float BEETLE_COSMETIC_RADIUS = 2.25f;
 constexpr float WASP_ACCELERATION = 10.f;
@@ -51,15 +51,6 @@ constexpr float WASP_COSMETIC_RADIUS = 2.25f;
 constexpr float DEBRIS_PHYSICS_RADIUS = 0.5f;
 constexpr float DEBRIS_COSMETIC_RADIUS = 2.f;
 constexpr float DEBUG_LINE_THICKNESS = 0.2f;
-
-//enum Sounds
-//{
-//	SOUNDS_MUSIC,
-//	SOUNDS_SELECT_SOUND,
-//	SOUNDS_FIRE_SHOOT,
-//	SOUNDS_FIRE_EXPLOSION,
-//	SOUNDS_ICE_SHOOT,
-//};
 
 extern SoundID audio_music;
 extern SoundID audio_selectSound;

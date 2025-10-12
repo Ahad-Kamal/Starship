@@ -27,21 +27,21 @@ void Asteroid::Update( float deltaSeconds )
 
 	if( IsOffScreen() )
 	{
-		if( m_position.x < 0 - m_cosmeticRadius )
+		if( m_position.x < 0.f - m_cosmeticRadius )
 		{
-			m_position.x = 200 + m_cosmeticRadius;
+			m_position.x = WORLD_SIZE_X + m_cosmeticRadius;
 		}
-		else if( m_position.x > 200 + m_cosmeticRadius )
+		else if( m_position.x > WORLD_SIZE_X + m_cosmeticRadius )
 		{
-			m_position.x = 0 - m_cosmeticRadius;
+			m_position.x = 0.f - m_cosmeticRadius;
 		}
-		else if( m_position.y < 0 - m_cosmeticRadius )
+		else if( m_position.y < 0.f - m_cosmeticRadius )
 		{
-			m_position.y = 100 + m_cosmeticRadius;
+			m_position.y = WORLD_SIZE_Y + m_cosmeticRadius;
 		}
-		else if( m_position.y > 100 + m_cosmeticRadius )
+		else if( m_position.y > WORLD_SIZE_Y + m_cosmeticRadius )
 		{
-			m_position.y = 0 - m_cosmeticRadius;
+			m_position.y = 0.f - m_cosmeticRadius;
 		}
 	}
 }
