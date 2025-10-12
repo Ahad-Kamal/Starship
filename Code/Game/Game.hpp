@@ -36,6 +36,7 @@ public:
 	void Shutdown();
 
 	Asteroid* SpawnRandomFieryAsteroid();
+	Asteroid* SpawnRandomIcyAsteroid();
 	Bullet* SpawnFireBullet(Vec2 const& pos, float forwardDegrees);
 	Bullet* SpawnIceBullet(Vec2 const& pos, float forwardDegrees);
 	Beetle* SpawnNewRandomBeetle();
@@ -81,7 +82,7 @@ public:
 private:
 	App*		m_app = nullptr;
 	PlayerShip* m_playerShip = nullptr;
-	Asteroid*	m_fieryAsteroids[ MAX_ASTEROIDS ] = {};
+	Asteroid*	m_asteroids[ MAX_ASTEROIDS ] = {};
 	Bullet*		m_bullets[ MAX_BULLETS ] = {};
 	Beetle*		m_beetles[ MAX_BEETLES ];
 	Wasp*		m_wasps[ MAX_WASPS ];
@@ -92,7 +93,8 @@ private:
 	Vertex m_starVertsFar[ NUM_STAR_VERTS ];
 
 	int m_waveNumber = 0;
-	int m_numAsteroidsPerWave[ NUM_WAVES ] = { 12, 12, 12, 12, 12 };
+	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 6, 6, 6 };
+	int m_numIcyAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 6, 6, 6 };
 	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 3, 0, 3, 5 };
 	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
 	int m_endGameTimer = 0;
