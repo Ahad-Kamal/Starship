@@ -53,9 +53,12 @@ void App::RunFrame()
 void App::Update(float deltaSeconds)
 {
 	if( m_currentState != m_nextState )
-	{
+	{	
+		if( m_currentState != GAME_STATE_INVALID )
+		{
+			g_engine->m_audio->StartSound( audio_selectSound );
+		}
 		m_currentState = m_nextState;
-		g_engine->m_audio->StartSound( audio_selectSound );
 	}
 
 	CheckKeyboardInput();

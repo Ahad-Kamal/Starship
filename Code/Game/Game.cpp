@@ -31,7 +31,7 @@ void Game::Startup()
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
 
-	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ) );
+	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
 	
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
@@ -63,6 +63,7 @@ void Game::Render() const
 	if ( m_app->m_debugDraw )
 	{
 		DebugRenderEntities();
+		DebugDrawWorldBounds();
 	}
 }
 
@@ -335,8 +336,10 @@ void Game::UpdateEntities(float deltaSeconds)
 
 void Game::UpdateCameras( float deltaSeconds )
 {
-	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
+	Vec2 worldViewSize = Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y );
+	m_worldCamera->SetOrthoView( -worldViewSize * 0.5f, worldViewSize * 0.5f );
+	m_worldCamera->Translate2D( m_playerShip->m_position );
 
 	if( !m_isShaking )
 	{
@@ -771,6 +774,16 @@ void Game::DebugRenderEntities() const
 	}
 }
 
+void Game::DebugDrawWorldBounds() const
+{
+	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
+	DebugDrawLine( Vec2( 0.f, WORLD_SIZE_Y ), Vec2( WORLD_SIZE_X, 0.f ), 5.f, Rgba8( 255, 0, 255 ) );
+	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, 0.f ), 5.f, Rgba8( 255, 0, 255 ) );
+	DebugDrawLine( Vec2( 0.f, WORLD_SIZE_Y ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
+	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( 0.f, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
+	DebugDrawLine( Vec2( WORLD_SIZE_X, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
+}
+
 void Game::DeleteGarbageEntities()
 {
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
@@ -823,23 +836,3 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 }
-
-
-/*
-Update Cameras
-{
-	worldcamera.setOrthoview( Vec2(0.f o.f) Vec2(WorldSizeXm WORLDSIZEY));
-	screenCamera.setOrthoview( Vec3(o.f, 0.f), Vec2( ScreenSIZEX, SCREENSIZEY));
-
-	float maxCameraShake = (m_shakeamt * m_screenShaketrauma
-	float shake x = g.rngRollrandomFloatInRange( -m_shakeamt, m_shakeamt )
-	float shake y = g.rngRollrandomFloatInRange( -m_shakeamt, m_shakeamt )
-
-	camera.translate2D( Vec2 ( shakex, shakey ));
-
-	constexpr float MAXSSCREENSHAKE = 10.f
-	constexptrfloat SXREENSHAKEREDUCTION = 2.f;
-	m_screenshaketrauma -= SCREEN_SHAKE_REDUCTION * deltaseconds
-	m_screenshaketrauma = clamp( m_screenshale, 0.f, MAXSREENSHAKE
-}
-*/

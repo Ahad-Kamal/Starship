@@ -58,10 +58,11 @@ private:
 	void CheckForGameOver();
 	void CheckIfWaveNeedsToSpawn();
 	void SpawnWave();
-
 	bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 	void DrawPlayerLives() const;
+
 	void DebugRenderEntities() const;
+	void DebugDrawWorldBounds() const;
 	void DeleteGarbageEntities();
 
 public:
