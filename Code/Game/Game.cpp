@@ -868,7 +868,7 @@ void Game::RenderStars() const
 
 	Vertex tempStarVerts[ NUM_STAR_VERTS ];
 	
-	Vec2 farStarDisplacement = -0.2f * displacementCenterToPlayer;
+	Vec2 farStarDisplacement = -0.2f * displacementCenterToPlayer + Vec2( 5.f, 6.f );
 	for( int starIndex = 0; starIndex < NUM_STAR_VERTS; starIndex++ )
 	{
 		Vertex& vert = tempStarVerts[ starIndex ];
