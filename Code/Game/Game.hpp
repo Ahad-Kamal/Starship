@@ -92,7 +92,7 @@ private:
 	Vertex m_starVertsFar[ NUM_STAR_VERTS ];
 
 	int m_waveNumber = 0;
-	int m_numAsteroidsPerWave[ NUM_WAVES ] = { 2, 2, 2, 2, 2 };
+	int m_numAsteroidsPerWave[ NUM_WAVES ] = { 12, 12, 12, 12, 12 };
 	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 3, 0, 3, 5 };
 	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
 	int m_endGameTimer = 0;
