@@ -15,9 +15,7 @@ public:
 	virtual void Render() const override;
 	virtual void Die() override;
 
-private:
-	void InitializeLocalVerts();
-
-private:
+protected:
+	virtual void InitializeLocalVerts();
 	Vertex m_localVerts[NUM_BULLET_VERTS];
 };

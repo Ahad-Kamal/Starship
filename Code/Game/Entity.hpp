@@ -1,9 +1,8 @@
 #pragma once
 #include "Engine/Math/Vec2.hpp"
+#include "Engine/Core/Rgba8.hpp"
 
 class Game;
-struct Vec2;
-struct Rgba8;
 
 class Entity
 {

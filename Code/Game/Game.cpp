@@ -12,6 +12,7 @@
 #include "Game/Beetle.hpp"
 #include "Game/Wasp.hpp"
 #include "Game/Debris.hpp"
+#include "FireBullet.hpp"
 
 RandomNumberGenerator* g_rng = nullptr;
 
@@ -152,7 +153,7 @@ Asteroid* Game::SpawnRandomAsteroid()
 	return nullptr;
 }
 
-Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
+Bullet* Game::SpawnFireBullet( Vec2 const& pos, float forwardDegrees )
 {
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
@@ -162,7 +163,7 @@ Bullet* Game::SpawnBullet( Vec2 const& pos, float forwardDegrees )
 			float bulletOffset = g_rng->RollRandomFloatInRange( -5.f, 5.f );
 			Vec2 bulletOffsetVector = Vec2( bulletOffset, bulletOffset );
 
-			bullet = new Bullet( this, pos );
+			bullet = new FireBullet( this, pos );
 			bullet->m_orientationDegrees = forwardDegrees;
 			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees + bulletOffset );
 			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees + bulletOffset );

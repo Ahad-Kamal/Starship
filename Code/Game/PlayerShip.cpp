@@ -118,8 +118,8 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	if( g_engine->m_input->isKeyDown( ' ' ) && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
 	{
 		m_fireCooldown = 0.f;
-		Vec2 bulletOffset = this->GetForwardNormal();
-		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
+		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
+		m_game->SpawnFireBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 
 	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
@@ -182,11 +182,11 @@ void PlayerShip::UpdateFromController()
 		DeactivateThrust();
 	}
 
-	if( controller.IsButtonDown( XboxButtonID::A ) && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
+	if( controller.GetRightTrigger() == 1.f && IsAlive() && m_fireCooldown == MAX_FIRE_COOLDOWN )
 	{
 		m_fireCooldown = 0.f;
-		Vec2 bulletOffset = this->GetForwardNormal();
-		m_game->SpawnBullet( m_position + bulletOffset, m_orientationDegrees );
+		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
+		m_game->SpawnFireBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 }
 

@@ -14,7 +14,7 @@ Bullet::Bullet( Game* owner, Vec2 const& startPos )
 {
 	m_physicsRadius = BULLET_PHYSICS_RADIUS;
 	m_cosmeticRadius = BULLET_COSMETIC_RADIUS;
-	InitializeLocalVerts();
+	//InitializeLocalVerts();
 }
 
 Bullet::~Bullet()
