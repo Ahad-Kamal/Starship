@@ -515,6 +515,18 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 	{
 		bullet.TakeDamage( 1 );
 		beetle.TakeDamage( 1 );
+		
+		if( bullet.m_isFireBullet )
+		{
+			if( beetle.m_isOnFire )
+			{
+				beetle.ResetFireTick();
+			}
+			else
+			{
+				beetle.m_isOnFire = true;
+			}
+		}
 	}
 }
 
@@ -524,6 +536,18 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 	{
 		bullet.TakeDamage( 1 );
 		wasp.TakeDamage( 1 );
+
+		if( bullet.m_isFireBullet )
+		{
+			if( wasp.m_isOnFire )
+			{
+				wasp.ResetFireTick();
+			}
+			else
+			{
+				wasp.m_isOnFire = true;
+			}
+		}
 	}
 }
 

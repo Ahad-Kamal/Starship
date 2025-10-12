@@ -5,6 +5,7 @@ IceBullet::IceBullet( Game* owner, Vec2 const& startPos )
 	: Bullet( owner, startPos )
 {
 	InitializeLocalVerts();
+	m_isFireBullet = false;
 }
 
 void IceBullet::InitializeLocalVerts()

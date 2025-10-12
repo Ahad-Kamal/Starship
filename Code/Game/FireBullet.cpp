@@ -5,6 +5,7 @@ FireBullet::FireBullet( Game* owner, Vec2 const& startPos )
 	: Bullet( owner, startPos )
 {
 	InitializeLocalVerts();
+	m_isFireBullet = true;
 }
 
 void FireBullet::InitializeLocalVerts()

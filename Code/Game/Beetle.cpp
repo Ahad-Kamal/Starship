@@ -29,6 +29,8 @@ void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 	{
 		m_orientationDegrees = Atan2Degrees( ship.m_position.y - m_position.y, ship.m_position.x - m_position.x );
 	}
+
+	TakeFireDamage();
 }
 
 void Beetle::Render() const

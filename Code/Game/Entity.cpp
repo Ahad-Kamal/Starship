@@ -50,7 +50,6 @@ void Entity::Die()
 	m_isDead = true;
 	m_isGarbage = true;
 
-
 	int count = g_rng->RollRandomIntInRange( 3, 12 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
 }
@@ -92,11 +91,33 @@ Vec2 Entity::GetForwardNormal() const
 	return Vec2( CosDegrees( m_orientationDegrees ), SinDegrees( m_orientationDegrees ) );
 }
 
+void Entity::ResetFireTick()
+{
+	m_fireTick = FIRE_DAMAGE_TICK;
+}
+
 void Entity::TakeFireDamage()
 {
 	if( !m_isOnFire )
 	{
 		return;
+	}
+
+	if( m_fireCooldown > 0.f )
+	{
+		m_fireCooldown--;
+	}
+	else
+	{
+		m_fireCooldown = FIRE_DAMAGE_COOLDOWN;
+		TakeDamage( 1 );
+		m_fireTick--;
+		
+		if( m_fireTick == 0 )
+		{
+			m_isOnFire = false;
+			m_fireTick = FIRE_DAMAGE_TICK;
+		}
 	}
 }
 

@@ -4,6 +4,9 @@
 
 class Game;
 
+constexpr float FIRE_DAMAGE_COOLDOWN = 120.f;
+constexpr int FIRE_DAMAGE_TICK = 3;
+
 class Entity
 {
 public:
@@ -19,6 +22,7 @@ public:
 	bool	IsAlive() const;
 	bool	IsOffScreen() const;
 	Vec2	GetForwardNormal() const;
+	void	ResetFireTick();
 
 public:
 	Game*	m_game = nullptr;
@@ -33,13 +37,14 @@ public:
 	bool	m_isDead = false;	// gameplay idea of "dead"
 	bool	m_isGarbage = false;	// code idea of "dead"
 	float	m_ageSeconds = 0.f;
+	bool	m_isOnFire = false;
+	bool	m_isSlow = false;
 
 protected:
 	void	TakeFireDamage();
 
 protected:
-	bool	m_isOnFire = false;
-	bool	m_isSlow = false;
-	float	m_FireTick;
-	float	m_SlowTimer;
+	float	m_fireCooldown = FIRE_DAMAGE_COOLDOWN;
+	float	m_fireTick = FIRE_DAMAGE_TICK;
+	float	m_slowTimer;
 };
