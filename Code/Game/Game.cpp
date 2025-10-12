@@ -58,7 +58,7 @@ void Game::Update(float deltaSeconds)
 
 void Game::Render() const
 {
-	g_engine->m_render->DrawVertexArray( STAR_VERTS, m_starVerts );
+	RenderStars();
 
 	RenderEntities();
 	DrawPlayerLives();
@@ -752,23 +752,72 @@ void Game::CreateStarfield()
 {
 	for( int starNumber = 0; starNumber < MAX_STARS; starNumber++ )
 	{
-		Vertex& vert1 = m_starVerts[ 6 * starNumber ];
-		Vertex& vert2 = m_starVerts[ 6 * starNumber + 1 ];
-		Vertex& vert3 = m_starVerts[ 6 * starNumber + 2 ];
-		Vertex& vert4 = m_starVerts[ 6 * starNumber + 3 ];
-		Vertex& vert5 = m_starVerts[ 6 * starNumber + 4 ];
-		Vertex& vert6 = m_starVerts[ 6 * starNumber + 5 ];
+		Vertex& vert1Near = m_starVertsFar[ 6 * starNumber ];
+		Vertex& vert2Near = m_starVertsFar[ 6 * starNumber + 1 ];
+		Vertex& vert3Near = m_starVertsFar[ 6 * starNumber + 2 ];
+		Vertex& vert4Near = m_starVertsFar[ 6 * starNumber + 3 ];
+		Vertex& vert5Near = m_starVertsFar[ 6 * starNumber + 4 ];
+		Vertex& vert6Near = m_starVertsFar[ 6 * starNumber + 5 ];
+
+		Vertex& vert1Far = m_starVertsFar[ 6 * starNumber ];
+		Vertex& vert2Far = m_starVertsFar[ 6 * starNumber + 1 ];
+		Vertex& vert3Far = m_starVertsFar[ 6 * starNumber + 2 ];
+		Vertex& vert4Far = m_starVertsFar[ 6 * starNumber + 3 ];
+		Vertex& vert5Far = m_starVertsFar[ 6 * starNumber + 4 ];
+		Vertex& vert6Far = m_starVertsFar[ 6 * starNumber + 5 ];
 
 		float starX = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
 		float starY = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
 
-		vert1.m_pos = Vec3( starX + 0.5, starY, -0.f );
-		vert2.m_pos = Vec3( starX - 0.5, starY, 0.f );
-		vert3.m_pos = Vec3( starX, starY + 0.5, 0.f );
-		vert4.m_pos = Vec3( starX + 0.5, starY, 0.f );
-		vert5.m_pos = Vec3( starX - 0.5, starY, 0.f );
-		vert6.m_pos = Vec3( starX, starY - 0.5, 0.f );
+		vert1Near.m_pos = Vec3( starX + 0.5, starY, -0.f );
+		vert2Near.m_pos = Vec3( starX - 0.5, starY, 0.f );
+		vert3Near.m_pos = Vec3( starX, starY + 0.5, 0.f );
+		vert4Near.m_pos = Vec3( starX + 0.5, starY, 0.f );
+		vert5Near.m_pos = Vec3( starX - 0.5, starY, 0.f );
+		vert6Near.m_pos = Vec3( starX, starY - 0.5, 0.f );
+
+		vert1Far.m_pos = Vec3( starX + 0.5, starY, -0.f );
+		vert2Far.m_pos = Vec3( starX - 0.5, starY, 0.f );
+		vert3Far.m_pos = Vec3( starX, starY + 0.5, 0.f );
+		vert4Far.m_pos = Vec3( starX + 0.5, starY, 0.f );
+		vert5Far.m_pos = Vec3( starX - 0.5, starY, 0.f );
+		vert6Far.m_pos = Vec3( starX, starY - 0.5, 0.f );
 	}
+}
+
+void Game::RenderStars() const
+{
+	//g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, m_starVerts );
+
+	Vec2 displacementCenterToPlayer = Vec2();
+	if( m_playerShip )
+	{
+		displacementCenterToPlayer = m_playerShip->m_position - Vec2( WORLD_CENTER_X, WORLD_CENTER_Y);
+	}
+
+	Vertex tempStarVerts[ NUM_STAR_VERTS ];
+	
+	Vec2 farStarDisplacement = -0.2f * displacementCenterToPlayer;
+	for( int starIndex = 0; starIndex < NUM_STAR_VERTS; starIndex++ )
+	{
+		Vertex& vert = tempStarVerts[ starIndex ];
+		vert = m_starVertsFar[ starIndex ];
+		vert.m_pos.x += farStarDisplacement.x;
+		vert.m_pos.y += farStarDisplacement.y;
+		vert.m_color = Rgba8( 100, 100, 100 );
+	}
+	g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, tempStarVerts );
+
+	Vec2 nearStarDisplacement = -0.5f * displacementCenterToPlayer;
+	for( int starIndex = 0; starIndex < NUM_STAR_VERTS; starIndex++ )
+	{
+		Vertex& vert = tempStarVerts[ starIndex ];
+		vert = m_starVertsNear[ starIndex ];
+		vert.m_pos.x += nearStarDisplacement.x;
+		vert.m_pos.y += nearStarDisplacement.y;
+		vert.m_color = Rgba8( 255, 255, 255 );
+	}
+	g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, tempStarVerts );
 }
 
 void Game::DebugRenderEntities() const
