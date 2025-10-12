@@ -98,11 +98,5 @@ void Asteroid::InitializeLocalVerts()
 		m_localVerts[ secondVertIndex ].m_pos = Vec3( secondVertOfs.x, secondVertOfs.y, 0.f );
 		m_localVerts[ thirdVertIndex ].m_pos = Vec3( thirdVertOfs.x, thirdVertOfs.y, 0.f );
 	}
-
-	// Set Colors
-	for( int vertIndex = 0; vertIndex < NUM_ASTEROID_VERTS; vertIndex++ )
-	{
-		m_localVerts[ vertIndex ].m_color = m_color;
-	}
 }
 

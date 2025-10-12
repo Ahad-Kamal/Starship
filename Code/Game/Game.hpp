@@ -35,7 +35,7 @@ public:
 	void Render() const;
 	void Shutdown();
 
-	Asteroid* SpawnRandomAsteroid();
+	Asteroid* SpawnRandomFieryAsteroid();
 	Bullet* SpawnFireBullet(Vec2 const& pos, float forwardDegrees);
 	Bullet* SpawnIceBullet(Vec2 const& pos, float forwardDegrees);
 	Beetle* SpawnNewRandomBeetle();
@@ -81,7 +81,7 @@ public:
 private:
 	App*		m_app = nullptr;
 	PlayerShip* m_playerShip = nullptr;
-	Asteroid*	m_asteroids[ MAX_ASTEROIDS ] = {};
+	Asteroid*	m_fieryAsteroids[ MAX_ASTEROIDS ] = {};
 	Bullet*		m_bullets[ MAX_BULLETS ] = {};
 	Beetle*		m_beetles[ MAX_BEETLES ];
 	Wasp*		m_wasps[ MAX_WASPS ];

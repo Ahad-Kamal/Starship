@@ -135,7 +135,7 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 
 	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
 	{
-		m_game->SpawnRandomAsteroid();
+		m_game->SpawnRandomFieryAsteroid();
 	}
 
 	if( g_engine->m_input->isKeyDown( 'E' ) && IsAlive() )

@@ -14,6 +14,7 @@
 #include "Game/Debris.hpp"
 #include "Game/FireBullet.hpp"
 #include "Game/IceBullet.hpp"
+#include "Game/FieryAsteroid.hpp"
 
 RandomNumberGenerator* g_rng = nullptr;
 
@@ -86,7 +87,7 @@ void Game::Shutdown()
 
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
+		Asteroid*& asteroid = m_fieryAsteroids[ asteroidIndex ];
 		if( asteroid )
 		{
 			delete asteroid;
@@ -131,21 +132,22 @@ void Game::Shutdown()
 	}
 }
 
-Asteroid* Game::SpawnRandomAsteroid()
+Asteroid* Game::SpawnRandomFieryAsteroid()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
 
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
+		Asteroid*& asteroid = m_fieryAsteroids[ asteroidIndex ];
 		if( !asteroid )
 		{
-			asteroid = new Asteroid( this, spawnPosition );
+			asteroid = new FieryAsteroid( this, spawnPosition );
 			asteroid->m_angualrVelocity = g_rng->RollRandomFloatInRange( -300.f, 300.f );
 			asteroid->m_orientationDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 			float driftAngleDegrees = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 			asteroid->m_velocity.x = ASTEROID_SPEED * CosDegrees( driftAngleDegrees );
 			asteroid->m_velocity.y = ASTEROID_SPEED * SinDegrees( driftAngleDegrees );
+
 			return asteroid;
 		}
 	}
@@ -316,7 +318,7 @@ void Game::UpdateEntities(float deltaSeconds)
 	// Update Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid* asteroid = m_asteroids[asteroidIndex];
+		Asteroid* asteroid = m_fieryAsteroids[asteroidIndex];
 		if( asteroid->IsAlive() )
 		{
 			asteroid->Update( deltaSeconds );
@@ -406,7 +408,7 @@ void Game::RenderEntities() const
 	// Draw Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
+		Asteroid* asteroid = m_fieryAsteroids[ asteroidIndex ];
 		if( asteroid && !asteroid->m_isDead )
 		{
 			asteroid->Render();
@@ -454,7 +456,7 @@ void Game::CheckBulletVsEnemies()
 {
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
+		Asteroid* asteroid = m_fieryAsteroids[ asteroidIndex ];
 
 		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 		{
@@ -575,7 +577,7 @@ void Game::CheckEnemiesVsShips()
 {
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
+		Asteroid* asteroid = m_fieryAsteroids[ asteroidIndex ];
 
 		if( asteroid && m_playerShip->IsAlive() )
 		{
@@ -762,7 +764,7 @@ void Game::SpawnWave()
 {
 	for( int i = 0; i < m_numAsteroidsPerWave[ m_waveNumber ]; i++ )
 	{
-		SpawnRandomAsteroid();
+		SpawnRandomFieryAsteroid();
 	}
 	for( int i = 0; i < m_numBeetlesPerWave[ m_waveNumber ]; i++ )
 	{
@@ -904,7 +906,7 @@ void Game::DebugRenderEntities() const
 	// Debug Draw Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid* asteroid = m_asteroids[asteroidIndex];
+		Asteroid* asteroid = m_fieryAsteroids[asteroidIndex];
 		if( asteroid->IsAlive() )
 		{
 			asteroid->DebugRender();
@@ -961,7 +963,7 @@ void Game::DeleteGarbageEntities()
 {
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
-		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
+		Asteroid*& asteroid = m_fieryAsteroids[ asteroidIndex ];
 		if( asteroid && asteroid->m_isGarbage )
 		{
 			delete asteroid;
