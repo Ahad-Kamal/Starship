@@ -1,7 +1,6 @@
 #pragma once
 #include "Game/Asteroid.hpp"
 
-
 class FieryAsteroid : public Asteroid
 {
 public:
