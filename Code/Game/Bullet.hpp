@@ -15,10 +15,12 @@ public:
 	virtual void Render() const override;
 	virtual void Die() override;
 
+protected:
+	virtual void InitializeLocalVerts();
+
 public:
 	bool m_isFireBullet;
 
 protected:
-	virtual void InitializeLocalVerts();
 	Vertex m_localVerts[NUM_BULLET_VERTS];
 };
