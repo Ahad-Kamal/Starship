@@ -211,8 +211,7 @@ Beetle* Game::SpawnNewRandomBeetle()
 		{
 			beetle = new Beetle( this, spawnPosition );
 			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
-			beetle->m_velocity.x = BEETLE_SPEED;
-			beetle->m_velocity.y = BEETLE_SPEED;
+			
 			return beetle;
 		}
 	}
@@ -232,8 +231,7 @@ Wasp* Game::SpawnNewRandomWasp()
 		{
 			wasp = new Wasp( this, spawnPosition );
 			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
-			wasp->m_velocity.x = WASP_ACCELERATION;
-			wasp->m_velocity.y = WASP_ACCELERATION;
+			
 			return wasp;
 		}
 	}
@@ -527,6 +525,17 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 				beetle.m_isOnFire = true;
 			}
 		}
+		else
+		{
+			if( beetle.m_isSlow )
+			{
+				beetle.ResetSlowTimer();
+			}
+			else
+			{
+				beetle.m_isSlow = true;
+			}
+		}
 	}
 }
 
@@ -546,6 +555,17 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 			else
 			{
 				wasp.m_isOnFire = true;
+			}
+		}
+		else
+		{
+			if( wasp.m_isSlow )
+			{
+				wasp.ResetSlowTimer();
+			}
+			else
+			{
+				wasp.m_isSlow = true;
 			}
 		}
 	}

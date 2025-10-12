@@ -6,6 +6,8 @@ class Game;
 
 constexpr float FIRE_DAMAGE_COOLDOWN = 120.f;
 constexpr int FIRE_DAMAGE_TICK = 3;
+constexpr float ICE_SLOW_COOLDOWN = 120.f;
+constexpr float ICE_SLOW_AMOUNT = 0.5f;
 
 class Entity
 {
@@ -22,29 +24,37 @@ public:
 	bool	IsAlive() const;
 	bool	IsOffScreen() const;
 	Vec2	GetForwardNormal() const;
+
 	void	ResetFireTick();
+	void	ResetSlowTimer();
 
 public:
 	Game*	m_game = nullptr;
 	Vec2	m_position;
 	Vec2	m_velocity;
 	Rgba8	m_color;
+
 	float	m_orientationDegrees = 0.f; // counter-clockwise starting from +x
 	float	m_angualrVelocity = 0.f; // spin rate, in degrees per second
 	float	m_physicsRadius = 5.f;
 	float	m_cosmeticRadius = 10.f;
+
 	int		m_health = 1;
 	bool	m_isDead = false;	// gameplay idea of "dead"
 	bool	m_isGarbage = false;	// code idea of "dead"
 	float	m_ageSeconds = 0.f;
+
 	bool	m_isOnFire = false;
 	bool	m_isSlow = false;
 
 protected:
 	void	TakeFireDamage();
+	void	BeSlowed();
 
 protected:
 	float	m_fireCooldown = FIRE_DAMAGE_COOLDOWN;
 	float	m_fireTick = FIRE_DAMAGE_TICK;
-	float	m_slowTimer;
+	float	m_iceSlowTimer = ICE_SLOW_COOLDOWN;
+	Vec2	m_slowedVelocity;
+	Vec2	m_originalVelocity;
 };

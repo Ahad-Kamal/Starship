@@ -9,6 +9,10 @@ Beetle::Beetle( Game* owner, Vec2 const& startingPosition )
 	: Entity( owner, startingPosition )
 {
 	m_health = 10;
+	m_velocity = Vec2( BEETLE_SPEED, BEETLE_SPEED );
+	m_originalVelocity = m_velocity;
+	m_slowedVelocity = m_velocity * ICE_SLOW_AMOUNT;
+
 	m_physicsRadius = BEETLE_PHYSICS_RADIUS;
 	m_cosmeticRadius = BEETLE_COSMETIC_RADIUS;
 	m_color = Rgba8( 0, 255, 0 );
@@ -31,6 +35,7 @@ void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 	}
 
 	TakeFireDamage();
+	BeSlowed();
 }
 
 void Beetle::Render() const

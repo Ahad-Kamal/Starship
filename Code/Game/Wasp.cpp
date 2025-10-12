@@ -9,6 +9,11 @@ Wasp::Wasp( Game* owner, Vec2 const& startingPosition )
 	: Entity( owner, startingPosition )
 {
 	m_health = 5;
+	m_velocity.x = WASP_ACCELERATION;
+	m_velocity.y = WASP_ACCELERATION;
+	m_originalVelocity = m_velocity;
+	m_slowedVelocity = m_velocity * ICE_SLOW_AMOUNT;
+
 	m_physicsRadius = WASP_PHYSICS_RADIUS;
 	m_cosmeticRadius = WASP_COSMETIC_RADIUS;
 	m_color = Rgba8( 255, 255, 0 );
@@ -32,6 +37,9 @@ void Wasp::Update( float deltaSeconds, PlayerShip const& ship )
 	{
 		m_orientationDegrees = Atan2Degrees( ship.m_position.y - m_position.y, ship.m_position.x - m_position.x );
 	}
+
+	TakeFireDamage();
+	BeSlowed();
 }
 
 void Wasp::Render() const

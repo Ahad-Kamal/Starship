@@ -96,6 +96,11 @@ void Entity::ResetFireTick()
 	m_fireTick = FIRE_DAMAGE_TICK;
 }
 
+void Entity::ResetSlowTimer()
+{
+	m_iceSlowTimer = ICE_SLOW_COOLDOWN;
+}
+
 void Entity::TakeFireDamage()
 {
 	if( !m_isOnFire )
@@ -118,6 +123,26 @@ void Entity::TakeFireDamage()
 			m_isOnFire = false;
 			m_fireTick = FIRE_DAMAGE_TICK;
 		}
+	}
+}
+
+void Entity::BeSlowed()
+{
+	if( !m_isSlow )
+	{
+		return;
+	}
+
+	if( m_iceSlowTimer > 0.f )
+	{
+		m_iceSlowTimer--;
+		m_velocity = m_slowedVelocity;
+	}
+	else
+	{
+		m_isSlow = false;
+		m_velocity = m_originalVelocity;
+		m_iceSlowTimer = ICE_SLOW_COOLDOWN;
 	}
 }
 
