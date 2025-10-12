@@ -15,9 +15,9 @@ public:
 	virtual void Update( float deltaSeconds ) override;
 	virtual void Render() const override;
 
-private:
+protected:
 	void InitializeLocalVerts();
 
-private:
+protected:
 	Vertex m_localVerts[ NUM_ASTEROID_VERTS ];
 };

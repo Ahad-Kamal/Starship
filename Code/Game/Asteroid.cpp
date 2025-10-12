@@ -8,7 +8,7 @@
 Asteroid::Asteroid( Game* owner, Vec2 const& startPos )
 	: Entity( owner, startPos )
 {
-	m_health = 5;
+	m_health = 3;
 	m_physicsRadius = ASTEROID_PHYSICS_RADIUS;
 	m_cosmeticRadius = ASTEROID_COSMETIC_RADIUS;
 	m_color = Rgba8( 100, 100, 100 );
