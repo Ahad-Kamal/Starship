@@ -14,11 +14,11 @@ enum GameState
 constexpr char FUNCTION_KEY_1 = 'p';
 constexpr char FUNCTION_KEY_8 = 'w';
 constexpr int NUM_STARTING_ASTEROIDS = 6;
-constexpr int MAX_ASTEROIDS = 20;
-constexpr int MAX_BULLETS = 20;
-constexpr int MAX_BEETLES = 12;
-constexpr int MAX_WASPS = 10;
-constexpr int MAX_DEBRIS = 200;
+constexpr int MAX_ASTEROIDS = 100;
+constexpr int MAX_BULLETS = 200;
+constexpr int MAX_BEETLES = 60;
+constexpr int MAX_WASPS = 60;
+constexpr int MAX_DEBRIS = 600;
 constexpr int MAX_STARS = 2000;
 constexpr int NUM_WAVES = 5;
 constexpr float WORLD_SIZE_X = 800.f;
