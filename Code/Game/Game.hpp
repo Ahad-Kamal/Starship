@@ -2,6 +2,7 @@
 #include "Game/GameCommon.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
+#include "Engine/Core/Vertex.hpp"
 
 //-----------------------------------------------------------------------------------------------
 class App;
@@ -20,6 +21,9 @@ extern RandomNumberGenerator* g_rng;
 
 constexpr float MAX_SCREEN_SHAKE_AMOUNT = 5.f;
 constexpr float SCREEN_SHAKE_REDUCTION = 5.f;
+constexpr int STAR_TRIS = 2;
+constexpr int VERTS_PER_STAR = 3 * STAR_TRIS;
+constexpr int STAR_VERTS = VERTS_PER_STAR * MAX_STARS;
 
 class Game
 {
@@ -61,6 +65,7 @@ private:
 	void SpawnWave();
 	bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 	void DrawPlayerLives() const;
+	void CreateStarfield();
 
 	void DebugRenderEntities() const;
 	void DebugDrawWorldBounds() const;
@@ -80,6 +85,7 @@ private:
 	Wasp*		m_wasps[ MAX_WASPS ];
 	Debris*		m_debris[ MAX_DEBRIS ];
 	
+	Vertex m_starVerts[ STAR_VERTS ];
 	int m_waveNumber = 0;
 	int m_numAsteroidsPerWave[ NUM_WAVES ] = { 2, 2, 2, 2, 2 };
 	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 3, 0, 3, 5 };

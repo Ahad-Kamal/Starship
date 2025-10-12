@@ -34,6 +34,8 @@ void Game::Startup()
 	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
 	
+	CreateStarfield();
+
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 	m_playerShip = new PlayerShip( this, worldCenter );
 
@@ -56,8 +58,9 @@ void Game::Update(float deltaSeconds)
 
 void Game::Render() const
 {
-	RenderEntities();
+	g_engine->m_render->DrawVertexArray( STAR_VERTS, m_starVerts );
 
+	RenderEntities();
 	DrawPlayerLives();
 
 	if ( m_app->m_debugDraw )
@@ -743,6 +746,29 @@ void Game::DrawPlayerLives() const
 
 	g_engine->m_render->EndCamera( *m_screenCamera );
 	g_engine->m_render->BeginCamera( *m_worldCamera );
+}
+
+void Game::CreateStarfield()
+{
+	for( int starNumber = 0; starNumber < MAX_STARS; starNumber++ )
+	{
+		Vertex& vert1 = m_starVerts[ 6 * starNumber ];
+		Vertex& vert2 = m_starVerts[ 6 * starNumber + 1 ];
+		Vertex& vert3 = m_starVerts[ 6 * starNumber + 2 ];
+		Vertex& vert4 = m_starVerts[ 6 * starNumber + 3 ];
+		Vertex& vert5 = m_starVerts[ 6 * starNumber + 4 ];
+		Vertex& vert6 = m_starVerts[ 6 * starNumber + 5 ];
+
+		float starX = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_X );
+		float starY = g_rng->RollRandomFloatInRange( 0.f, WORLD_SIZE_Y );
+
+		vert1.m_pos = Vec3( starX + 0.5, starY, -0.f );
+		vert2.m_pos = Vec3( starX - 0.5, starY, 0.f );
+		vert3.m_pos = Vec3( starX, starY + 0.5, 0.f );
+		vert4.m_pos = Vec3( starX + 0.5, starY, 0.f );
+		vert5.m_pos = Vec3( starX - 0.5, starY, 0.f );
+		vert6.m_pos = Vec3( starX, starY - 0.5, 0.f );
+	}
 }
 
 void Game::DebugRenderEntities() const
