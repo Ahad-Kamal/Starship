@@ -55,6 +55,7 @@ private:
 	void CheckEnemiesVsEnemies();
 	void CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 );
 
+	void ClampCamera( Vec2& minView, Vec2& maxView );
 	void CheckForGameOver();
 	void CheckIfWaveNeedsToSpawn();
 	void SpawnWave();

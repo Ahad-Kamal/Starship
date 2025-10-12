@@ -336,10 +336,14 @@ void Game::UpdateEntities(float deltaSeconds)
 
 void Game::UpdateCameras( float deltaSeconds )
 {
+	Vec2 minView( m_playerShip->m_position.x - WORLD_VIEW_SIZE_X * 0.5f, m_playerShip->m_position.y - WORLD_VIEW_SIZE_Y * 0.5f );
+	Vec2 maxView( m_playerShip->m_position.x + WORLD_VIEW_SIZE_X * 0.5f, m_playerShip->m_position.y + WORLD_VIEW_SIZE_Y * 0.5f );
+	Vec2 worldViewSize( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y );
+
+	ClampCamera( minView, maxView );
+
+	m_worldCamera->SetOrthoView( minView, maxView );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
-	Vec2 worldViewSize = Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y );
-	m_worldCamera->SetOrthoView( -worldViewSize * 0.5f, worldViewSize * 0.5f );
-	m_worldCamera->Translate2D( m_playerShip->m_position );
 
 	if( !m_isShaking )
 	{
@@ -575,6 +579,31 @@ void Game::CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 )
 	if( DoEntitiesOverlap( enemy1, enemy2 ) )
 	{
 		PushDiscsOutOfEachOther2D( enemy1.m_position, enemy1.m_cosmeticRadius, enemy2.m_position, enemy2.m_cosmeticRadius );
+	}
+}
+
+void Game::ClampCamera( Vec2& minView, Vec2& maxView )
+{
+	if( minView.x < 0.f )
+	{
+		minView.x = 0.f;
+		maxView.x = WORLD_VIEW_SIZE_X;
+	}
+	else if( maxView.x > WORLD_SIZE_X )
+	{
+		minView.x = WORLD_SIZE_X - WORLD_VIEW_SIZE_X;
+		maxView.x = WORLD_SIZE_X;
+	}
+	
+	if( minView.y < 0.f )
+	{
+		minView.y = 0.f;
+		maxView.y = WORLD_VIEW_SIZE_Y;
+	}
+	else if( maxView.y > WORLD_SIZE_Y )
+	{
+		minView.y = WORLD_SIZE_Y - WORLD_VIEW_SIZE_Y;
+		maxView.y = WORLD_SIZE_Y;
 	}
 }
 
