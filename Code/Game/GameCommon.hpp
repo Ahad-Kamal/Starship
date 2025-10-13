@@ -51,8 +51,8 @@ constexpr float WASP_PHYSICS_RADIUS = 1.75f;
 constexpr float WASP_COSMETIC_RADIUS = 2.25f;
 constexpr float DEBRIS_PHYSICS_RADIUS = 0.5f;
 constexpr float DEBRIS_COSMETIC_RADIUS = 2.f;
-constexpr float EXPLOSION_PHYSICS_RADIUS = 4.5f;
-constexpr float EXPLOSION_COSMETIC_RADIUS = 5.f;
+constexpr float EXPLOSION_PHYSICS_RADIUS = 10.f;
+constexpr float EXPLOSION_COSMETIC_RADIUS = 10.f;
 constexpr float DEBUG_LINE_THICKNESS = 0.2f;
 
 extern SoundID audio_music;

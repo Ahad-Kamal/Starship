@@ -30,7 +30,7 @@ void Explosion::Render() const
 	for( int vertIndex = 0; vertIndex < NUM_EXPLOSION_VERTS; vertIndex++ )
 	{
 		tempWorldVerts[ vertIndex ] = m_localVerts[ vertIndex ];
-		float alphaFloat = RangeMapClamped( m_ageSeconds, 0.f, m_lifeTimeSeconds, 127.f, 0.f );
+		float alphaFloat = RangeMapClamped( m_ageSeconds, 0.f, m_lifeTimeSeconds, 255.f, 0.f );
 		tempWorldVerts[ vertIndex ].m_color.a = static_cast<unsigned char>( alphaFloat );
 	}
 
@@ -82,6 +82,16 @@ void Explosion::InitializeLocalVerts()
 		m_localVerts[ firstVertIndex ].m_pos = Vec3( 0.f, 0.f, 0.f );
 		m_localVerts[ secondVertIndex ].m_pos = Vec3( secondVertOfs.x, secondVertOfs.y, 0.f );
 		m_localVerts[ thirdVertIndex ].m_pos = Vec3( thirdVertOfs.x, thirdVertOfs.y, 0.f );
+
+		m_localVerts[ firstVertIndex ].m_color = Rgba8( m_color.r, m_color.g, m_color.b );
+		m_localVerts[ secondVertIndex ].m_color = Rgba8( m_color.r, m_color.g, m_color.b, 127 );
+		m_localVerts[ thirdVertIndex ].m_color = Rgba8( m_color.r, m_color.g, m_color.b, 127 );
 	}
+
+	// Set Colors
+	/*for( int vertIndex = 0; vertIndex < NUM_EXPLOSION_VERTS; vertIndex++ )
+	{
+		m_localVerts[ vertIndex ].m_color = m_color;
+	}*/
 }
 
