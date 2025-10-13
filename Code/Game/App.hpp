@@ -46,4 +46,5 @@ private:
 	float m_startAlpha = 255.f;
 	float m_shipRotation = 0.f;
 	float m_time = 0.f;
+	SoundPlaybackID m_music;
 };

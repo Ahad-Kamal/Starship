@@ -60,11 +60,11 @@ void App::Update(float deltaSeconds)
 		}
 		if( m_nextState == GAME_STATE_PLAY )
 		{
-			g_engine->m_audio->StartSound( audio_music, true, 0.1f );
+			m_music = g_engine->m_audio->StartSound( audio_music, true, 0.1f );
 		}
 		if( m_nextState == GAME_STATE_ATTRACT )
 		{
-			g_engine->m_audio->StopSound( audio_music );
+			g_engine->m_audio->StopSound( m_music );
 		}
 
 		m_currentState = m_nextState;

@@ -1062,7 +1062,7 @@ void Game::CheckIfWaveNeedsToSpawn()
 
 	if( !isThereBeetle && !isThereWasp )
 	{
-		if( m_waveNumber < 1 )
+		if( m_waveNumber < NUM_WAVES )
 		{
 			SpawnWave();
 			g_engine->m_audio->StartSound( audio_waveStart, false, 0.5f );
