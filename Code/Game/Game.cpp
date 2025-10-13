@@ -1152,19 +1152,19 @@ void Game::CreateStarfield()
 		float starX = g_rng->RollRandomFloatInRange( -WORLD_VIEW_SIZE_X, WORLD_SIZE_X + WORLD_VIEW_SIZE_X );
 		float starY = g_rng->RollRandomFloatInRange( -WORLD_VIEW_SIZE_Y, WORLD_SIZE_Y + WORLD_VIEW_SIZE_Y );
 
-		vert1Near.m_pos = Vec3( starX + 0.5, starY, -0.f );
-		vert2Near.m_pos = Vec3( starX - 0.5, starY, 0.f );
-		vert3Near.m_pos = Vec3( starX, starY + 0.5, 0.f );
-		vert4Near.m_pos = Vec3( starX + 0.5, starY, 0.f );
-		vert5Near.m_pos = Vec3( starX - 0.5, starY, 0.f );
-		vert6Near.m_pos = Vec3( starX, starY - 0.5, 0.f );
+		vert1Near.m_pos = Vec3( starX + 0.5f, starY, -0.f );
+		vert2Near.m_pos = Vec3( starX - 0.5f, starY, 0.f );
+		vert3Near.m_pos = Vec3( starX, starY + 0.5f, 0.f );
+		vert4Near.m_pos = Vec3( starX + 0.5f, starY, 0.f );
+		vert5Near.m_pos = Vec3( starX - 0.5f, starY, 0.f );
+		vert6Near.m_pos = Vec3( starX, starY - 0.5f, 0.f );
 
-		vert1Far.m_pos = Vec3( starX + 0.5, starY, -0.f );
-		vert2Far.m_pos = Vec3( starX - 0.5, starY, 0.f );
-		vert3Far.m_pos = Vec3( starX, starY + 0.5, 0.f );
-		vert4Far.m_pos = Vec3( starX + 0.5, starY, 0.f );
-		vert5Far.m_pos = Vec3( starX - 0.5, starY, 0.f );
-		vert6Far.m_pos = Vec3( starX, starY - 0.5, 0.f );
+		vert1Far.m_pos = Vec3( starX + 0.5f, starY, -0.f );
+		vert2Far.m_pos = Vec3( starX - 0.5f, starY, 0.f );
+		vert3Far.m_pos = Vec3( starX, starY + 0.5f, 0.f );
+		vert4Far.m_pos = Vec3( starX + 0.5f, starY, 0.f );
+		vert5Far.m_pos = Vec3( starX - 0.5f, starY, 0.f );
+		vert6Far.m_pos = Vec3( starX, starY - 0.5f, 0.f );
 	}
 }
 

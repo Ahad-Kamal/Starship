@@ -214,7 +214,7 @@ void PlayerShip::ActivateThrust()
 
 	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
 	{
-		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, randomAlpha );
+		m_localVerts[ vertIndex ].m_color = Rgba8( 200, 0, 0, (unsigned int) randomAlpha );
 	}
 	m_localVerts[ NUM_SHIP_VERTS_TOTAL - 1 ].m_pos.x = randomLength;
 }

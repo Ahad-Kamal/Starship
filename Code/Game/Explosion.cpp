@@ -58,7 +58,6 @@ void Explosion::InitializeLocalVerts()
 {
 	// Precompute radii along each triangle seam
 	float explosionRadii[ NUM_EXPLOSION_SIDES ] = {};
-	RandomNumberGenerator rng;
 
 	for( int sideNum = 0; sideNum < NUM_EXPLOSION_SIDES; sideNum++ )
 	{
