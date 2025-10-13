@@ -17,6 +17,10 @@
 #include "Game/FieryAsteroid.hpp"
 #include "Game/IcyAsteroid.hpp"
 #include "Game/Explosion.hpp"
+#include "Game/FireBeetle.hpp"
+#include "Game/IceBeetle.hpp"
+#include "Game/FireWasp.hpp"
+#include "Game/IceWasp.hpp"
 
 RandomNumberGenerator* g_rng = nullptr;
 
@@ -258,6 +262,46 @@ Beetle* Game::SpawnNewRandomBeetle()
 	return nullptr;
 }
 
+Beetle* Game::SpawnNewRandomFireBeetle()
+{
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle*& beetle = m_beetles[ beetleIndex ];
+		if( !beetle )
+		{
+			beetle = new FireBeetle( this, spawnPosition );
+			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
+
+			return beetle;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new beetle, max limit reached" );
+	return nullptr;
+}
+
+Beetle* Game::SpawnNewRandomIceBeetle()
+{
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle*& beetle = m_beetles[ beetleIndex ];
+		if( !beetle )
+		{
+			beetle = new IceBeetle( this, spawnPosition );
+			beetle->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - beetle->m_position.y, m_playerShip->m_position.x - beetle->m_position.x );
+
+			return beetle;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new beetle, max limit reached" );
+	return nullptr;
+}
+
 Wasp* Game::SpawnNewRandomWasp()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -270,6 +314,46 @@ Wasp* Game::SpawnNewRandomWasp()
 			wasp = new Wasp( this, spawnPosition );
 			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
 			
+			return wasp;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new wasp, max limit reached" );
+	return nullptr;
+}
+
+Wasp* Game::SpawnNewRandomFireWasp()
+{
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( !wasp )
+		{
+			wasp = new FireWasp( this, spawnPosition );
+			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
+
+			return wasp;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn a new wasp, max limit reached" );
+	return nullptr;
+}
+
+Wasp* Game::SpawnNewRandomIceWasp()
+{
+	Vec2 spawnPosition = GetRandomOffScreenPosition();
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( !wasp )
+		{
+			wasp = new IceWasp( this, spawnPosition );
+			wasp->m_orientationDegrees = Atan2Degrees( m_playerShip->m_position.y - wasp->m_position.y, m_playerShip->m_position.x - wasp->m_position.x );
+
 			return wasp;
 		}
 	}
@@ -843,13 +927,31 @@ void Game::SpawnWave()
 	{
 		SpawnRandomIcyAsteroid();
 	}
+
 	for( int i = 0; i < m_numBeetlesPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomBeetle();
 	}
+	for( int i = 0; i < m_numFireBeetlesPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomFireBeetle();
+	}
+	for( int i = 0; i < m_numIceBeetlesPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomIceBeetle();
+	}
+
 	for( int i = 0; i < m_numWaspsPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomWasp();
+	}
+	for( int i = 0; i < m_numFireWaspsPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomFireWasp();
+	}
+	for( int i = 0; i < m_numIceWaspsPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomIceWasp();
 	}
 
 	m_waveNumber++;

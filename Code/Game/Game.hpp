@@ -38,13 +38,22 @@ public:
 
 	Asteroid* SpawnRandomFieryAsteroid();
 	Asteroid* SpawnRandomIcyAsteroid();
+
 	Bullet* SpawnFireBullet(Vec2 const& pos, float forwardDegrees);
 	Bullet* SpawnIceBullet(Vec2 const& pos, float forwardDegrees);
+
 	Beetle* SpawnNewRandomBeetle();
+	Beetle* SpawnNewRandomFireBeetle();
+	Beetle* SpawnNewRandomIceBeetle();
+
 	Wasp* SpawnNewRandomWasp();
+	Wasp* SpawnNewRandomFireWasp();
+	Wasp* SpawnNewRandomIceWasp();
+
 	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale );
 	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale );
 	Explosion* SpawnNewExplosion( Vec2 const& pos, Rgba8 color );
+
 	Vec2 GetRandomOffScreenPosition();
 
 private:
@@ -98,8 +107,12 @@ private:
 	int m_waveNumber = 0;
 	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 6, 6, 6 };
 	int m_numIcyAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 6, 6, 6 };
-	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 3, 0, 3, 5 };
+	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 3, 5 };
+	int m_numFireBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 3, 5 };
+	int m_numIceBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 3, 5 };
 	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
+	int m_numFireWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
+	int m_numIceWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
 	int m_endGameTimer = 0;
 
 	float m_screenShakeAmount = MAX_SCREEN_SHAKE_AMOUNT;
