@@ -66,19 +66,19 @@ bool Entity::IsAlive() const
 
 bool Entity::IsOffScreen() const
 {
-	if( m_position.x > WORLD_SIZE_X + m_cosmeticRadius )
+	if( m_position.x > WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
-	else if( m_position.y > WORLD_SIZE_Y + m_cosmeticRadius )
+	else if( m_position.y > WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
-	else if( m_position.x < -m_cosmeticRadius )
+	else if( m_position.x < -ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
-	else if( m_position. y < -m_cosmeticRadius )
+	else if( m_position. y < -ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
