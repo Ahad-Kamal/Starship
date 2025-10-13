@@ -71,6 +71,7 @@ void PlayerShip::Die()
 {
 	m_isDead = true;
 	m_lives--;
+	m_velocity = Vec2( 0.f, 0.f );
 
 	int count = g_rng->RollRandomIntInRange( 5, 30 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), m_color, 1.f);
@@ -192,7 +193,7 @@ void PlayerShip::UpdateFromController()
 	}
 
 	float leftStickMagnitude = controller.GetLeftStick().GetMagnitude();
-	if( leftStickMagnitude > 0.f )
+	if( leftStickMagnitude > 0.f && IsAlive() )
 	{
 		m_isControllerThrusting = true;
 		m_thrustFraction = leftStickMagnitude;
