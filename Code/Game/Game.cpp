@@ -813,6 +813,36 @@ void Game::CheckEnemiesVsEnemies()
 			}
 		}
 	}
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp* wasp1 = m_wasps[ waspIndex ];
+
+		for( int secondWaspIndex = waspIndex + 1; secondWaspIndex < MAX_WASPS; secondWaspIndex++ )
+		{
+			Wasp* wasp2 = m_wasps[ secondWaspIndex ];
+
+			if( wasp1 && wasp2 )
+			{
+				CheckEnemyVsEnemy( *wasp1, *wasp2 );
+			}
+		}
+	}
+
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle* beetle = m_beetles[ beetleIndex ];
+
+		for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+		{
+			Wasp* wasp = m_wasps[ waspIndex ];
+
+			if( beetle && wasp )
+			{
+				CheckEnemyVsEnemy( *beetle, *wasp );
+			}
+		}
+	}
 }
 
 void Game::CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 )
