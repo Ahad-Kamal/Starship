@@ -31,7 +31,7 @@ void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 
 	if( ship.IsAlive() )
 	{
-		m_orientationDegrees = Atan2Degrees( ship.m_position.y - m_position.y, ship.m_position.x - m_position.x );
+		m_orientationDegrees = Atan2Degrees( ship.m_position.y - m_position.y, ship.m_position.x - m_position.x ) + m_spiralAngle;
 	}
 
 	TakeFireDamage();

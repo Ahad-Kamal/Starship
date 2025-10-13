@@ -26,5 +26,6 @@ public:
 	bool m_isIceBeetle = false;
 
 protected:
-	Vertex m_localVerts[ NUM_BEETLE_VERTS ];	
+	Vertex m_localVerts[ NUM_BEETLE_VERTS ];
+	float m_spiralAngle = 0.f;
 };
