@@ -5,6 +5,7 @@
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/Rgba8.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Audio/AudioSystem.hpp"
 #include "Game/GameCommon.hpp"
 
 SoundID audio_music;
@@ -119,21 +120,6 @@ void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, R
 	g_engine->m_render->DrawVertexArray( NUM_VERTS, verts );
 }
 
-void CreateSounds()
-{
-	audio_music = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Sand Ocean (Remix)  - Super Smash Bros. Ultimate Soundtrack.mp3" );
-	audio_selectSound = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Blip_Select.mp3" );
-	audio_fireShoot = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Fire_Shoot.mp3" );
-	audio_fireExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Fire_Explosion.mp3" );
-	audio_iceShoot = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ice_Shoot.mp3" );
-	audio_iceExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ice_Explosion.mp3" );
-	audio_hurt = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Hit_Hurt.mp3" );
-	audio_shipExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ship_Explosion.mp3" );
-	audio_enemyExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Enemy_Explosion.mp3" );
-	audio_waveStart = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Wave_Start.mp3" );
-	audio_victory = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Victory.mp3" );
-	audio_gameOver = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Game_Over.mp3" );
-}
 
 void DrawFadedRing( Vec2 center, float innerRadius, float outerRadius, Rgba8 innerColor, Rgba8 outerColor )
 {
@@ -200,3 +186,18 @@ void DrawGlow( Vec2 pos, Rgba8 color, float alpha, float radius )
 	DrawFadedRing( pos, innerRadius, outerRadius, innerColor, outerColor );
 }
 
+void CreateSounds()
+{
+	audio_music = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Sand Ocean (Remix)  - Super Smash Bros. Ultimate Soundtrack.mp3" );
+	audio_selectSound = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Blip_Select.mp3" );
+	audio_fireShoot = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Fire_Shoot.mp3" );
+	audio_fireExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Fire_Explosion.mp3" );
+	audio_iceShoot = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ice_Shoot.mp3" );
+	audio_iceExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ice_Explosion.mp3" );
+	audio_hurt = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Hit_Hurt.mp3" );
+	audio_shipExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ship_Explosion.mp3" );
+	audio_enemyExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Enemy_Explosion.mp3" );
+	audio_waveStart = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Wave_Start.mp3" );
+	audio_victory = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Victory.mp3" );
+	audio_gameOver = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Game_Over.mp3" );
+}

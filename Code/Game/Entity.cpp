@@ -1,7 +1,9 @@
+#include "Engine/Core/Engine.hpp"
 #include "Engine/Core/Rgba8.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
+#include "Engine/Audio/AudioSystem.hpp"
 #include "Game/Game.hpp"
 #include "Game/Entity.hpp"
 #include "Game/GameCommon.hpp"
@@ -52,6 +54,8 @@ void Entity::Die()
 
 	int count = g_rng->RollRandomIntInRange( 3, 12 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
+
+	g_engine->m_audio->StartSound( audio_enemyExplosion, false, 0.25f );
 }
 
 bool Entity::IsAlive() const

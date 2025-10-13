@@ -213,6 +213,7 @@ Bullet* Game::SpawnFireBullet( Vec2 const& pos, float forwardDegrees )
 			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees + bulletOffset );
 			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees + bulletOffset );
 
+			g_engine->m_audio->StartSound( audio_fireShoot, false, 0.05f );
 			return bullet;
 		}
 	}
@@ -236,6 +237,7 @@ Bullet* Game::SpawnIceBullet( Vec2 const& pos, float forwardDegrees )
 			bullet->m_velocity.x = BULLET_SPEED * CosDegrees( forwardDegrees + bulletOffset );
 			bullet->m_velocity.y = BULLET_SPEED * SinDegrees( forwardDegrees + bulletOffset );
 
+			g_engine->m_audio->StartSound( audio_iceShoot, false, 0.05f );
 			return bullet;
 		}
 	}
@@ -383,13 +385,13 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, flo
 	return nullptr;
 }
 
-void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale )
+void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, [[maybe_unused]] Vec2 const& forwardVector, Rgba8 color, float scale )
 {
 	for( int i = 0; i < count; i++ )
 	{
 		float heading = g_rng->RollRandomFloatInRange( 0.f, 360.f );
 		float speed = g_rng->RollRandomFloatInRange( 10.f, 30.f );
-		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed ) * forwardVector;
+		Vec2 localVelocity = Vec2::MakeFromPolarDegrees( heading, speed );
 		Vec2 worldVelocity = clusterVelocity + localVelocity;
 		scale *= g_rng->RollRandomFloatInRange( 0.9f, 1.1f );
 		SpawnNewDebris( pos, worldVelocity, color, scale );
@@ -404,6 +406,16 @@ Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosion
 		if( !explosion )
 		{
 			explosion = new Explosion( this, pos, color, explosionType );
+
+			if( explosionType )
+			{
+				g_engine->m_audio->StartSound( audio_fireExplosion, false, 0.1f );
+			}
+			else
+			{
+				g_engine->m_audio->StartSound( audio_iceExplosion, false, 0.1f );
+			}
+
 			return explosion;
 		}
 	}
@@ -665,6 +677,8 @@ void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 	{
 		bullet.TakeDamage( 1 );
 		asteroid.TakeDamage( 1 );
+
+		g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
 	}
 }
 
@@ -677,6 +691,8 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		if( bullet.m_isFireBullet && !beetle.m_isFireBeetle )
 		{
 			beetle.TakeDamage( 1 );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+
 			if( beetle.m_isOnFire )
 			{
 				beetle.ResetFireTick();
@@ -689,6 +705,8 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		else if( bullet.m_isIceBullet && !beetle.m_isIceBeetle )
 		{
 			beetle.TakeDamage( 1 );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+
 			if( beetle.m_isSlow )
 			{
 				beetle.ResetSlowTimer();
@@ -701,6 +719,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		else
 		{
 			beetle.TakeDamage( 1 );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
 		}
 	}
 }
@@ -714,6 +733,8 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		if( bullet.m_isFireBullet && !wasp.m_isFireWasp )
 		{
 			wasp.TakeDamage( 1 );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+
 			if( wasp.m_isOnFire )
 			{
 				wasp.ResetFireTick();
@@ -726,6 +747,8 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		else if( bullet.m_isIceBullet && !wasp.m_isIceWasp )
 		{
 			wasp.TakeDamage( 1 );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+
 			if( wasp.m_isSlow )
 			{
 				wasp.ResetSlowTimer();
@@ -738,6 +761,7 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		else
 		{
 			wasp.TakeDamage( 1 );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
 		}
 	}
 }
@@ -780,6 +804,8 @@ void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
 	{
 		asteroid.TakeDamage( 1 );
 		ship.TakeDamage( 1 ); 
+
+		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );
 	}
 }
 
@@ -788,6 +814,8 @@ void Game::CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship )
 	if( DoEntitiesOverlap( beetle, ship ) )
 	{
 		ship.TakeDamage( 1 );
+
+		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );
 	}
 }
 
@@ -796,6 +824,8 @@ void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
 	if( DoEntitiesOverlap( wasp, ship ) )
 	{
 		ship.TakeDamage( 1 );
+
+		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );
 	}
 }
 
@@ -981,6 +1011,7 @@ void Game::CheckForGameOver()
 	if( m_playerShip->m_isDead && m_playerShip->m_lives <= 0 )
 	{
 		Debris* debris = m_debris[0];
+		g_engine->m_audio->StartSound( audio_gameOver, false, 0.1f, 0.f, 2.f );
 
 		if( !debris->IsAlive() )
 		{
@@ -1031,12 +1062,14 @@ void Game::CheckIfWaveNeedsToSpawn()
 
 	if( !isThereBeetle && !isThereWasp )
 	{
-		if( m_waveNumber < NUM_WAVES )
+		if( m_waveNumber < 1 )
 		{
 			SpawnWave();
+			g_engine->m_audio->StartSound( audio_waveStart, false, 0.5f );
 		}
 		else
 		{
+			g_engine->m_audio->StartSound( audio_victory, false, 0.1f, 0.f, 3.f );
 			if( m_endGameTimer < 180 )
 			{
 				m_endGameTimer++;
