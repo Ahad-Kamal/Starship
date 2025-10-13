@@ -11,7 +11,6 @@
 #include "Game/GameCommon.hpp"
 #include "Engine/Audio/AudioSystem.hpp"
 
-
 PlayerShip::PlayerShip(Game* owner, Vec2 const& startingPosition)
 	: Entity( owner, startingPosition )
 {
@@ -62,6 +61,8 @@ void PlayerShip::Render() const
 		tempShipWorldVerts[ vertIndex ] = m_localVerts[ vertIndex ];
 	}
 
+	/*float timeNow = GetCurrentTimeSeconds();
+	DrawGlow( m_position, Rgba8( 255, 255, 255), 0.5f, 5.f + sinf( timeNow * 5.f ) );*/
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS_TOTAL, tempShipWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS_TOTAL, tempShipWorldVerts );
 }
@@ -225,7 +226,7 @@ void PlayerShip::ActivateThrust()
 
 	for( int vertIndex = NUM_SHIP_VERTS; vertIndex < NUM_SHIP_VERTS + NUM_THRUST_VERTS; vertIndex++ )
 	{
-		m_localVerts[ vertIndex ].m_color = Rgba8( 206, 153, 255, (unsigned int) randomAlpha );
+		m_localVerts[ vertIndex ].m_color = Rgba8( 206, 153, 255, static_cast<unsigned int>( randomAlpha ) );
 	}
 	m_localVerts[ NUM_SHIP_VERTS_TOTAL - 1 ].m_pos.x = randomLength;
 }
