@@ -14,6 +14,7 @@ class Entity;
 class Beetle;
 class Wasp;
 class Debris;
+class Explosion;
 
 //-----------------------------------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ public:
 	Wasp* SpawnNewRandomWasp();
 	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale );
 	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale );
+	Explosion* SpawnNewExplosion( Vec2 const& pos, Rgba8 color );
 	Vec2 GetRandomOffScreenPosition();
 
 private:
@@ -87,6 +89,7 @@ private:
 	Beetle*		m_beetles[ MAX_BEETLES ];
 	Wasp*		m_wasps[ MAX_WASPS ];
 	Debris*		m_debris[ MAX_DEBRIS ];
+	Explosion*	m_explosions[ MAX_EXPLOSIONS ];
 	
 	Vertex m_starVerts[ NUM_STAR_VERTS ];
 	Vertex m_starVertsNear[ NUM_STAR_VERTS ];

@@ -16,6 +16,7 @@
 #include "Game/IceBullet.hpp"
 #include "Game/FieryAsteroid.hpp"
 #include "Game/IcyAsteroid.hpp"
+#include "Game/Explosion.hpp"
 
 RandomNumberGenerator* g_rng = nullptr;
 
@@ -129,6 +130,16 @@ void Game::Shutdown()
 		{
 			delete debris;
 			debris = nullptr;
+		}
+	}
+
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion*& explosion = m_explosions[ explosionIndex ];
+		if( explosion )
+		{
+			delete explosion;
+			explosion = nullptr;
 		}
 	}
 }
@@ -299,6 +310,22 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 	}
 }
 
+Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color )
+{
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion*& explosion = m_explosions[ explosionIndex ];
+		if( !explosion )
+		{
+			explosion = new Explosion( this, pos, color );
+			return explosion;
+		}
+	}
+
+	ERROR_RECOVERABLE( "Can't spawn new explosion, max limit reached" );
+	return nullptr;
+}
+
 Vec2 Game::GetRandomOffScreenPosition()
 {
 	int side = g_rng->RollRandomIntInRange( 1, 4 );
@@ -385,6 +412,16 @@ void Game::UpdateEntities(float deltaSeconds)
 			debris->Update( deltaSeconds );
 		}
 	}
+
+	// Update Explosions
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion*& explosion = m_explosions[ explosionIndex ];
+		if( explosion->IsAlive() )
+		{
+			explosion->Update( deltaSeconds );
+		}
+	}
 }
 
 void Game::UpdateCameras( float deltaSeconds )
@@ -440,7 +477,7 @@ void Game::RenderEntities() const
 		}
 	}
 
-	// Render Beetles
+	// Draw Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle = m_beetles[ beetleIndex ];
@@ -450,7 +487,7 @@ void Game::RenderEntities() const
 		}
 	}
 
-	// Render Wasps
+	// Draw Wasps
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp* wasp = m_wasps[ waspIndex ];
@@ -475,6 +512,17 @@ void Game::RenderEntities() const
 			debris->Render();
 		}
 	}
+
+	// Draw Explosions
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion* explosion = m_explosions[ explosionIndex ];
+		if( explosion->IsAlive() )
+		{
+			explosion->Render();
+		}
+	}
+
 }
 
 void Game::CheckBulletVsEnemies()
@@ -887,8 +935,6 @@ void Game::CreateStarfield()
 
 void Game::RenderStars() const
 {
-	//g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, m_starVerts );
-
 	Vec2 displacementCenterToPlayer = Vec2();
 	if( m_playerShip )
 	{
@@ -968,12 +1014,23 @@ void Game::DebugRenderEntities() const
 		m_playerShip->DebugRender();
 	}
 
+	// Debug Draw Debris
 	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
 	{
 		Debris* debris = m_debris[ debrisIndex ];
 		if( debris->IsAlive() )
 		{
 			debris->DebugRender();
+		}
+	}
+
+	// Debug Draw Explosions
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion* explosion = m_explosions[ explosionIndex ];
+		if( explosion->IsAlive() )
+		{
+			explosion->DebugRender();
 		}
 	}
 }
@@ -1037,6 +1094,16 @@ void Game::DeleteGarbageEntities()
 		{
 			delete debris;
 			debris = nullptr;
+		}
+	}
+
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion*& explosion = m_explosions[ explosionIndex ];
+		if( explosion && explosion->m_isGarbage )
+		{
+			delete explosion;
+			explosion = nullptr;
 		}
 	}
 }

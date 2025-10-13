@@ -19,6 +19,7 @@ constexpr int MAX_BULLETS = 200;
 constexpr int MAX_BEETLES = 60;
 constexpr int MAX_WASPS = 60;
 constexpr int MAX_DEBRIS = 600;
+constexpr int MAX_EXPLOSIONS = MAX_ASTEROIDS;
 constexpr int MAX_STARS = 2000;
 constexpr int NUM_WAVES = 5;
 constexpr float WORLD_SIZE_X = 400.f;
@@ -50,6 +51,8 @@ constexpr float WASP_PHYSICS_RADIUS = 1.75f;
 constexpr float WASP_COSMETIC_RADIUS = 2.25f;
 constexpr float DEBRIS_PHYSICS_RADIUS = 0.5f;
 constexpr float DEBRIS_COSMETIC_RADIUS = 2.f;
+constexpr float EXPLOSION_PHYSICS_RADIUS = 4.5f;
+constexpr float EXPLOSION_COSMETIC_RADIUS = 5.f;
 constexpr float DEBUG_LINE_THICKNESS = 0.2f;
 
 extern SoundID audio_music;

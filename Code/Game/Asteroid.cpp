@@ -2,6 +2,7 @@
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Game/Game.hpp"
 #include "Game/Asteroid.hpp"
 #include "Game/GameCommon.hpp"
 
@@ -57,6 +58,14 @@ void Asteroid::Render() const
 
 	TransformVertexArrayXY3D( NUM_ASTEROID_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_ASTEROID_VERTS, tempWorldVerts );
+}
+
+void Asteroid::Die()
+{
+	m_isDead = true;
+	m_isGarbage = true;
+
+	m_game->SpawnNewExplosion( m_position, m_color );
 }
 
 void Asteroid::InitializeLocalVerts()

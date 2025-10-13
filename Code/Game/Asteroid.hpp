@@ -14,6 +14,7 @@ public:
 
 	virtual void Update( float deltaSeconds ) override;
 	virtual void Render() const override;
+	virtual void Die() override;
 
 protected:
 	void InitializeLocalVerts();
