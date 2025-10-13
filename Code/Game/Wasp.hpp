@@ -18,9 +18,14 @@ public:
 	void Update( float deltaSeconds, PlayerShip const& ship );
 	virtual void Render() const override;
 
-private:
+protected:
 	void InitializeLocalVerts();
 
-private:
+public:
+	bool m_isFireWasp = false;
+	bool m_isIceWasp = false;
+
+protected:
 	Vertex m_localVerts[ NUM_WASP_VERTS ];
+
 };

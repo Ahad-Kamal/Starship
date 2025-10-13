@@ -21,8 +21,10 @@ public:
 protected:
 	void InitializeLocalVerts();
 
-protected:
-	Vertex m_localVerts[ NUM_BEETLE_VERTS ];	
+public:
 	bool m_isFireBeetle = false;
 	bool m_isIceBeetle = false;
+
+protected:
+	Vertex m_localVerts[ NUM_BEETLE_VERTS ];	
 };
