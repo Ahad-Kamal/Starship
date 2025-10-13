@@ -206,6 +206,11 @@ void App::CheckControllerInput()
 		m_nextState = GAME_STATE_PLAY;
 	}
 
+	if( m_currentState == GAME_STATE_ATTRACT && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
+	{
+		m_isQuitting = true;
+	}
+
 	if( m_currentState == GAME_STATE_PLAY && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
 	{
 		m_nextState = GAME_STATE_ATTRACT;
