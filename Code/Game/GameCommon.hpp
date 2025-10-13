@@ -71,3 +71,4 @@ extern SoundID audio_gameOver;
 void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
 void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color);
 void CreateSounds();
+void DrawGlow( Vec2 pos, Rgba8 color, float alpha, float radius );
