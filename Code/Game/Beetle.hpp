@@ -18,9 +18,11 @@ public:
 	void Update( float deltaSeconds, PlayerShip const& ship );
 	virtual void Render() const override;
 
-private:
+protected:
 	void InitializeLocalVerts();
 
-private:
+protected:
 	Vertex m_localVerts[ NUM_BEETLE_VERTS ];	
+	bool m_isFireBeetle = false;
+	bool m_isIceBeetle = false;
 };
