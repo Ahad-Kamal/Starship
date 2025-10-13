@@ -5,12 +5,22 @@
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 
-Explosion::Explosion( Game* owner, Vec2 const& startPos, Rgba8 color )
+Explosion::Explosion( Game* owner, Vec2 const& startPos, Rgba8 color, bool explosionType ) // true if fiery, false if icy
 	: Entity( owner, startPos )
 {
 	m_physicsRadius = EXPLOSION_PHYSICS_RADIUS;
 	m_cosmeticRadius = EXPLOSION_COSMETIC_RADIUS;
 	m_color = color;
+	
+	if( explosionType )
+	{
+		m_isFieryExplosion = true;
+	}
+	else
+	{
+		m_isIcyExplosion = true;
+	}
+
 	InitializeLocalVerts();
 }
 

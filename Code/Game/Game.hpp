@@ -52,8 +52,8 @@ public:
 
 	Debris* SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale );
 	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale );
-	Explosion* SpawnNewExplosion( Vec2 const& pos, Rgba8 color );
-
+	Explosion* SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosionType ); // true if fiery, false if icy
+	
 	Vec2 GetRandomOffScreenPosition();
 
 private:
@@ -65,12 +65,18 @@ private:
 	void CheckBulletVsEnemies();
 	void CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle );
 	void CheckBulletVsWasp( Bullet& bullet, Wasp& wasp );
-	void CheckAsteroidVsShip( Asteroid& asteroid, PlayerShip& ship );
+
 	void CheckEnemiesVsShips();
+	void CheckAsteroidVsShip( Asteroid& asteroid, PlayerShip& ship );
 	void CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship);
 	void CheckWaspVsShip( Wasp& wasp, PlayerShip& ship );
+
 	void CheckEnemiesVsEnemies();
 	void CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 );
+
+	void CheckExplosionsVsEnemies();
+	void CheckExplosionsVsBeetle( Explosion& explosion, Beetle& beetle );
+	void CheckExplosionsVsWasp( Explosion& explosion, Wasp& wasp );
 
 	void ClampCamera( Vec2& minView, Vec2& maxView );
 	void CheckForGameOver();

@@ -67,7 +67,15 @@ void Asteroid::Die()
 
 	int count = g_rng->RollRandomIntInRange( 3, 12 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
-	m_game->SpawnNewExplosion( m_position, m_color );
+
+	if( m_isFieryAsteroid )
+	{
+		m_game->SpawnNewExplosion( m_position, m_color, true );
+	}
+	else if( m_isIcyAsteroid )
+	{
+		m_game->SpawnNewExplosion( m_position, m_color, false );
+	}
 }
 
 void Asteroid::InitializeLocalVerts()

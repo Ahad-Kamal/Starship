@@ -3,6 +3,7 @@
 IcyAsteroid::IcyAsteroid( Game* owner, Vec2 const& startPos )
 	: Asteroid( owner, startPos )
 {
+	m_isIcyAsteroid = true;
 	ChangeColor();
 }
 

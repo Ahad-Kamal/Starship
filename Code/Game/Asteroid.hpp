@@ -16,6 +16,10 @@ public:
 	virtual void Render() const override;
 	virtual void Die() override;
 
+public:
+	bool m_isFieryAsteroid = false;
+	bool m_isIcyAsteroid = false;
+
 protected:
 	void InitializeLocalVerts();
 

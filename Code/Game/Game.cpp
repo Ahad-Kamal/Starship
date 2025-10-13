@@ -53,16 +53,18 @@ void Game::Startup()
 
 void Game::Update(float deltaSeconds)
 {
-
 	UpdateEntities( deltaSeconds );
+
 	CheckBulletVsEnemies();
 	CheckEnemiesVsShips();
 	CheckEnemiesVsEnemies();
+	CheckExplosionsVsEnemies();
+
 	DeleteGarbageEntities();
 	CheckIfWaveNeedsToSpawn();
 	CheckForGameOver();
-	UpdateCameras( deltaSeconds );
 
+	UpdateCameras( deltaSeconds );
 }
 
 void Game::Render() const
@@ -394,14 +396,14 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 	}
 }
 
-Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color )
+Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosionType ) // true if fiery, false if icy
 {
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
 	{
 		Explosion*& explosion = m_explosions[ explosionIndex ];
 		if( !explosion )
 		{
-			explosion = new Explosion( this, pos, color );
+			explosion = new Explosion( this, pos, color, explosionType );
 			return explosion;
 		}
 	}
@@ -850,6 +852,97 @@ void Game::CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 )
 	if( DoEntitiesOverlap( enemy1, enemy2 ) )
 	{
 		PushDiscsOutOfEachOther2D( enemy1.m_position, enemy1.m_cosmeticRadius, enemy2.m_position, enemy2.m_cosmeticRadius );
+	}
+}
+
+void Game::CheckExplosionsVsEnemies()
+{
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion* explosion = m_explosions[ explosionIndex ];
+
+		for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+		{
+			Beetle* beetle = m_beetles[ beetleIndex ];
+
+			if( explosion && beetle )
+			{
+				CheckExplosionsVsBeetle( *explosion, *beetle );
+			}
+		}
+	}
+
+	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
+	{
+		Explosion* explosion = m_explosions[ explosionIndex ];
+
+		for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+		{
+			Wasp* wasp = m_wasps[ waspIndex ];
+
+			if( explosion && wasp )
+			{
+				CheckExplosionsVsWasp( *explosion, *wasp );
+			}
+		}
+	}
+}
+
+void Game::CheckExplosionsVsBeetle( Explosion& explosion, Beetle& beetle )
+{
+	if( DoEntitiesOverlap( explosion, beetle ) )
+	{
+		if( explosion.m_isFieryExplosion && !beetle.m_isFireBeetle )
+		{
+			if( beetle.m_isOnFire )
+			{
+				beetle.ResetFireTick();
+			}
+			else
+			{
+				beetle.m_isOnFire = true;
+			}
+		}
+		else if( explosion.m_isIcyExplosion && !beetle.m_isIceBeetle )
+		{
+			if( beetle.m_isSlow )
+			{
+				beetle.ResetSlowTimer();
+			}
+			else
+			{
+				beetle.m_isSlow = true;
+			}
+		}
+	}
+}
+
+void Game::CheckExplosionsVsWasp( Explosion& explosion, Wasp& wasp )
+{
+	if( DoEntitiesOverlap( explosion, wasp ) )
+	{
+		if( explosion.m_isFieryExplosion && !wasp.m_isFireWasp )
+		{
+			if( wasp.m_isOnFire )
+			{
+				wasp.ResetFireTick();
+			}
+			else
+			{
+				wasp.m_isOnFire = true;
+			}
+		}
+		else if( explosion.m_isIcyExplosion && !wasp.m_isIceWasp )
+		{
+			if( wasp.m_isSlow )
+			{
+				wasp.ResetSlowTimer();
+			}
+			else
+			{
+				wasp.m_isSlow = true;
+			}
+		}
 	}
 }
 

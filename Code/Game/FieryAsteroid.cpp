@@ -3,6 +3,7 @@
 FieryAsteroid::FieryAsteroid( Game* owner, Vec2 const& startPos )
 	: Asteroid( owner, startPos )
 {
+	m_isFieryAsteroid = true;
 	ChangeColor();
 }
 
