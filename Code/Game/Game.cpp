@@ -671,10 +671,10 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 	if( DoEntitiesOverlap( bullet, beetle ) )
 	{
 		bullet.TakeDamage( 1 );
-		beetle.TakeDamage( 1 );
 		
-		if( bullet.m_isFireBullet )
+		if( bullet.m_isFireBullet && !beetle.m_isFireBeetle )
 		{
+			beetle.TakeDamage( 1 );
 			if( beetle.m_isOnFire )
 			{
 				beetle.ResetFireTick();
@@ -684,8 +684,9 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 				beetle.m_isOnFire = true;
 			}
 		}
-		else
+		else if( bullet.m_isIceBullet && !beetle.m_isIceBeetle )
 		{
+			beetle.TakeDamage( 1 );
 			if( beetle.m_isSlow )
 			{
 				beetle.ResetSlowTimer();
@@ -695,6 +696,10 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 				beetle.m_isSlow = true;
 			}
 		}
+		else
+		{
+			beetle.TakeDamage( 1 );
+		}
 	}
 }
 
@@ -703,10 +708,10 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 	if( DoEntitiesOverlap( bullet, wasp ) )
 	{
 		bullet.TakeDamage( 1 );
-		wasp.TakeDamage( 1 );
 
-		if( bullet.m_isFireBullet )
+		if( bullet.m_isFireBullet && !wasp.m_isFireWasp )
 		{
+			wasp.TakeDamage( 1 );
 			if( wasp.m_isOnFire )
 			{
 				wasp.ResetFireTick();
@@ -716,8 +721,9 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 				wasp.m_isOnFire = true;
 			}
 		}
-		else
+		else if( bullet.m_isIceBullet && !wasp.m_isIceWasp )
 		{
+			wasp.TakeDamage( 1 );
 			if( wasp.m_isSlow )
 			{
 				wasp.ResetSlowTimer();
@@ -726,6 +732,10 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 			{
 				wasp.m_isSlow = true;
 			}
+		}
+		else
+		{
+			wasp.TakeDamage( 1 );
 		}
 	}
 }

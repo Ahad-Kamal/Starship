@@ -19,7 +19,8 @@ protected:
 	virtual void InitializeLocalVerts();
 
 public:
-	bool m_isFireBullet;
+	bool m_isFireBullet = false;
+	bool m_isIceBullet = false;
 
 protected:
 	Vertex m_localVerts[NUM_BULLET_VERTS];
