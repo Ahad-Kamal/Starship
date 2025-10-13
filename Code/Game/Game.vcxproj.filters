@@ -58,6 +58,12 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="FireBeetle.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="IceBeetle.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerShip.hpp">
@@ -106,6 +112,12 @@
       <Filter>Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBeetle.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="IceBeetle.hpp">
       <Filter>Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
