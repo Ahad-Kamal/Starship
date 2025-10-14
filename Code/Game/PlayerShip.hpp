@@ -14,6 +14,8 @@ constexpr int NUM_SHIP_VERTS_TOTAL = NUM_SHIP_VERTS + NUM_THRUST_VERTS;
 constexpr float MAX_FIRE_BULLET_COOLDOWN = 0.2f;
 constexpr float MAX_ICE_BULLET_COOLDOWN = 0.2f;
 
+constexpr float INVINCIBILITY_DURATION = 600.f;
+
 void createFakePlayerShip( Vertex verts[], float transparency );
 
 //----------------------------------------------------------------------------------------------
@@ -30,22 +32,31 @@ public:
 
 private:
 	void InitializeLocalVerts();
+
 	void UpdateFromKeyboard( float deltaSeconds );
 	void UpdateFromController();
+
 	void ActivateThrust();
 	void DeactivateThrust();
+
 	void Respawn();
+	void CountdownInvincibility();
 
 public:
 	int m_lives = 4;
+	bool m_isInvincible = false;
 
 private:
-	Vertex	m_localVerts[ NUM_SHIP_VERTS_TOTAL ];
+	Vertex m_localVerts[ NUM_SHIP_VERTS_TOTAL ];
+
 	bool m_isTurningLeft = false;
 	bool m_isTurningRight = false;
 	bool m_isKeyboardThrusting = false;
 	bool m_isControllerThrusting = false;
 	float m_thrustFraction = 0.f;
+
 	float m_fireBulletCooldown = MAX_FIRE_BULLET_COOLDOWN;
 	float m_iceBulletCooldown = MAX_ICE_BULLET_COOLDOWN;
+
+	float m_invincibilityTime = INVINCIBILITY_DURATION;
 };

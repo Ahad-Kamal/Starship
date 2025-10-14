@@ -52,6 +52,8 @@ void PlayerShip::Update(float deltaSeconds)
 		m_iceBulletCooldown += deltaSeconds;
 		m_iceBulletCooldown = GetClamped( m_iceBulletCooldown, 0.f, MAX_ICE_BULLET_COOLDOWN );
 	}
+
+	CountdownInvincibility();
 }
 void PlayerShip::Render() const
 {
@@ -74,7 +76,9 @@ void PlayerShip::Die()
 	m_velocity = Vec2( 0.f, 0.f );
 
 	int count = g_rng->RollRandomIntInRange( 5, 30 );
-	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), m_color, 1.f);
+	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), Rgba8( 255, 255, 255 ), 1.f);
+	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), Rgba8( 51, 204, 255 ), 1.f);
+	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, Vec2( 1.f, 1.f), Rgba8( 255, 25, 25 ), 1.f);
 	m_game->AddCameraShake( 5.f );
 }
 
@@ -243,13 +247,41 @@ void PlayerShip::DeactivateThrust()
 
 void PlayerShip::Respawn()
 {
-	m_position = Vec2( WORLD_CENTER_X, WORLD_CENTER_Y );
+	//m_position = Vec2( WORLD_CENTER_X, WORLD_CENTER_Y );
 	m_velocity = Vec2( 0.f, 0.f );
 	m_orientationDegrees = 0.f;
 	m_isDead = false;
+
+	m_isInvincible = true;
+	for( int shipVerts = 0; shipVerts < NUM_SHIP_VERTS; shipVerts++ )
+	{
+		m_localVerts[ shipVerts ].m_color.a = 128;
+	}
 }
 
-void createFakePlayerShip( Vertex verts[], float transparency )
+void PlayerShip::CountdownInvincibility()
+{
+	if( !m_isInvincible )
+	{
+		return;
+	}
+
+	if( m_invincibilityTime <= 0 )
+	{
+		m_isInvincible = false;
+		for( int shipVerts = 0; shipVerts < NUM_SHIP_VERTS; shipVerts++ )
+		{
+			m_localVerts[ shipVerts ].m_color.a = 255;
+		}
+		m_invincibilityTime = INVINCIBILITY_DURATION;
+	}
+	else
+	{
+		m_invincibilityTime--;
+	}
+}
+
+void createFakePlayerShip( Vertex verts[], [[maybe_unused]] float transparency )
 {
 	// Nose Cone
 	verts[ 0 ].m_pos = Vec3( 1.f, 0.f, 0.f );

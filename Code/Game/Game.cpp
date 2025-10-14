@@ -769,6 +769,11 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 
 void Game::CheckEnemiesVsShips()
 {
+	if( m_playerShip->m_isInvincible )
+	{
+		return;
+	}
+
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
