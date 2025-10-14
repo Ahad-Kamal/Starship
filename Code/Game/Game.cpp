@@ -808,7 +808,7 @@ void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
 {
 	if( DoEntitiesOverlap( asteroid, ship ) )
 	{
-		asteroid.TakeDamage( 1 );
+		asteroid.TakeDamage( 3 );
 		ship.TakeDamage( 1 ); 
 
 		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );

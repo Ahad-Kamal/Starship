@@ -37,15 +37,17 @@ void Explosion::Render() const
 {
 	Vertex tempWorldVerts[ NUM_EXPLOSION_VERTS ];
 
+	float alphaFloat = RangeMapClamped( m_ageSeconds, 0.f, m_lifeTimeSeconds, 255.f, 0.f );
 	for( int vertIndex = 0; vertIndex < NUM_EXPLOSION_VERTS; vertIndex++ )
 	{
 		tempWorldVerts[ vertIndex ] = m_localVerts[ vertIndex ];
-		float alphaFloat = RangeMapClamped( m_ageSeconds, 0.f, m_lifeTimeSeconds, 255.f, 0.f );
 		tempWorldVerts[ vertIndex ].m_color.a = static_cast<unsigned char>( alphaFloat );
 	}
 
 	TransformVertexArrayXY3D( NUM_EXPLOSION_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_EXPLOSION_VERTS, tempWorldVerts );
+
+	DrawGlow( m_position, m_color, alphaFloat, m_cosmeticRadius * 2.f );
 }
 
 void Explosion::Die()
