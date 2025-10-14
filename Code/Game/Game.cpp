@@ -205,7 +205,7 @@ Bullet* Game::SpawnFireBullet( Vec2 const& pos, float forwardDegrees )
 		Bullet*& bullet = m_bullets[ bulletIndex ];
 		if( !bullet )
 		{
-			float bulletOffset = g_rng->RollRandomFloatInRange( -5.f, 5.f );
+			float bulletOffset = g_rng->RollRandomFloatInRange( -10.f, 10.f );
 			Vec2 bulletOffsetVector = Vec2( bulletOffset, bulletOffset );
 
 			bullet = new FireBullet( this, pos );
@@ -229,7 +229,7 @@ Bullet* Game::SpawnIceBullet( Vec2 const& pos, float forwardDegrees )
 		Bullet*& bullet = m_bullets[ bulletIndex ];
 		if( !bullet )
 		{
-			float bulletOffset = g_rng->RollRandomFloatInRange( -5.f, 5.f );
+			float bulletOffset = g_rng->RollRandomFloatInRange( -10.f, 10.f );
 			Vec2 bulletOffsetVector = Vec2( bulletOffset, bulletOffset );
 
 			bullet = new IceBullet( this, pos );
