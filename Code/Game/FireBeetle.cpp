@@ -5,6 +5,7 @@ FireBeetle::FireBeetle( Game* owner, Vec2 const& startingPosition )
 {
 	m_isFireBeetle = true;
 	ChangeColor();
+	m_spiralAngle = 30.f;
 }
 
 void FireBeetle::ChangeColor()

@@ -6,6 +6,7 @@ IceBullet::IceBullet( Game* owner, Vec2 const& startPos )
 {
 	InitializeLocalVerts();
 	m_isIceBullet = true;
+	m_color = Rgba8( 51, 204, 255 ); 
 }
 
 void IceBullet::InitializeLocalVerts()

@@ -39,7 +39,7 @@ void PlayerShip::Update(float deltaSeconds)
 	{
 		m_velocity += this->GetForwardNormal() * m_thrustFraction * PLAYER_SHIP_ACCELERATION * deltaSeconds;
 	}
-	m_velocity.GetClamped( 30.f );
+	m_velocity = m_velocity.GetClamped( PLAYER_SHIP_MAX_SPEED );
 	m_position += m_velocity * deltaSeconds;
 
 	if( m_fireBulletCooldown < MAX_FIRE_BULLET_COOLDOWN )

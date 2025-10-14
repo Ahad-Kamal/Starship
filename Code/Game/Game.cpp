@@ -686,7 +686,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		if( bullet.m_isFireBullet && !beetle.m_isFireBeetle )
 		{
 			beetle.TakeDamage( 1 );
-			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 
 			if( beetle.m_isOnFire )
@@ -701,7 +701,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		else if( bullet.m_isIceBullet && !beetle.m_isIceBeetle )
 		{
 			beetle.TakeDamage( 1 );
-			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 
 			if( beetle.m_isSlow )
@@ -716,7 +716,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		else if( !beetle.m_isFireBeetle && !beetle.m_isIceBeetle )
 		{
 			beetle.TakeDamage( 1 );
-			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 		}
 	}
@@ -731,7 +731,7 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		if( bullet.m_isFireBullet && !wasp.m_isFireWasp )
 		{
 			wasp.TakeDamage( 1 );
-			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 
 			if( wasp.m_isOnFire )
@@ -746,7 +746,7 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		else if( bullet.m_isIceBullet && !wasp.m_isIceWasp )
 		{
 			wasp.TakeDamage( 1 );
-			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 
 			if( wasp.m_isSlow )
@@ -761,7 +761,7 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		else if( !wasp.m_isFireWasp && !wasp.m_isIceWasp )
 		{
 			wasp.TakeDamage( 1 );
-			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 		}
 	}
@@ -1171,12 +1171,8 @@ void Game::DrawPlayerLives() const
 		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 8.f, 90.f, Vec2( 20.f, 780.f ) );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
 	}
-	if( m_playerShip->m_lives > 2 )
-	{
-		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 40.f, 0.f ) );
-		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
-	}
-	if( m_playerShip->m_lives > 3 )
+
+	for( int currentLife = 1; currentLife < m_playerShip->m_lives - 1; currentLife++ )
 	{
 		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 40.f, 0.f ) );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );

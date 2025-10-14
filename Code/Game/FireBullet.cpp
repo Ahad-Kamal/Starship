@@ -6,6 +6,7 @@ FireBullet::FireBullet( Game* owner, Vec2 const& startPos )
 {
 	InitializeLocalVerts();
 	m_isFireBullet = true;
+	m_color = Rgba8( 255, 0, 0 );
 }
 
 void FireBullet::InitializeLocalVerts()

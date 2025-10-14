@@ -52,7 +52,7 @@ void Bullet::Die()
 	m_isGarbage = true;
 
 	int count = g_rng->RollRandomIntInRange( 1, 3 );
-	m_game->SpawnNewDebrisCluster( count, m_position, -m_velocity * 0.5f, GetForwardNormal(), Rgba8( 250, 250, 250 ), 0.25f );
+	m_game->SpawnNewDebrisCluster( count, m_position, -m_velocity * 0.5f, GetForwardNormal(), m_color, 0.25f );
 }
 
 void Bullet::InitializeLocalVerts()

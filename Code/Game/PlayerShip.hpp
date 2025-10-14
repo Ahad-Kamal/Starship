@@ -43,7 +43,7 @@ private:
 	void CountdownInvincibility();
 
 public:
-	int m_lives = 4;
+	int m_lives = 6;
 	bool m_isInvincible = false;
 
 private:

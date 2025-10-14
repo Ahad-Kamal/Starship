@@ -5,6 +5,7 @@ IceBeetle::IceBeetle( Game* owner, Vec2 const& startingPosition )
 {
 	m_isIceBeetle = true;
 	ChangeColor();
+	m_spiralAngle = -30.f;
 }
 
 void IceBeetle::ChangeColor()
