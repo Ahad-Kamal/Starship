@@ -55,6 +55,7 @@ public:
 	Explosion* SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosionType ); // true if fiery, false if icy
 	
 	Vec2 GetRandomOffScreenPosition();
+	void AddCameraShake( float shakeAmount );
 
 private:
 	void UpdateEntities( float deltaSeconds );
@@ -79,11 +80,15 @@ private:
 	void CheckExplosionsVsWasp( Explosion& explosion, Wasp& wasp );
 
 	void ClampCamera( Vec2& minView, Vec2& maxView );
+	void ShakeCamera( float deltaSeconds );
+
 	void CheckForGameOver();
 	void CheckIfWaveNeedsToSpawn();
 	void SpawnWave();
+
 	bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 	void DrawPlayerLives() const;
+
 	void CreateStarfield();
 	void RenderStars() const;
 
@@ -94,7 +99,6 @@ private:
 public:
 	Camera* m_worldCamera;
 	Camera* m_screenCamera;
-	bool m_isShaking = false;
 
 private:
 	App*		m_app = nullptr;
@@ -121,5 +125,6 @@ private:
 	int m_numIceWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
 	int m_endGameTimer = 0;
 
-	float m_screenShakeAmount = MAX_SCREEN_SHAKE_AMOUNT;
+	bool m_isShaking = false;
+	float m_screenShakeAmount = 0.f;
 };

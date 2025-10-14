@@ -76,6 +76,8 @@ void Asteroid::Die()
 	{
 		m_game->SpawnNewExplosion( m_position, m_color, false );
 	}
+
+	m_game->AddCameraShake( 2.f );
 }
 
 void Asteroid::InitializeLocalVerts()

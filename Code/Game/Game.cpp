@@ -453,6 +453,12 @@ Vec2 Game::GetRandomOffScreenPosition()
 	return( Vec2( xPos, yPos ) );
 }
 
+void Game::AddCameraShake( float shakeAmount )
+{
+	m_isShaking = true;
+	m_screenShakeAmount += shakeAmount;
+}
+
 void Game::UpdateEntities(float deltaSeconds)
 {
 	// Update Bullets
@@ -538,19 +544,7 @@ void Game::UpdateCameras( float deltaSeconds )
 		return;
 	}
 
-	float shakeX = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
-	float shakeY = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
-
-	m_worldCamera->Translate2D( Vec2( shakeX, shakeY ) );
-
-	m_screenShakeAmount -= SCREEN_SHAKE_REDUCTION * deltaSeconds;
-	m_screenShakeAmount = GetClamped( m_screenShakeAmount, 0.f, MAX_SCREEN_SHAKE_AMOUNT );
-
-	if( m_screenShakeAmount <= 0.f )
-	{
-		m_isShaking = false;
-		m_screenShakeAmount = MAX_SCREEN_SHAKE_AMOUNT;
-	}
+	ShakeCamera( deltaSeconds );
 }
 
 void Game::RenderEntities() const
@@ -679,6 +673,7 @@ void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 		asteroid.TakeDamage( 1 );
 
 		g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+		AddCameraShake( 0.5f );
 	}
 }
 
@@ -692,6 +687,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		{
 			beetle.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			AddCameraShake( 0.5f );
 
 			if( beetle.m_isOnFire )
 			{
@@ -706,6 +702,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 		{
 			beetle.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			AddCameraShake( 0.5f );
 
 			if( beetle.m_isSlow )
 			{
@@ -716,10 +713,11 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 				beetle.m_isSlow = true;
 			}
 		}
-		else
+		else if( !beetle.m_isFireBeetle && !beetle.m_isIceBeetle )
 		{
 			beetle.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			AddCameraShake( 0.5f );
 		}
 	}
 }
@@ -734,6 +732,7 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		{
 			wasp.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			AddCameraShake( 0.5f );
 
 			if( wasp.m_isOnFire )
 			{
@@ -748,6 +747,7 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 		{
 			wasp.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			AddCameraShake( 0.5f );
 
 			if( wasp.m_isSlow )
 			{
@@ -758,10 +758,11 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 				wasp.m_isSlow = true;
 			}
 		}
-		else
+		else if( !wasp.m_isFireWasp && !wasp.m_isIceWasp )
 		{
 			wasp.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.025f );
+			AddCameraShake( 0.5f );
 		}
 	}
 }
@@ -998,6 +999,22 @@ void Game::ClampCamera( Vec2& minView, Vec2& maxView )
 	{
 		minView.y = WORLD_SIZE_Y - WORLD_VIEW_SIZE_Y;
 		maxView.y = WORLD_SIZE_Y;
+	}
+}
+
+void Game::ShakeCamera( float deltaSeconds )
+{
+	float shakeX = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
+	float shakeY = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
+
+	m_worldCamera->Translate2D( Vec2( shakeX, shakeY ) );
+
+	m_screenShakeAmount -= SCREEN_SHAKE_REDUCTION * deltaSeconds;
+	m_screenShakeAmount = GetClamped( m_screenShakeAmount, 0.f, MAX_SCREEN_SHAKE_AMOUNT );
+
+	if( m_screenShakeAmount <= 0.f )
+	{
+		m_isShaking = false;
 	}
 }
 
