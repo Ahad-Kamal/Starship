@@ -42,7 +42,7 @@ void Wasp::Update( float deltaSeconds, PlayerShip const& ship )
 	BeSlowed();
 	if( IsOffScreen() )
 	{
-		BounceOffWalls();
+		WrapAroundScreen();
 	}
 }
 

@@ -1092,7 +1092,7 @@ void Game::CheckIfWaveNeedsToSpawn()
 		else
 		{
 			g_engine->m_audio->StartSound( audio_victory, false, 0.1f, 0.f, 3.f );
-			if( m_endGameTimer < 180 )
+			if( m_endGameTimer < 320 )
 			{
 				m_endGameTimer++;
 			}

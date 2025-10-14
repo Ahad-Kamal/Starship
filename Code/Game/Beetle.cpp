@@ -29,7 +29,7 @@ void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 {
 	m_position += ( m_velocity * GetForwardNormal() * deltaSeconds );
 
-	if( ship.IsAlive() )
+	if( ship.IsAlive() && !ship.m_isInvincible )
 	{
 		m_orientationDegrees = Atan2Degrees( ship.m_position.y - m_position.y, ship.m_position.x - m_position.x ) + m_spiralAngle;
 	}
@@ -38,7 +38,7 @@ void Beetle::Update( float deltaSeconds, PlayerShip const& ship )
 	BeSlowed();
 	if( IsOffScreen() )
 	{
-		BounceOffWalls();
+		WrapAroundScreen();
 	}
 }
 

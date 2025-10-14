@@ -49,6 +49,7 @@ public:
 protected:
 	bool	IsOffScreen() const;
 	void	BounceOffWalls();
+	void	WrapAroundScreen();
 
 	void	TakeFireDamage();
 	void	FireDamageVisual() const;

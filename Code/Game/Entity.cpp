@@ -71,19 +71,19 @@ bool Entity::IsAlive() const
 
 bool Entity::IsOffScreen() const
 {
-	if( m_position.x > WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS )
+	if( m_position.x >= WORLD_SIZE_X + ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
-	else if( m_position.y > WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS )
+	else if( m_position.y >= WORLD_SIZE_Y + ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
-	else if( m_position.x < -ASTEROID_COSMETIC_RADIUS )
+	else if( m_position.x <= -ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
-	else if( m_position. y < -ASTEROID_COSMETIC_RADIUS )
+	else if( m_position. y <= -ASTEROID_COSMETIC_RADIUS )
 	{
 		return true;
 	}
@@ -93,21 +93,41 @@ bool Entity::IsOffScreen() const
 
 void Entity::BounceOffWalls()
 {
-	if( m_position.x > WORLD_SIZE_X - m_cosmeticRadius )
+	if( m_position.x > WORLD_SIZE_X - ASTEROID_COSMETIC_RADIUS )
 	{
 		m_velocity.x *= -1;
 	}
-	else if( m_position.y > WORLD_SIZE_Y - m_cosmeticRadius )
+	else if( m_position.y > WORLD_SIZE_Y - ASTEROID_COSMETIC_RADIUS )
 	{
 		m_velocity.y *= -1;
 	}
-	else if( m_position.x < m_cosmeticRadius )
+	else if( m_position.x < ASTEROID_COSMETIC_RADIUS )
 	{
 		m_velocity.x *= -1;
 	}
-	else if( m_position.y < m_cosmeticRadius )
+	else if( m_position.y < ASTEROID_COSMETIC_RADIUS )
 	{
 		m_velocity.y *= -1;
+	}
+}
+
+void Entity::WrapAroundScreen()
+{
+	if( m_position.x < 0.f - m_cosmeticRadius )
+	{
+		m_position.x = WORLD_SIZE_X + m_cosmeticRadius;
+	}
+	else if( m_position.x > WORLD_SIZE_X + m_cosmeticRadius )
+	{
+		m_position.x = 0.f - m_cosmeticRadius;
+	}
+	else if( m_position.y < 0.f - m_cosmeticRadius )
+	{
+		m_position.y = WORLD_SIZE_Y + m_cosmeticRadius;
+	}
+	else if( m_position.y > WORLD_SIZE_Y + m_cosmeticRadius )
+	{
+		m_position.y = 0.f - m_cosmeticRadius;
 	}
 }
 

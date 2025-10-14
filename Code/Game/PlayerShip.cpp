@@ -276,6 +276,7 @@ void PlayerShip::CountdownInvincibility()
 	if( m_invincibilityTime <= 0 )
 	{
 		m_isInvincible = false;
+		m_isDead = false;
 		for( int shipVerts = 0; shipVerts < NUM_SHIP_VERTS; shipVerts++ )
 		{
 			m_localVerts[ shipVerts ].m_color.a = 255;

@@ -14,6 +14,7 @@ enum GameState
 constexpr char FUNCTION_KEY_1 = 'p';
 constexpr char FUNCTION_KEY_8 = 'w';
 constexpr int NUM_STARTING_ASTEROIDS = 6;
+constexpr int NUM_LIVES = 10;
 constexpr int MAX_ASTEROIDS = 100;
 constexpr int MAX_BULLETS = 200;
 constexpr int MAX_BEETLES = 60;
@@ -47,7 +48,7 @@ constexpr float PLAYER_SHIP_COSMETIC_RADIUS = 2.25f;
 constexpr float BEETLE_SPEED = 50.f;
 constexpr float BEETLE_PHYSICS_RADIUS = 1.75f;
 constexpr float BEETLE_COSMETIC_RADIUS = 2.25f;
-constexpr float WASP_ACCELERATION = 5.f;
+constexpr float WASP_ACCELERATION = 10.f;
 constexpr float WASP_MAX_SPEED = 100.f;
 constexpr float WASP_PHYSICS_RADIUS = 1.75f;
 constexpr float WASP_COSMETIC_RADIUS = 2.25f;

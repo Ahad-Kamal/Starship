@@ -2,6 +2,7 @@
 #include "Engine/Core/Vertex.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Game/Entity.hpp"
+#include "Game/GameCommon.hpp"
 
 class Game;
 
@@ -43,7 +44,7 @@ private:
 	void CountdownInvincibility();
 
 public:
-	int m_lives = 6;
+	int m_lives = NUM_LIVES;
 	bool m_isInvincible = false;
 
 private:
