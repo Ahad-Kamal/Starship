@@ -197,6 +197,8 @@ void PlayerShip::UpdateFromController()
 	}
 
 	float leftStickMagnitude = controller.GetLeftStick().GetMagnitude();
+	float rightStickMagnitude = controller.GetRightStick().GetMagnitude();
+
 	if( leftStickMagnitude > 0.f && IsAlive() )
 	{
 		m_isControllerThrusting = true;
@@ -208,6 +210,11 @@ void PlayerShip::UpdateFromController()
 	{
 		m_isControllerThrusting = false;
 		DeactivateThrust();
+	}
+
+	if( rightStickMagnitude > 0.f && !m_isControllerThrusting && IsAlive() )
+	{
+		m_orientationDegrees = controller.GetRightStick().GetOrientationDegrees();
 	}
 
 	if( controller.GetRightTrigger() == 1.f && IsAlive() && m_fireBulletCooldown == MAX_FIRE_BULLET_COOLDOWN )
