@@ -1,5 +1,6 @@
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/Rgba8.hpp"
+#include "Engine/Core/Time.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
@@ -150,6 +151,17 @@ void Entity::TakeFireDamage()
 	}
 }
 
+void Entity::FireDamageVisual() const
+{
+	if( !m_isOnFire )
+	{
+		return;
+	}
+
+	float timeNow = static_cast<float>( GetCurrentTimeSeconds() );
+	DrawGlow( m_position, Rgba8( 255, 0, 0 ), 0.7f, m_cosmeticRadius + cosf( timeNow * 7.f ) );
+}
+
 void Entity::BeSlowed()
 {
 	if( !m_isSlow )
@@ -168,5 +180,16 @@ void Entity::BeSlowed()
 		m_velocity = m_originalVelocity;
 		m_iceSlowTimer = ICE_SLOW_COOLDOWN;
 	}
+}
+
+void Entity::IceSlowVisual() const
+{
+	if( !m_isSlow )
+	{
+		return;
+	}
+
+	float timeNow = static_cast<float>( GetCurrentTimeSeconds() );
+	DrawGlow( m_position, Rgba8( 0, 255, 255 ), 0.7f, m_cosmeticRadius + cosf( timeNow * 2.f ) );
 }
 

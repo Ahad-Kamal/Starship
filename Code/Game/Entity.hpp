@@ -49,8 +49,11 @@ public:
 protected:
 	bool	IsOffScreen() const;
 	void	BounceOffWalls();
+
 	void	TakeFireDamage();
+	void	FireDamageVisual() const;
 	void	BeSlowed();
+	void	IceSlowVisual() const;
 
 protected:
 	float	m_fireCooldown = FIRE_DAMAGE_COOLDOWN;

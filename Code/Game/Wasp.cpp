@@ -57,6 +57,9 @@ void Wasp::Render() const
 
 	TransformVertexArrayXY3D( NUM_WASP_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_WASP_VERTS, tempWorldVerts );
+
+	FireDamageVisual();
+	IceSlowVisual();
 }
 
 void Wasp::InitializeLocalVerts()
