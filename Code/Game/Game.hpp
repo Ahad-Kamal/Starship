@@ -115,14 +115,14 @@ private:
 	Vertex m_starVertsFar[ NUM_STAR_VERTS ];
 
 	int m_waveNumber = 0;
-	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 6, 6, 6 };
-	int m_numIcyAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 6, 6, 6 };
-	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 3, 5 };
-	int m_numFireBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 3, 5 };
-	int m_numIceBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 3, 5 };
-	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
-	int m_numFireWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
-	int m_numIceWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 2, 3 };
+	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 4, 4, 4 };
+	int m_numIcyAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 4, 4, 4 };
+	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 2, 5 };
+	int m_numFireBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 2, 5 };
+	int m_numIceBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 2, 5 };
+	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 1, 3 };
+	int m_numFireWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 1, 3 };
+	int m_numIceWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 1, 3 };
 	int m_endGameTimer = 0;
 
 	bool m_isShaking = false;
