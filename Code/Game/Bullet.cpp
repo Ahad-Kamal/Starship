@@ -42,6 +42,7 @@ void Bullet::Render() const
 		tempWorldVerts[vertIndex] = m_localVerts[vertIndex];
 	}
 
+	DrawGlow( m_position, m_color, 0.5f, 2.f  );
 	TransformVertexArrayXY3D( NUM_BULLET_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_BULLET_VERTS, tempWorldVerts );
 }

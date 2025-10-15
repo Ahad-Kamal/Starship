@@ -16,7 +16,7 @@ Wasp::Wasp( Game* owner, Vec2 const& startingPosition )
 
 	m_physicsRadius = WASP_PHYSICS_RADIUS;
 	m_cosmeticRadius = WASP_COSMETIC_RADIUS;
-	m_color = Rgba8( 255, 255, 0 );
+	m_color = Rgba8( 153, 0, 255 );
 	InitializeLocalVerts();
 }
 
@@ -70,14 +70,14 @@ void Wasp::InitializeLocalVerts()
 	m_localVerts[ 2 ].m_pos = Vec3( 1.f, -0.5f, 0.f );
 
 	// Body (Quad Tri 1)
-	m_localVerts[ 3 ].m_pos = Vec3( -1.f, 0.5f, 0.f );
+	m_localVerts[ 3 ].m_pos = Vec3( 0.f, 0.5f, 0.f );
 	m_localVerts[ 4 ].m_pos = Vec3( 1.f, 0.5f, 0.f );
-	m_localVerts[ 5 ].m_pos = Vec3( 1.f, -0.5f, 0.f );
+	m_localVerts[ 5 ].m_pos = Vec3( 1.f, 0.f, 0.f );
 
 	// Body (Quad Tri 2)
-	m_localVerts[ 6 ].m_pos = Vec3( -1.f, 0.5f, 0.f );
+	m_localVerts[ 6 ].m_pos = Vec3( -1.f, 0.f, 0.f );
 	m_localVerts[ 7 ].m_pos = Vec3( -1.f, -0.5f, 0.f );
-	m_localVerts[ 8 ].m_pos = Vec3( 1.f, -0.5f, 0.f );
+	m_localVerts[ 8 ].m_pos = Vec3( 0.f, -0.5f, 0.f );
 
 	// Left Big Wing
 	m_localVerts[ 9 ].m_pos = Vec3( 0.f, 0.5f, 0.f );
@@ -92,21 +92,47 @@ void Wasp::InitializeLocalVerts()
 	// Left Small Wing
 	m_localVerts[ 15 ].m_pos = Vec3( 0.f, 0.5f, 0.f );
 	m_localVerts[ 16 ].m_pos = Vec3( -1.f, 0.5f, 0.f );
-	m_localVerts[ 17 ].m_pos = Vec3( -0.5f, 1.f, 0.f );
+	m_localVerts[ 17 ].m_pos = Vec3( -0.5f, 1.5f, 0.f );
 
 	// Right Small Wing
 	m_localVerts[ 18 ].m_pos = Vec3( 0.f, -0.5f, 0.f );
 	m_localVerts[ 19 ].m_pos = Vec3( -1.f, -0.5f, 0.f );
-	m_localVerts[ 20 ].m_pos = Vec3( -0.5f, -1.f, 0.f );
+	m_localVerts[ 20 ].m_pos = Vec3( -0.5f, -1.5f, 0.f );
 
 	// Tail (Quad Tri 2)
-	m_localVerts[ 21 ].m_pos = Vec3( -1.f, 0.5f, 0.f );
-	m_localVerts[ 22 ].m_pos = Vec3( -1.f, -0.5f, 0.f );
+	m_localVerts[ 21 ].m_pos = Vec3( -1.f, 0.25f, 0.f );
+	m_localVerts[ 22 ].m_pos = Vec3( -1.f, -0.25f, 0.f );
 	m_localVerts[ 23 ].m_pos = Vec3( -2.f, 0.f, 0.f );
+
+	// Body (Quad Tri 3)
+	m_localVerts[ 24 ].m_pos = Vec3( 0.f, 0.5f, 0.f );
+	m_localVerts[ 25 ].m_pos = Vec3( -1.f, 0.5f, 0.f );
+	m_localVerts[ 26 ].m_pos = Vec3( -1.f, 0.f, 0.f );
+
+	// Body (Quad Tri 4)
+	m_localVerts[ 27 ].m_pos = Vec3( 1.f, 0.f, 0.f );
+	m_localVerts[ 28 ].m_pos = Vec3( 1.f, -0.5f, 0.f );
+	m_localVerts[ 29 ].m_pos = Vec3( 0.f, -0.5f, 0.f );
 
 	for( int vertIndex = 0; vertIndex < NUM_WASP_VERTS; vertIndex++ )
 	{
 		m_localVerts[ vertIndex ].m_color = m_color;
 	}
+
+	m_localVerts[ 9 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 10 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 11 ].m_color = Rgba8( 102, 0, 204 );
+
+	m_localVerts[ 12 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 13 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 14 ].m_color = Rgba8( 102, 0, 204 );
+
+	m_localVerts[ 15 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 16 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 17 ].m_color = Rgba8( 102, 0, 204 );
+
+	m_localVerts[ 18 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 19 ].m_color = Rgba8( 102, 0, 204 );
+	m_localVerts[ 20 ].m_color = Rgba8( 102, 0, 204 );
 }
 

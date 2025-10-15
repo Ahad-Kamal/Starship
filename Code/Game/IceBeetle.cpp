@@ -15,4 +15,16 @@ void IceBeetle::ChangeColor()
 	{
 		m_localVerts[ vertIndex ].m_color = m_color;
 	}
+
+	m_localVerts[ 3 ].m_color = Rgba8( 51, 153, 255 );
+	m_localVerts[ 4 ].m_color = Rgba8( 51, 153, 255 );
+	m_localVerts[ 5 ].m_color = Rgba8( 51, 153, 255 );
+
+	m_localVerts[ 6 ].m_color = Rgba8( 51, 153, 255 );
+	m_localVerts[ 7 ].m_color = Rgba8( 51, 153, 255 );
+	m_localVerts[ 8 ].m_color = Rgba8( 51, 153, 255 );
+
+	m_localVerts[ 12 ].m_color = Rgba8( 51, 153, 255 );
+	m_localVerts[ 13 ].m_color = Rgba8( 51, 153, 255 );
+	m_localVerts[ 14 ].m_color = Rgba8( 51, 153, 255 );
 }

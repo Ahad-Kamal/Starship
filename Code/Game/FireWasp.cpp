@@ -14,5 +14,21 @@ void FireWasp::ChangeColor()
 	{
 		m_localVerts[ vertIndex ].m_color = m_color;
 	}
+
+	m_localVerts[ 9 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 10 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 11 ].m_color = Rgba8( 255, 51, 51 );
+
+	m_localVerts[ 12 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 13 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 14 ].m_color = Rgba8( 255, 51, 51 );
+
+	m_localVerts[ 15 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 16 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 17 ].m_color = Rgba8( 255, 51, 51 );
+
+	m_localVerts[ 18 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 19 ].m_color = Rgba8( 255, 51, 51 );
+	m_localVerts[ 20 ].m_color = Rgba8( 255, 51, 51 );
 }
 

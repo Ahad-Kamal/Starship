@@ -5,7 +5,7 @@
 
 class Game;
 class PlayerShip;
-constexpr int NUM_WASP_TRIS = 8;
+constexpr int NUM_WASP_TRIS = 10;
 constexpr int NUM_WASP_VERTS = 3 * NUM_WASP_TRIS;
 
 class Wasp : public Entity
