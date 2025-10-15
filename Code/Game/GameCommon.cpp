@@ -15,6 +15,7 @@ SoundID audio_fireExplosion;
 SoundID audio_iceShoot;
 SoundID audio_iceExplosion;
 SoundID audio_hurt;
+SoundID audio_shield;
 SoundID audio_shipExplosion;
 SoundID audio_enemyExplosion;
 SoundID audio_waveStart;
@@ -195,6 +196,7 @@ void CreateSounds()
 	audio_iceShoot = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ice_Shoot.mp3" );
 	audio_iceExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ice_Explosion.mp3" );
 	audio_hurt = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Hit_Hurt.mp3" );
+	audio_shield = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Hit_Shield.mp3" );
 	audio_shipExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Ship_Explosion.mp3" );
 	audio_enemyExplosion = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Enemy_Explosion.mp3" );
 	audio_waveStart = g_engine->m_audio->CreateOrGetSound( "Data/Audio/Wave_Start.mp3" );

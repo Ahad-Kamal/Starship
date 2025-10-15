@@ -65,6 +65,7 @@ extern SoundID audio_fireExplosion;
 extern SoundID audio_iceShoot;
 extern SoundID audio_iceExplosion;
 extern SoundID audio_hurt;
+extern SoundID audio_shield;
 extern SoundID audio_shipExplosion;
 extern SoundID audio_enemyExplosion;
 extern SoundID audio_waveStart;

@@ -719,6 +719,10 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
 		}
+		else
+		{
+			g_engine->m_audio->StartSound( audio_shield, false, 0.08f );
+		}
 	}
 }
 
@@ -763,6 +767,10 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 			wasp.TakeDamage( 1 );
 			g_engine->m_audio->StartSound( audio_hurt, false, 0.05f );
 			AddCameraShake( 0.5f );
+		}
+		else
+		{
+			g_engine->m_audio->StartSound( audio_shield, false, 0.08f );
 		}
 	}
 }
