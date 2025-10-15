@@ -53,7 +53,7 @@ void Entity::Die()
 	m_isDead = true;
 	m_isGarbage = true;
 
-	int count = g_rng->RollRandomIntInRange( 3, 12 );
+	int count = g_rng->RollRandomIntInRange( 10, 30 );
 	m_game->SpawnNewDebrisCluster( count, m_position, m_velocity * 0.5f, GetForwardNormal(), m_color, 1.f );
 
 	g_engine->m_audio->StartSound( audio_enemyExplosion, false, 0.25f );
