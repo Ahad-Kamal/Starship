@@ -56,7 +56,7 @@ void Game::Update(float deltaSeconds)
 	UpdateEntities( deltaSeconds );
 
 	CheckBulletVsEnemies();
-	CheckEnemiesVsShips();
+	CheckShipsVsEnemies();
 	CheckEnemiesVsEnemies();
 	CheckExplosionsVsEnemies();
 
@@ -70,7 +70,6 @@ void Game::Update(float deltaSeconds)
 void Game::Render() const
 {
 	RenderStars();
-
 	RenderEntities();
 	DrawPlayerLives();
 
@@ -83,6 +82,7 @@ void Game::Render() const
 
 void Game::Shutdown()
 {
+	// Delete Bullets
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
 		Bullet*& bullet = m_bullets[ bulletIndex ];
@@ -93,6 +93,7 @@ void Game::Shutdown()
 		}
 	}
 
+	// Delete Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
@@ -103,6 +104,7 @@ void Game::Shutdown()
 		}
 	}
 
+	// Delete Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle*& beetle = m_beetles[ beetleIndex ];
@@ -113,6 +115,7 @@ void Game::Shutdown()
 		}
 	}
 
+	// Delete Wasps
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp*& wasp = m_wasps[ waspIndex ];
@@ -123,12 +126,14 @@ void Game::Shutdown()
 		}
 	}
 	
+	// Delete Player Ship
 	if( m_playerShip )
 	{
 		delete m_playerShip;
 		m_playerShip = nullptr;
 	}
 
+	// Delete Debris
 	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
 	{
 		Debris*& debris = m_debris[ debrisIndex ];
@@ -139,6 +144,7 @@ void Game::Shutdown()
 		}
 	}
 
+	// Delete Explosions
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
 	{
 		Explosion*& explosion = m_explosions[ explosionIndex ];
@@ -150,7 +156,9 @@ void Game::Shutdown()
 	}
 }
 
-Asteroid* Game::SpawnRandomFieryAsteroid()
+//-----------------------------------------------------------------------------------------------
+// Spawn Asteroids
+Asteroid* Game::SpawnNewRandomFieryAsteroid()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
 
@@ -174,7 +182,7 @@ Asteroid* Game::SpawnRandomFieryAsteroid()
 	return nullptr;
 }
 
-Asteroid* Game::SpawnRandomIcyAsteroid()
+Asteroid* Game::SpawnNewRandomIcyAsteroid()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
 
@@ -198,7 +206,8 @@ Asteroid* Game::SpawnRandomIcyAsteroid()
 	return nullptr;
 }
 
-Bullet* Game::SpawnFireBullet( Vec2 const& pos, float forwardDegrees )
+// Spawn Bullets
+Bullet* Game::SpawnNewFireBullet( Vec2 const& pos, float forwardDegrees )
 {
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
@@ -222,7 +231,7 @@ Bullet* Game::SpawnFireBullet( Vec2 const& pos, float forwardDegrees )
 	return nullptr;
 }
 
-Bullet* Game::SpawnIceBullet( Vec2 const& pos, float forwardDegrees )
+Bullet* Game::SpawnNewIceBullet( Vec2 const& pos, float forwardDegrees )
 {
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
@@ -246,6 +255,7 @@ Bullet* Game::SpawnIceBullet( Vec2 const& pos, float forwardDegrees )
 	return nullptr;
 }
 
+// Spawn Beetles
 Beetle* Game::SpawnNewRandomBeetle()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -306,6 +316,7 @@ Beetle* Game::SpawnNewRandomIceBeetle()
 	return nullptr;
 }
 
+// Spawn Wasps
 Wasp* Game::SpawnNewRandomWasp()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -366,6 +377,7 @@ Wasp* Game::SpawnNewRandomIceWasp()
 	return nullptr;
 }
 
+// Spawn Debris
 Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale )
 {
 	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
@@ -398,6 +410,7 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 	}
 }
 
+// Spawn Explosions
 Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosionType ) // true if fiery, false if icy
 {
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
@@ -424,6 +437,8 @@ Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosion
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
+// Game Utilities
 Vec2 Game::GetRandomOffScreenPosition()
 {
 	int side = g_rng->RollRandomIntInRange( 1, 4 );
@@ -459,6 +474,7 @@ void Game::AddCameraShake( float shakeAmount )
 	m_screenShakeAmount += shakeAmount;
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::UpdateEntities(float deltaSeconds)
 {
 	// Update Bullets
@@ -617,16 +633,16 @@ void Game::RenderEntities() const
 
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckBulletVsEnemies()
 {
+	// Bullets Vs Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
-
 		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 		{
 			Bullet* bullet = m_bullets[ bulletIndex ];
-
 			if( bullet && asteroid )
 			{
 				CheckBulletVsAsteroid( *bullet, *asteroid );
@@ -634,14 +650,13 @@ void Game::CheckBulletVsEnemies()
 		}
 	}
 
+	// Bullets Vs Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle = m_beetles[ beetleIndex ];
-
 		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 		{
 			Bullet* bullet = m_bullets[ bulletIndex ];
-
 			if( bullet && beetle )
 			{
 				CheckBulletVsBeetle( *bullet, *beetle );
@@ -649,14 +664,13 @@ void Game::CheckBulletVsEnemies()
 		}
 	}
 
+	// Bullets Vs Wasps
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp* wasp = m_wasps[ waspIndex ];
-
 		for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 		{
 			Bullet* bullet = m_bullets[ bulletIndex ];
-
 			if( bullet && wasp )
 			{
 				CheckBulletVsWasp( *bullet, *wasp );
@@ -681,8 +695,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 {
 	if( DoEntitiesOverlap( bullet, beetle ) )
 	{
-		bullet.TakeDamage( 1 );
-		
+		bullet.TakeDamage( 1 );		
 		if( bullet.m_isFireBullet && !beetle.m_isFireBeetle )
 		{
 			beetle.TakeDamage( 1 );
@@ -731,7 +744,6 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 	if( DoEntitiesOverlap( bullet, wasp ) )
 	{
 		bullet.TakeDamage( 1 );
-
 		if( bullet.m_isFireBullet && !wasp.m_isFireWasp )
 		{
 			wasp.TakeDamage( 1 );
@@ -775,84 +787,83 @@ void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 	}
 }
 
-void Game::CheckEnemiesVsShips()
+//-----------------------------------------------------------------------------------------------
+void Game::CheckShipsVsEnemies()
 {
 	if( m_playerShip->m_isInvincible )
 	{
 		return;
 	}
 
+	// Ship Vs Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid* asteroid = m_asteroids[ asteroidIndex ];
-
 		if( asteroid && m_playerShip->IsAlive() )
 		{
-			CheckAsteroidVsShip( *asteroid, *m_playerShip );
+			CheckShipVsAsteroid( *asteroid, *m_playerShip );
 		}
 	}
 
+	// Ship Vs Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle = m_beetles[ beetleIndex ];
-		
 		if( beetle && m_playerShip->IsAlive() )
 		{
-			CheckBeetleVsShip( *beetle, *m_playerShip );
+			CheckShipVsBeetle( *beetle, *m_playerShip );
 		}
 	}
 
+	// Ship Vs Wasps
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp* wasp = m_wasps[ waspIndex ];
 		if( wasp && m_playerShip->IsAlive() )
 		{
-			CheckWaspVsShip( *wasp, *m_playerShip );
+			CheckShipVsWasp( *wasp, *m_playerShip );
 		}
 	}
 }
 
-void Game::CheckAsteroidVsShip(Asteroid& asteroid, PlayerShip& ship)
+void Game::CheckShipVsAsteroid(Asteroid& asteroid, PlayerShip& ship)
 {
 	if( DoEntitiesOverlap( asteroid, ship ) )
 	{
 		asteroid.TakeDamage( 3 );
 		ship.TakeDamage( 1 ); 
-
 		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );
 	}
 }
 
-void Game::CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship )
+void Game::CheckShipVsBeetle( Beetle& beetle, PlayerShip& ship )
 {
 	if( DoEntitiesOverlap( beetle, ship ) )
 	{
 		ship.TakeDamage( 1 );
-
 		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );
 	}
 }
 
-void Game::CheckWaspVsShip( Wasp& wasp, PlayerShip& ship )
+void Game::CheckShipVsWasp( Wasp& wasp, PlayerShip& ship )
 {
 	if( DoEntitiesOverlap( wasp, ship ) )
 	{
 		ship.TakeDamage( 1 );
-
 		g_engine->m_audio->StartSound( audio_shipExplosion, false, 0.5f );
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckEnemiesVsEnemies()
 {
+	// Beetles Vs Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle1 = m_beetles[ beetleIndex ];
-
 		for( int secondBeetleIndex = beetleIndex + 1; secondBeetleIndex < MAX_BEETLES; secondBeetleIndex++ )
 		{
 			Beetle* beetle2 = m_beetles[ secondBeetleIndex ];
-
 			if( beetle1 && beetle2 )
 			{
 				CheckEnemyVsEnemy( *beetle1, *beetle2 );
@@ -860,14 +871,13 @@ void Game::CheckEnemiesVsEnemies()
 		}
 	}
 
+	// Wasps Vs Wasps
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp* wasp1 = m_wasps[ waspIndex ];
-
 		for( int secondWaspIndex = waspIndex + 1; secondWaspIndex < MAX_WASPS; secondWaspIndex++ )
 		{
 			Wasp* wasp2 = m_wasps[ secondWaspIndex ];
-
 			if( wasp1 && wasp2 )
 			{
 				CheckEnemyVsEnemy( *wasp1, *wasp2 );
@@ -875,14 +885,13 @@ void Game::CheckEnemiesVsEnemies()
 		}
 	}
 
+	// Beetles Vs Wasps
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle = m_beetles[ beetleIndex ];
-
 		for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 		{
 			Wasp* wasp = m_wasps[ waspIndex ];
-
 			if( beetle && wasp )
 			{
 				CheckEnemyVsEnemy( *beetle, *wasp );
@@ -899,16 +908,17 @@ void Game::CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 )
 	}
 }
 
+
+//-----------------------------------------------------------------------------------------------
 void Game::CheckExplosionsVsEnemies()
 {
+	// Explosion Vs Beetles
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
 	{
 		Explosion* explosion = m_explosions[ explosionIndex ];
-
 		for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 		{
 			Beetle* beetle = m_beetles[ beetleIndex ];
-
 			if( explosion && beetle )
 			{
 				CheckExplosionsVsBeetle( *explosion, *beetle );
@@ -916,14 +926,13 @@ void Game::CheckExplosionsVsEnemies()
 		}
 	}
 
+	// Explosion Vs Wasps
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
 	{
 		Explosion* explosion = m_explosions[ explosionIndex ];
-
 		for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 		{
 			Wasp* wasp = m_wasps[ waspIndex ];
-
 			if( explosion && wasp )
 			{
 				CheckExplosionsVsWasp( *explosion, *wasp );
@@ -990,6 +999,7 @@ void Game::CheckExplosionsVsWasp( Explosion& explosion, Wasp& wasp )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::ClampCamera( Vec2& minView, Vec2& maxView )
 {
 	if( minView.x < 0.f )
@@ -1031,6 +1041,7 @@ void Game::ShakeCamera( float deltaSeconds )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckForGameOver()
 {
 	if( this == nullptr || m_playerShip == nullptr )
@@ -1040,9 +1051,9 @@ void Game::CheckForGameOver()
 
 	if( m_playerShip->m_isDead && m_playerShip->m_lives <= 0 )
 	{
-		Debris* debris = m_debris[0];
 		g_engine->m_audio->StartSound( audio_gameOver, false, 0.1f, 0.f, 2.f );
 
+		Debris* debris = m_debris[0];
 		if( !debris->IsAlive() )
 		{
 			if( m_endGameTimer < 60 )
@@ -1068,20 +1079,21 @@ void Game::CheckIfWaveNeedsToSpawn()
 	bool isThereBeetle = false;
 	bool isThereWasp = false;	
 
+	// Check if there are Beetles alive
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle* beetle = m_beetles[ beetleIndex ];
-
 		if( beetle->IsAlive() )
 		{
 			isThereBeetle = true;
 			break;
 		}
 	}
+
+	// Check if there are Wasps alive
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp* wasp = m_wasps[ waspIndex ];
-
 		if( wasp->IsAlive() )
 		{
 			isThereWasp = true;
@@ -1089,13 +1101,12 @@ void Game::CheckIfWaveNeedsToSpawn()
 		}
 	}
 
-
 	if( !isThereBeetle && !isThereWasp )
 	{
 		if( m_waveNumber < NUM_WAVES )
 		{
-			SpawnWave();
 			g_engine->m_audio->StartSound( audio_waveStart, false, 0.5f );
+			SpawnWave();
 		}
 		else
 		{
@@ -1115,36 +1126,44 @@ void Game::CheckIfWaveNeedsToSpawn()
 
 void Game::SpawnWave()
 {
+	// Spawn Asteroids
 	for( int i = 0; i < m_numFieryAsteroidsPerWave[ m_waveNumber ]; i++ )
 	{
-		SpawnRandomFieryAsteroid();
-	}
-	for( int i = 0; i < m_numIcyAsteroidsPerWave[ m_waveNumber ]; i++ )
-	{
-		SpawnRandomIcyAsteroid();
+		SpawnNewRandomFieryAsteroid();
 	}
 
+	for( int i = 0; i < m_numIcyAsteroidsPerWave[ m_waveNumber ]; i++ )
+	{
+		SpawnNewRandomIcyAsteroid();
+	}
+
+	// Spawn Beetles
 	for( int i = 0; i < m_numBeetlesPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomBeetle();
 	}
+
 	for( int i = 0; i < m_numFireBeetlesPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomFireBeetle();
 	}
+
 	for( int i = 0; i < m_numIceBeetlesPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomIceBeetle();
 	}
 
+	// Spawn Wasps
 	for( int i = 0; i < m_numWaspsPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomWasp();
 	}
+
 	for( int i = 0; i < m_numFireWaspsPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomFireWasp();
 	}
+
 	for( int i = 0; i < m_numIceWaspsPerWave[ m_waveNumber ]; i++ )
 	{
 		SpawnNewRandomIceWasp();
@@ -1153,7 +1172,7 @@ void Game::SpawnWave()
 	m_waveNumber++;
 }
 
-
+//-----------------------------------------------------------------------------------------------
 bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 {
 	float dx = b.m_position.x - a.m_position.x;
@@ -1164,8 +1183,7 @@ bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
 	return distanceSquared < radiiSquared;
 }
 
-
-
+//-----------------------------------------------------------------------------------------------
 void Game::DrawPlayerLives() const
 {
 	g_engine->m_render->EndCamera( *m_worldCamera );

@@ -15,17 +15,17 @@ class Beetle;
 class Wasp;
 class Debris;
 class Explosion;
-
-//-----------------------------------------------------------------------------------------------
-
 extern RandomNumberGenerator* g_rng;
 
+//-----------------------------------------------------------------------------------------------
 constexpr float MAX_SCREEN_SHAKE_AMOUNT = 5.f;
 constexpr float SCREEN_SHAKE_REDUCTION = 5.f;
 constexpr int STAR_TRIS = 2;
 constexpr int VERTS_PER_STAR = 3 * STAR_TRIS;
 constexpr int NUM_STAR_VERTS = VERTS_PER_STAR * MAX_STARS;
 
+
+//-----------------------------------------------------------------------------------------------
 class Game
 {
 public:
@@ -36,11 +36,11 @@ public:
 	void Render() const;
 	void Shutdown();
 
-	Asteroid* SpawnRandomFieryAsteroid();
-	Asteroid* SpawnRandomIcyAsteroid();
+	Asteroid* SpawnNewRandomFieryAsteroid();
+	Asteroid* SpawnNewRandomIcyAsteroid();
 
-	Bullet* SpawnFireBullet(Vec2 const& pos, float forwardDegrees);
-	Bullet* SpawnIceBullet(Vec2 const& pos, float forwardDegrees);
+	Bullet* SpawnNewFireBullet(Vec2 const& pos, float forwardDegrees);
+	Bullet* SpawnNewIceBullet(Vec2 const& pos, float forwardDegrees);
 
 	Beetle* SpawnNewRandomBeetle();
 	Beetle* SpawnNewRandomFireBeetle();
@@ -62,15 +62,15 @@ private:
 	void UpdateCameras( float deltaSeconds );
 	void RenderEntities() const;
 
-	void CheckBulletVsAsteroid( Bullet& bullet, Asteroid& asteroid );
 	void CheckBulletVsEnemies();
+	void CheckBulletVsAsteroid( Bullet& bullet, Asteroid& asteroid );
 	void CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle );
 	void CheckBulletVsWasp( Bullet& bullet, Wasp& wasp );
 
-	void CheckEnemiesVsShips();
-	void CheckAsteroidVsShip( Asteroid& asteroid, PlayerShip& ship );
-	void CheckBeetleVsShip( Beetle& beetle, PlayerShip& ship);
-	void CheckWaspVsShip( Wasp& wasp, PlayerShip& ship );
+	void CheckShipsVsEnemies();
+	void CheckShipVsAsteroid( Asteroid& asteroid, PlayerShip& ship );
+	void CheckShipVsBeetle( Beetle& beetle, PlayerShip& ship);
+	void CheckShipVsWasp( Wasp& wasp, PlayerShip& ship );
 
 	void CheckEnemiesVsEnemies();
 	void CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 );
@@ -114,15 +114,15 @@ private:
 	Vertex m_starVertsNear[ NUM_STAR_VERTS ];
 	Vertex m_starVertsFar[ NUM_STAR_VERTS ];
 
-	int m_waveNumber = 0;
+	int m_waveNumber = 4;
 	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 4, 4, 4 };
-	int m_numIcyAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 4, 4, 4 };
-	int m_numBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 2, 5 };
-	int m_numFireBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 2, 5 };
-	int m_numIceBeetlesPerWave[ NUM_WAVES ] = { 1, 2, 0, 2, 5 };
-	int m_numWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 1, 3 };
-	int m_numFireWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 1, 3 };
-	int m_numIceWaspsPerWave[ NUM_WAVES ] = { 0, 0, 1, 1, 3 };
+	int m_numIcyAsteroidsPerWave[ NUM_WAVES ]	= { 6, 6, 4, 4, 4 };
+	int m_numBeetlesPerWave[ NUM_WAVES ]		= { 1, 2, 0, 2, 5 };
+	int m_numFireBeetlesPerWave[ NUM_WAVES ]	= { 1, 2, 0, 2, 5 };
+	int m_numIceBeetlesPerWave[ NUM_WAVES ]		= { 1, 2, 0, 2, 5 };
+	int m_numWaspsPerWave[ NUM_WAVES ]			= { 0, 0, 1, 1, 3 };
+	int m_numFireWaspsPerWave[ NUM_WAVES ]		= { 0, 0, 1, 1, 3 };
+	int m_numIceWaspsPerWave[ NUM_WAVES ]		= { 0, 0, 1, 1, 3 };
 	int m_endGameTimer = 0;
 
 	bool m_isShaking = false;

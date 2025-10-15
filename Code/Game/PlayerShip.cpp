@@ -140,18 +140,18 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	{
 		m_fireBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
-		m_game->SpawnFireBullet( m_position + bulletOffset, m_orientationDegrees );
+		m_game->SpawnNewFireBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 	if( g_engine->m_input->isKeyDown( 'R' ) && IsAlive() && m_iceBulletCooldown == MAX_ICE_BULLET_COOLDOWN )
 	{
 		m_fireBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, 1.f ).GetRotatedByDegrees( m_orientationDegrees );
-		m_game->SpawnIceBullet( m_position + bulletOffset, m_orientationDegrees );
+		m_game->SpawnNewIceBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 
 	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
 	{
-		m_game->SpawnRandomFieryAsteroid();
+		m_game->SpawnNewRandomFieryAsteroid();
 	}
 
 	if( g_engine->m_input->isKeyDown( 'E' ) && IsAlive() )
@@ -198,7 +198,7 @@ void PlayerShip::UpdateFromController()
 	float leftStickMagnitude = controller.GetLeftStick().GetMagnitude();
 	float rightStickMagnitude = controller.GetRightStick().GetMagnitude();
 
-	if( leftStickMagnitude > 0.f && IsAlive() )
+	if( leftStickMagnitude > 0.f )
 	{
 		m_isControllerThrusting = true;
 		m_thrustFraction = leftStickMagnitude;
@@ -220,13 +220,13 @@ void PlayerShip::UpdateFromController()
 	{
 		m_fireBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
-		m_game->SpawnFireBullet( m_position + bulletOffset, m_orientationDegrees );
+		m_game->SpawnNewFireBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 	if( controller.GetLeftTrigger() == 1.f && IsAlive() && m_iceBulletCooldown == MAX_ICE_BULLET_COOLDOWN )
 	{
 		m_iceBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, 1.f ).GetRotatedByDegrees( m_orientationDegrees );
-		m_game->SpawnIceBullet( m_position + bulletOffset, m_orientationDegrees );
+		m_game->SpawnNewIceBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 }
 
