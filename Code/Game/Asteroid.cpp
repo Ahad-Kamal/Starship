@@ -41,6 +41,7 @@ void Asteroid::Render() const
 		tempWorldVerts[ vertIndex ] = m_localVerts[ vertIndex ];
 	}
 
+	DrawGlow( m_position, m_color, 0.5f, ASTEROID_COSMETIC_RADIUS + 5.f );
 	TransformVertexArrayXY3D( NUM_ASTEROID_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_ASTEROID_VERTS, tempWorldVerts );
 }

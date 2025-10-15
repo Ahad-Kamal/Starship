@@ -44,10 +44,10 @@ void Explosion::Render() const
 		tempWorldVerts[ vertIndex ].m_color.a = static_cast<unsigned char>( alphaFloat );
 	}
 
+	DrawGlow( m_position, m_color, alphaFloat, m_cosmeticRadius * 2.f );
 	TransformVertexArrayXY3D( NUM_EXPLOSION_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
 	g_engine->m_render->DrawVertexArray( NUM_EXPLOSION_VERTS, tempWorldVerts );
 
-	DrawGlow( m_position, m_color, alphaFloat, m_cosmeticRadius * 2.f );
 }
 
 void Explosion::Die()
