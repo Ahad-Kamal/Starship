@@ -42,7 +42,7 @@ constexpr float CLIENT_ASPECT = 2.0f; // We are requesting a 2:1 aspect window a
 HWND g_hWnd = nullptr;								// ...becomes void* Window::m_windowHandle
 HDC g_displayDeviceContext = nullptr;				// ...becomes void* Window::m_displayContext
 HGLRC g_openGLRenderingContext = nullptr;			// ...becomes void* Renderer::m_apiRenderingContext
-char const* APP_NAME = "SD1-A03: Starship Playable";	// ...becomes ??? (Change this per project!)
+char const* APP_NAME = "SD1-A04: Starship Gold";	// ...becomes ??? (Change this per project!)
 
 
 //-----------------------------------------------------------------------------------------------
