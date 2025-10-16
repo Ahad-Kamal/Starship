@@ -452,7 +452,7 @@ Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosion
 }
 
 //-----------------------------------------------------------------------------------------------
-Vec2 Game::GetRandomOffScreenPosition()
+Vec2 Game::GetRandomOffScreenPosition() const
 {
 	int side = g_rng->RollRandomIntInRange( 1, 4 );
 

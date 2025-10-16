@@ -56,7 +56,7 @@ public:
 	void SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, Vec2 const& forwardVector, Rgba8 color, float scale );
 	Explosion* SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosionType ); // true if fiery, false if icy
 	
-	Vec2 GetRandomOffScreenPosition();
+	Vec2 GetRandomOffScreenPosition() const;
 	void AddCameraShake( float shakeAmount );
 
 private:
