@@ -4,6 +4,7 @@
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Core/Vertex.hpp"
 
+
 //-----------------------------------------------------------------------------------------------
 class App;
 class Camera;
@@ -16,6 +17,7 @@ class Wasp;
 class Debris;
 class Explosion;
 extern RandomNumberGenerator* g_rng;
+
 
 //-----------------------------------------------------------------------------------------------
 constexpr float MAX_SCREEN_SHAKE_AMOUNT = 5.f;
@@ -43,8 +45,8 @@ public:
 	Bullet* SpawnNewIceBullet(Vec2 const& pos, float forwardDegrees);
 
 	Beetle* SpawnNewRandomBeetle();
-	Beetle* SpawnNewRandomFireBeetle();
 	Beetle* SpawnNewRandomIceBeetle();
+	Beetle* SpawnNewRandomFireBeetle();
 
 	Wasp* SpawnNewRandomWasp();
 	Wasp* SpawnNewRandomFireWasp();

@@ -4,8 +4,11 @@
 #include "Game/Entity.hpp"
 #include "Game/GameCommon.hpp"
 
+
+//-----------------------------------------------------------------------------------------------
 class Game;
 
+//-----------------------------------------------------------------------------------------------
 constexpr int NUM_SHIP_TRIS = 5;
 constexpr int NUM_SHIP_VERTS = 3 * NUM_SHIP_TRIS;
 constexpr int NUM_THRUST_TRIS = 1;
@@ -14,9 +17,9 @@ constexpr int NUM_SHIP_VERTS_TOTAL = NUM_SHIP_VERTS + NUM_THRUST_VERTS;
 
 constexpr float MAX_FIRE_BULLET_COOLDOWN = 0.2f;
 constexpr float MAX_ICE_BULLET_COOLDOWN = 0.2f;
-
 constexpr float INVINCIBILITY_DURATION = 600.f;
 
+//-----------------------------------------------------------------------------------------------
 void createFakePlayerShip( Vertex verts[], float transparency );
 
 //----------------------------------------------------------------------------------------------

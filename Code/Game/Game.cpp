@@ -22,19 +22,24 @@
 #include "Game/FireWasp.hpp"
 #include "Game/IceWasp.hpp"
 
+
+//-----------------------------------------------------------------------------------------------
 RandomNumberGenerator* g_rng = nullptr;
 
-Game::Game(App* owner)
+//-----------------------------------------------------------------------------------------------
+Game::Game( App* owner )
 {
 	m_app = owner;
 	Startup();
 }
 
+//-----------------------------------------------------------------------------------------------
 Game::~Game()
 {
 	
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::Startup()
 {
 	m_worldCamera = new Camera();
@@ -51,7 +56,8 @@ void Game::Startup()
 	SpawnWave();
 }
 
-void Game::Update(float deltaSeconds)
+//-----------------------------------------------------------------------------------------------
+void Game::Update( float deltaSeconds )
 {
 	UpdateEntities( deltaSeconds );
 
@@ -67,6 +73,7 @@ void Game::Update(float deltaSeconds)
 	UpdateCameras( deltaSeconds );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::Render() const
 {
 	RenderStars();
@@ -80,6 +87,7 @@ void Game::Render() const
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::Shutdown()
 {
 	// Delete Bullets
@@ -157,7 +165,6 @@ void Game::Shutdown()
 }
 
 //-----------------------------------------------------------------------------------------------
-// Spawn Asteroids
 Asteroid* Game::SpawnNewRandomFieryAsteroid()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -182,6 +189,7 @@ Asteroid* Game::SpawnNewRandomFieryAsteroid()
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 Asteroid* Game::SpawnNewRandomIcyAsteroid()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -206,7 +214,7 @@ Asteroid* Game::SpawnNewRandomIcyAsteroid()
 	return nullptr;
 }
 
-// Spawn Bullets
+//-----------------------------------------------------------------------------------------------
 Bullet* Game::SpawnNewFireBullet( Vec2 const& pos, float forwardDegrees )
 {
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
@@ -231,6 +239,7 @@ Bullet* Game::SpawnNewFireBullet( Vec2 const& pos, float forwardDegrees )
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 Bullet* Game::SpawnNewIceBullet( Vec2 const& pos, float forwardDegrees )
 {
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
@@ -255,7 +264,7 @@ Bullet* Game::SpawnNewIceBullet( Vec2 const& pos, float forwardDegrees )
 	return nullptr;
 }
 
-// Spawn Beetles
+//-----------------------------------------------------------------------------------------------
 Beetle* Game::SpawnNewRandomBeetle()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -276,6 +285,7 @@ Beetle* Game::SpawnNewRandomBeetle()
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 Beetle* Game::SpawnNewRandomFireBeetle()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -296,6 +306,7 @@ Beetle* Game::SpawnNewRandomFireBeetle()
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 Beetle* Game::SpawnNewRandomIceBeetle()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -316,7 +327,7 @@ Beetle* Game::SpawnNewRandomIceBeetle()
 	return nullptr;
 }
 
-// Spawn Wasps
+//-----------------------------------------------------------------------------------------------
 Wasp* Game::SpawnNewRandomWasp()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -337,6 +348,7 @@ Wasp* Game::SpawnNewRandomWasp()
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 Wasp* Game::SpawnNewRandomFireWasp()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -357,6 +369,7 @@ Wasp* Game::SpawnNewRandomFireWasp()
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 Wasp* Game::SpawnNewRandomIceWasp()
 {
 	Vec2 spawnPosition = GetRandomOffScreenPosition();
@@ -377,7 +390,7 @@ Wasp* Game::SpawnNewRandomIceWasp()
 	return nullptr;
 }
 
-// Spawn Debris
+//-----------------------------------------------------------------------------------------------
 Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, float scale )
 {
 	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
@@ -397,6 +410,7 @@ Debris* Game::SpawnNewDebris( Vec2 const& pos, Vec2 const& vel, Rgba8 color, flo
 	return nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& clusterVelocity, [[maybe_unused]] Vec2 const& forwardVector, Rgba8 color, float scale )
 {
 	for( int i = 0; i < count; i++ )
@@ -410,7 +424,7 @@ void Game::SpawnNewDebrisCluster( int count, Vec2 const& pos, Vec2 const& cluste
 	}
 }
 
-// Spawn Explosions
+//-----------------------------------------------------------------------------------------------
 Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosionType ) // true if fiery, false if icy
 {
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
@@ -438,7 +452,6 @@ Explosion* Game::SpawnNewExplosion( Vec2 const& pos, Rgba8 color, bool explosion
 }
 
 //-----------------------------------------------------------------------------------------------
-// Game Utilities
 Vec2 Game::GetRandomOffScreenPosition()
 {
 	int side = g_rng->RollRandomIntInRange( 1, 4 );
@@ -468,6 +481,7 @@ Vec2 Game::GetRandomOffScreenPosition()
 	return( Vec2( xPos, yPos ) );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::AddCameraShake( float shakeAmount )
 {
 	m_isShaking = true;
@@ -544,6 +558,7 @@ void Game::UpdateEntities(float deltaSeconds)
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::UpdateCameras( float deltaSeconds )
 {
 	Vec2 minView( m_playerShip->m_position.x - WORLD_VIEW_SIZE_X * 0.5f, m_playerShip->m_position.y - WORLD_VIEW_SIZE_Y * 0.5f );
@@ -563,6 +578,7 @@ void Game::UpdateCameras( float deltaSeconds )
 	ShakeCamera( deltaSeconds );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::RenderEntities() const
 {
 	// Draw Bullets
@@ -679,6 +695,7 @@ void Game::CheckBulletVsEnemies()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 {
 	if( DoEntitiesOverlap( bullet, asteroid ) )
@@ -691,6 +708,7 @@ void Game::CheckBulletVsAsteroid(Bullet& bullet, Asteroid& asteroid)
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 {
 	if( DoEntitiesOverlap( bullet, beetle ) )
@@ -739,6 +757,7 @@ void Game::CheckBulletVsBeetle( Bullet& bullet, Beetle& beetle )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckBulletVsWasp( Bullet& bullet, Wasp& wasp )
 {
 	if( DoEntitiesOverlap( bullet, wasp ) )
@@ -826,6 +845,7 @@ void Game::CheckShipsVsEnemies()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckShipVsAsteroid(Asteroid& asteroid, PlayerShip& ship)
 {
 	if( DoEntitiesOverlap( asteroid, ship ) )
@@ -836,6 +856,7 @@ void Game::CheckShipVsAsteroid(Asteroid& asteroid, PlayerShip& ship)
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckShipVsBeetle( Beetle& beetle, PlayerShip& ship )
 {
 	if( DoEntitiesOverlap( beetle, ship ) )
@@ -845,6 +866,7 @@ void Game::CheckShipVsBeetle( Beetle& beetle, PlayerShip& ship )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckShipVsWasp( Wasp& wasp, PlayerShip& ship )
 {
 	if( DoEntitiesOverlap( wasp, ship ) )
@@ -900,6 +922,7 @@ void Game::CheckEnemiesVsEnemies()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckEnemyVsEnemy( Entity& enemy1, Entity& enemy2 )
 {
 	if( DoEntitiesOverlap( enemy1, enemy2 ) )
@@ -941,6 +964,7 @@ void Game::CheckExplosionsVsEnemies()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckExplosionsVsBeetle( Explosion& explosion, Beetle& beetle )
 {
 	if( DoEntitiesOverlap( explosion, beetle ) )
@@ -970,6 +994,7 @@ void Game::CheckExplosionsVsBeetle( Explosion& explosion, Beetle& beetle )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckExplosionsVsWasp( Explosion& explosion, Wasp& wasp )
 {
 	if( DoEntitiesOverlap( explosion, wasp ) )
@@ -1025,6 +1050,7 @@ void Game::ClampCamera( Vec2& minView, Vec2& maxView )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::ShakeCamera( float deltaSeconds )
 {
 	float shakeX = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
@@ -1069,6 +1095,7 @@ void Game::CheckForGameOver()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CheckIfWaveNeedsToSpawn()
 {
 	if( this == nullptr )
@@ -1124,6 +1151,7 @@ void Game::CheckIfWaveNeedsToSpawn()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::SpawnWave()
 {
 	// Spawn Asteroids
@@ -1208,6 +1236,7 @@ void Game::DrawPlayerLives() const
 	g_engine->m_render->BeginCamera( *m_worldCamera );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::CreateStarfield()
 {
 	for( int starNumber = 0; starNumber < MAX_STARS; starNumber++ )
@@ -1245,6 +1274,7 @@ void Game::CreateStarfield()
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::RenderStars() const
 {
 	Vec2 displacementCenterToPlayer = Vec2();
@@ -1253,8 +1283,7 @@ void Game::RenderStars() const
 		displacementCenterToPlayer = m_playerShip->m_position - Vec2( WORLD_CENTER_X, WORLD_CENTER_Y);
 	}
 
-	Vertex tempStarVerts[ NUM_STAR_VERTS ];
-	
+	Vertex tempStarVerts[ NUM_STAR_VERTS ];	
 	Vec2 farStarDisplacement = -0.2f * displacementCenterToPlayer + Vec2( 5.f, 6.f );
 	for( int starIndex = 0; starIndex < NUM_STAR_VERTS; starIndex++ )
 	{
@@ -1278,6 +1307,7 @@ void Game::RenderStars() const
 	g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, tempStarVerts );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::DebugRenderEntities() const
 {
 	// Debug Draw Bullets
@@ -1347,6 +1377,7 @@ void Game::DebugRenderEntities() const
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::DebugDrawWorldBounds() const
 {
 	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
@@ -1357,8 +1388,10 @@ void Game::DebugDrawWorldBounds() const
 	DebugDrawLine( Vec2( WORLD_SIZE_X, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::DeleteGarbageEntities()
 {
+	// Delete Asteroids
 	for( int asteroidIndex = 0; asteroidIndex < MAX_ASTEROIDS; asteroidIndex++ )
 	{
 		Asteroid*& asteroid = m_asteroids[ asteroidIndex ];
@@ -1369,6 +1402,7 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 
+	// Delete Bullets
 	for( int bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++ )
 	{
 		Bullet*& bullet = m_bullets[ bulletIndex ];
@@ -1379,6 +1413,7 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 
+	// Delete Beetles
 	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
 	{
 		Beetle*& beetle = m_beetles[ beetleIndex ];
@@ -1389,6 +1424,7 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 
+	// Delete Wasps
 	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
 	{
 		Wasp*& wasp = m_wasps[ waspIndex ];
@@ -1399,6 +1435,7 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 
+	// Delete Debris
 	for( int debrisIndex = 0; debrisIndex < MAX_DEBRIS; debrisIndex++ )
 	{
 		Debris*& debris = m_debris[ debrisIndex ];
@@ -1409,6 +1446,7 @@ void Game::DeleteGarbageEntities()
 		}
 	}
 
+	// Delete Explosions
 	for( int explosionIndex = 0; explosionIndex < MAX_EXPLOSIONS; explosionIndex++ )
 	{
 		Explosion*& explosion = m_explosions[ explosionIndex ];
