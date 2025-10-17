@@ -21,6 +21,7 @@ Rgba8 g_clearColor = Rgba8( 0, 0, 0, 1 );
 App::App()
 {
 	EngineConfig config;
+	config.m_windowConfig.m_clientAspect = 2.f;
 
 	g_engine = new Engine( config );
 	m_game = new Game( this );

@@ -489,9 +489,9 @@ void Game::AddCameraShake( float shakeAmount )
 }
 
 //-----------------------------------------------------------------------------------------------
-void Game::UpdateAttractMode( float deltaSeconds )
+void Game::UpdateAttractMode( [[maybe_unused]] float deltaSeconds )
 {
-
+	
 }
 
 //-----------------------------------------------------------------------------------------------
