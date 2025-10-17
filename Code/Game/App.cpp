@@ -20,7 +20,9 @@ Rgba8 g_clearColor = Rgba8( 0, 0, 0, 1 );
 //-----------------------------------------------------------------------------------------------
 App::App()
 {
-	g_engine = new Engine();
+	EngineConfig config;
+
+	g_engine = new Engine( config );
 	m_game = new Game( this );
 	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 
