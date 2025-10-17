@@ -123,7 +123,7 @@ private:
 	Vertex m_starVertsNear[ NUM_STAR_VERTS ];
 	Vertex m_starVertsFar[ NUM_STAR_VERTS ];
 
-	int m_waveNumber = 4;
+	int m_waveNumber = 0;
 	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 4, 4, 4 };
 	int m_numIcyAsteroidsPerWave[ NUM_WAVES ]	= { 6, 6, 4, 4, 4 };
 	int m_numBeetlesPerWave[ NUM_WAVES ]		= { 1, 2, 0, 2, 5 };
