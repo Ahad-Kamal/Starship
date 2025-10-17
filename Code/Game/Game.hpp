@@ -60,6 +60,9 @@ public:
 	void AddCameraShake( float shakeAmount );
 
 private:
+	void UpdateAttractMode( float deltaSeconds );
+	void RenderAttractMode() const;
+
 	void UpdateEntities( float deltaSeconds );
 	void UpdateCameras( float deltaSeconds );
 	void RenderEntities() const;
@@ -101,6 +104,10 @@ private:
 public:
 	Camera* m_worldCamera;
 	Camera* m_screenCamera;
+
+	GameState m_currentState = GAME_STATE_INVALID;
+	GameState m_nextState = GAME_STATE_ATTRACT;
+
 
 private:
 	App*		m_app = nullptr;

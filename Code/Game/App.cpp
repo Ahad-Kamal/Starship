@@ -9,24 +9,28 @@
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/GameCommon.hpp"
-
 #include <math.h>
 
+
+//-----------------------------------------------------------------------------------------------
 App* g_app = nullptr;
 Rgba8 g_clearColor = Rgba8( 0, 0, 0, 1 );
 
+
+//-----------------------------------------------------------------------------------------------
 App::App()
 {
 	g_engine = new Engine();
 	m_game = new Game( this );
+	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 
 	CreateSounds();
-	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 	InitializeStartTriangleVerts();
 	createFakePlayerShip( m_fakeShipVerts, 255 );
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
 }
 
+//-----------------------------------------------------------------------------------------------
 App::~App()
 {
 	delete m_game;
@@ -36,6 +40,7 @@ App::~App()
 	g_engine = nullptr;
 }
 
+//-----------------------------------------------------------------------------------------------
 void App::RunFrame()
 {
 	float timeNow = static_cast<float>( GetCurrentTimeSeconds() );
@@ -50,6 +55,7 @@ void App::RunFrame()
 	g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
 }
 
+//-----------------------------------------------------------------------------------------------
 void App::Update(float deltaSeconds)
 {
 	if( m_currentState != m_nextState )

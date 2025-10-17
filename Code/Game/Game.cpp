@@ -489,6 +489,18 @@ void Game::AddCameraShake( float shakeAmount )
 }
 
 //-----------------------------------------------------------------------------------------------
+void Game::UpdateAttractMode( float deltaSeconds )
+{
+
+}
+
+//-----------------------------------------------------------------------------------------------
+void Game::RenderAttractMode() const
+{
+
+}
+
+//-----------------------------------------------------------------------------------------------
 void Game::UpdateEntities(float deltaSeconds)
 {
 	// Update Bullets
