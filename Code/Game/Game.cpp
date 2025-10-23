@@ -4,7 +4,9 @@
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Audio/AudioSystem.hpp"
 #include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Renderer/SimpleTriangleFont.hpp"
 #include "Game/Game.hpp"
+#include "Game/GameCommon.hpp"
 #include "Game/PlayerShip.hpp"
 #include "Game/App.hpp"
 #include "Game/Bullet.hpp"
@@ -48,6 +50,10 @@ void Game::Startup()
 	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
 	
+	InitializeStartTriangleVerts();
+	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
+	CreateFakePlayerShip( m_fakeShipVerts, 255 );
+
 	CreateStarfield();
 
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
@@ -59,6 +65,16 @@ void Game::Startup()
 //-----------------------------------------------------------------------------------------------
 void Game::Update( float deltaSeconds )
 {
+	UpdateStates();
+	UpdateKeyboardInput();
+	UpdateControllerInput();
+
+	if( m_currentState == GAME_STATE_ATTRACT )
+	{
+		UpdateAttractMode( deltaSeconds );
+		return;
+	}
+
 	UpdateEntities( deltaSeconds );
 
 	CheckBulletVsEnemies();
@@ -76,11 +92,17 @@ void Game::Update( float deltaSeconds )
 //-----------------------------------------------------------------------------------------------
 void Game::Render() const
 {
+	if( m_currentState == GAME_STATE_ATTRACT )
+	{
+		RenderAttractMode();
+		return;
+	}
+
 	RenderStars();
 	RenderEntities();
 	DrawPlayerLives();
 
-	if ( m_app->m_debugDraw )
+	if ( m_debugDraw )
 	{
 		DebugRenderEntities();
 		DebugDrawWorldBounds();
@@ -491,13 +513,84 @@ void Game::AddCameraShake( float shakeAmount )
 //-----------------------------------------------------------------------------------------------
 void Game::UpdateAttractMode( [[maybe_unused]] float deltaSeconds )
 {
-	
+	m_shipRotation += 0.5f;
+	if( m_shipRotation >= 360.f )
+	{
+		m_shipRotation = fmodf( m_shipRotation, 360.f );
+	}
+
+	m_time += deltaSeconds * 1.25f;
+	m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
+
+	for( int startIndex = 0; startIndex < 3; startIndex++ )
+	{
+		m_startVerts[ startIndex ].m_color = Rgba8( 0, 255, 0, (unsigned int)m_startAlpha );
+	}
 }
 
 //-----------------------------------------------------------------------------------------------
 void Game::RenderAttractMode() const
 {
+	g_engine->m_render->BeginCamera( *m_screenCamera );
 
+	g_engine->m_render->ClearScreen( m_clearColor );
+
+	// Draw Ships
+	Vertex tempShipVerts[ NUM_SHIP_VERTS ];
+	for( int vertIndex = 0; vertIndex < NUM_SHIP_VERTS; vertIndex++ )
+	{
+		tempShipVerts[ vertIndex ] = m_fakeShipVerts[ vertIndex ];
+	}
+
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 80.f, m_shipRotation, Vec2( 300.f, 400.f ) );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
+
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 0.f, Vec2( -300.f, -400.f ) );
+	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 180.f, Vec2( 1300.f, 400.f ) );
+	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
+
+	// Draw Start Button
+	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
+
+	// Draw Text
+	std::vector<Vertex> textStarshipDropShadowVerts;
+	AddVertsForTextTriangles2D( textStarshipDropShadowVerts, "Starship", Vec2( 622.f, 699.f ), 40.f, Rgba8( 0, 153, 204 ) );
+	g_engine->m_render->DrawVertexArray( (int)textStarshipDropShadowVerts.size(), textStarshipDropShadowVerts.data() );
+
+	std::vector<Vertex> textStarshipVerts;
+	AddVertsForTextTriangles2D( textStarshipVerts, "Starship", Vec2( 620.f, 700.f ), 40.f, Rgba8( 255, 25, 25 ) );
+	g_engine->m_render->DrawVertexArray( (int)textStarshipVerts.size(), textStarshipVerts.data() );
+
+	std::vector<Vertex> textGoldDropShadowVerts;
+	AddVertsForTextTriangles2D( textGoldDropShadowVerts, "Gold", Vec2( 862.f, 699.f ), 40.f, Rgba8( 204, 25, 25 ) );
+	g_engine->m_render->DrawVertexArray( (int)textGoldDropShadowVerts.size(), textGoldDropShadowVerts.data() );
+
+	std::vector<Vertex> textGoldVerts;
+	AddVertsForTextTriangles2D( textGoldVerts, "Gold", Vec2( 860.f, 700.f ), 40.f, Rgba8( 51, 204, 255 ) );
+	g_engine->m_render->DrawVertexArray( (int)textGoldVerts.size(), textGoldVerts.data() );
+
+	g_engine->m_render->EndCamera( *m_screenCamera );
+}
+
+void Game::UpdateStates()
+{
+	if( m_currentState != m_nextState )
+	{
+		if( m_currentState != GAME_STATE_INVALID )
+		{
+			g_engine->m_audio->StartSound( audio_selectSound );
+		}
+		if( m_nextState == GAME_STATE_PLAY )
+		{
+			m_music = g_engine->m_audio->StartSound( audio_music, true, 0.1f );
+		}
+		if( m_nextState == GAME_STATE_ATTRACT )
+		{
+			g_engine->m_audio->StopSound( m_music );
+		}
+
+		m_currentState = m_nextState;
+	}
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -1100,7 +1193,7 @@ void Game::CheckForGameOver()
 			}
 			else
 			{
-				g_app->m_nextState = GAME_STATE_ATTRACT;
+				m_nextState = GAME_STATE_ATTRACT;
 				g_app->RestartGame();
 			}
 		}
@@ -1156,7 +1249,7 @@ void Game::CheckIfWaveNeedsToSpawn()
 			}
 			else
 			{
-				g_app->m_nextState = GAME_STATE_ATTRACT;
+				m_nextState = GAME_STATE_ATTRACT;
 				g_app->RestartGame();
 			}
 		}
@@ -1230,7 +1323,7 @@ void Game::DrawPlayerLives() const
 	g_engine->m_render->BeginCamera( *m_screenCamera );
 
 	Vertex verts[ NUM_SHIP_VERTS ];
-	createFakePlayerShip( verts, 127 );
+	CreateFakePlayerShip( verts, 127 );
 
 	if( m_playerShip->m_lives > 1 )
 	{
@@ -1317,6 +1410,68 @@ void Game::RenderStars() const
 		vert.m_color = Rgba8( 255, 255, 255 );
 	}
 	g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, tempStarVerts );
+}
+
+void Game::UpdateKeyboardInput()
+{
+	if( m_currentState == GAME_STATE_ATTRACT && g_engine->m_input->wasKeyJustPressed( ' ' ) || g_engine->m_input->wasKeyJustPressed( 'N' ) )
+	{
+		m_nextState = GAME_STATE_PLAY;
+	}
+
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_ESC ) )
+	{
+		m_nextState = GAME_STATE_ATTRACT;
+	}
+
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_F1 ) )
+	{
+		if( !m_debugDraw )
+		{
+			m_debugDraw = true;
+		}
+		else
+		{
+			m_debugDraw = false;
+		}
+	}
+
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_F8 ) )
+	{
+		g_app->RestartGame();
+	}
+}
+
+void Game::UpdateControllerInput()
+{
+	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
+
+	if( m_currentState == GAME_STATE_ATTRACT && ( controller.WasButtonJustPressed( XboxButtonID::START ) || controller.WasButtonJustPressed( XboxButtonID::A ) ) )
+	{
+		m_nextState = GAME_STATE_PLAY;
+	}
+
+	if( m_currentState == GAME_STATE_ATTRACT && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
+	{
+		g_app->m_isQuitting = true;
+	}
+
+	if( m_currentState == GAME_STATE_PLAY && controller.WasButtonJustPressed( XboxButtonID::SELECT ) )
+	{
+		m_nextState = GAME_STATE_ATTRACT;
+	}
+}
+
+void Game::InitializeStartTriangleVerts()
+{
+	m_startVerts[ 0 ].m_pos = Vec3( -200.f, 200.f, 0.f );
+	m_startVerts[ 1 ].m_pos = Vec3( -200.f, -200.f, 0.f );
+	m_startVerts[ 2 ].m_pos = Vec3( 200.f, 0.f, 0.f );
+
+	for( int vertIndex = 0; vertIndex < 3; vertIndex++ )
+	{
+		m_startVerts[ vertIndex ].m_color = Rgba8( 0, 255, 0 );
+	}
 }
 
 //-----------------------------------------------------------------------------------------------

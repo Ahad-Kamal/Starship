@@ -1,5 +1,6 @@
 #pragma once
 #include "Game/GameCommon.hpp"
+#include "Game/PlayerShip.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
 #include "Engine/Core/Vertex.hpp"
@@ -60,6 +61,7 @@ public:
 	void AddCameraShake( float shakeAmount );
 
 private:
+	void UpdateStates();
 	void UpdateAttractMode( float deltaSeconds );
 	void RenderAttractMode() const;
 
@@ -97,6 +99,11 @@ private:
 	void CreateStarfield();
 	void RenderStars() const;
 
+	void UpdateKeyboardInput();
+	void UpdateControllerInput();
+
+	void InitializeStartTriangleVerts();
+
 	void DebugRenderEntities() const;
 	void DebugDrawWorldBounds() const;
 	void DeleteGarbageEntities();
@@ -123,6 +130,14 @@ private:
 	Vertex m_starVertsNear[ NUM_STAR_VERTS ];
 	Vertex m_starVertsFar[ NUM_STAR_VERTS ];
 
+	Vertex m_startVerts[ 3 ];
+	Vertex m_fakeShipVerts[ NUM_SHIP_VERTS ];
+	float m_startAlpha = 255.f;
+	float m_shipRotation = 0.f;
+	float m_time = 0.f;
+	Rgba8 m_clearColor = Rgba8( 0, 0, 0, 1 );
+	SoundPlaybackID m_music;
+
 	int m_waveNumber = 0;
 	int m_numFieryAsteroidsPerWave[ NUM_WAVES ] = { 6, 6, 4, 4, 4 };
 	int m_numIcyAsteroidsPerWave[ NUM_WAVES ]	= { 6, 6, 4, 4, 4 };
@@ -134,6 +149,7 @@ private:
 	int m_numIceWaspsPerWave[ NUM_WAVES ]		= { 0, 0, 1, 1, 3 };
 	int m_endGameTimer = 0;
 
-	bool m_isShaking = false;
 	float m_screenShakeAmount = 0.f;
+	bool m_isShaking = false;
+	bool m_debugDraw = false;
 };

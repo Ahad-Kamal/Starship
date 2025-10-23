@@ -214,7 +214,7 @@ void PlayerShip::UpdateFromController()
 	// Player Ship Movement and Rotation
 	float leftStickMagnitude = controller.GetLeftStick().GetMagnitude();
 	float rightStickMagnitude = controller.GetRightStick().GetMagnitude();
-	if( leftStickMagnitude > 0.f )
+	if( leftStickMagnitude > 0.f && IsAlive() )
 	{
 		m_isControllerThrusting = true;
 		m_thrustFraction = leftStickMagnitude;
@@ -314,7 +314,7 @@ void PlayerShip::CountdownInvincibility()
 }
 
 //-----------------------------------------------------------------------------------------------
-void createFakePlayerShip( Vertex verts[], [[maybe_unused]] float transparency )
+void CreateFakePlayerShip( Vertex verts[], [[maybe_unused]] float transparency )
 {
 	// Nose Cone
 	verts[ 0 ].m_pos = Vec3( 1.f, 0.f, 0.f );

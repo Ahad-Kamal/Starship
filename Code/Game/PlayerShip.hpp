@@ -20,7 +20,7 @@ constexpr float MAX_ICE_BULLET_COOLDOWN = 0.2f;
 constexpr float INVINCIBILITY_DURATION = 600.f;
 
 //-----------------------------------------------------------------------------------------------
-void createFakePlayerShip( Vertex verts[], float transparency );
+void CreateFakePlayerShip( Vertex verts[], float transparency );
 
 //----------------------------------------------------------------------------------------------
 class PlayerShip : public Entity
