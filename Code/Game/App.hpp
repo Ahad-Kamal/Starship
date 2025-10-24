@@ -23,6 +23,7 @@ public:
 
 	void SetIsQuitting();
 	bool IsQuitting() const;
+	void UpdateKeyboardInput();
 	void RestartGame();
 
 public:
@@ -30,6 +31,7 @@ public:
 	float m_lastFrameTime = 0.f;
 	bool m_isQuitting = false;
 	bool m_isPaused = false;
+	bool m_pauseNextFrame = false;
 	bool m_isSlowMo = false;
 	bool m_pauseAfterNextUpdate = false;
 };

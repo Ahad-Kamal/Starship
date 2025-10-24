@@ -1414,17 +1414,22 @@ void Game::RenderStars() const
 
 void Game::UpdateKeyboardInput()
 {
-	if( m_currentState == GAME_STATE_ATTRACT && g_engine->m_input->wasKeyJustPressed( ' ' ) || g_engine->m_input->wasKeyJustPressed( 'N' ) )
+	if( m_currentState == GAME_STATE_ATTRACT && g_engine->m_input->WasKeyJustPressed( ' ' ) || g_engine->m_input->WasKeyJustPressed( 'N' ) )
 	{
 		m_nextState = GAME_STATE_PLAY;
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_ESC ) )
+	if( m_currentState == GAME_STATE_ATTRACT && g_engine->m_input->WasKeyJustPressed( KEYCODE_ESC ) )
+	{
+		g_app->m_isQuitting = true;
+	}
+
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_ESC ) )
 	{
 		m_nextState = GAME_STATE_ATTRACT;
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_F1 ) )
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_F1 ) )
 	{
 		if( !m_debugDraw )
 		{
@@ -1436,7 +1441,7 @@ void Game::UpdateKeyboardInput()
 		}
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->wasKeyJustPressed( KEYCODE_F8 ) )
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_F8 ) )
 	{
 		g_app->RestartGame();
 	}

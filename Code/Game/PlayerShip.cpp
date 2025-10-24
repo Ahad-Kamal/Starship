@@ -148,14 +148,14 @@ void PlayerShip::InitializeLocalVerts()
 void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 {
 	// Shoot Commands
-	if( g_engine->m_input->isKeyDown( 'W' ) && IsAlive() && m_fireBulletCooldown == MAX_FIRE_BULLET_COOLDOWN )
+	if( g_engine->m_input->IsKeyDown( 'W' ) && IsAlive() && m_fireBulletCooldown == MAX_FIRE_BULLET_COOLDOWN )
 	{
 		m_fireBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, -1.f ).GetRotatedByDegrees( m_orientationDegrees );
 		m_game->SpawnNewFireBullet( m_position + bulletOffset, m_orientationDegrees );
 	}
 
-	if( g_engine->m_input->isKeyDown( 'R' ) && IsAlive() && m_iceBulletCooldown == MAX_ICE_BULLET_COOLDOWN )
+	if( g_engine->m_input->IsKeyDown( 'R' ) && IsAlive() && m_iceBulletCooldown == MAX_ICE_BULLET_COOLDOWN )
 	{
 		m_iceBulletCooldown = 0.f;
 		Vec2 bulletOffset = Vec2( 2.f, 1.f ).GetRotatedByDegrees( m_orientationDegrees );
@@ -163,7 +163,7 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 	}
 
 	// Player Ship Movement
-	if( g_engine->m_input->isKeyDown( 'E' ) && IsAlive() )
+	if( g_engine->m_input->IsKeyDown( 'E' ) && IsAlive() )
 	{
 		m_velocity += this->GetForwardNormal() * PLAYER_SHIP_ACCELERATION * deltaSeconds;
 		m_isKeyboardThrusting = true;
@@ -175,23 +175,23 @@ void PlayerShip::UpdateFromKeyboard( float deltaSeconds )
 		DeactivateThrust();
 	}
 
-	if( g_engine->m_input->isKeyDown( 'S' ) && IsAlive() )
+	if( g_engine->m_input->IsKeyDown( 'S' ) && IsAlive() )
 	{
 		m_orientationDegrees += PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_engine->m_input->isKeyDown( 'F' ) && IsAlive() )
+	if( g_engine->m_input->IsKeyDown( 'F' ) && IsAlive() )
 	{
 		m_orientationDegrees -= PLAYER_SHIP_TURN_SPEED * deltaSeconds;
 	}
 
-	if( g_engine->m_input->isKeyDown( 'N' ) && !IsAlive() && m_lives > 0 )
+	if( g_engine->m_input->IsKeyDown( 'N' ) && !IsAlive() && m_lives > 0 )
 	{
 		Respawn();
 	}
 
 	// Debug Commands
-	if( g_engine->m_input->wasKeyJustPressed( 'I' ) )
+	if( g_engine->m_input->WasKeyJustPressed( 'I' ) )
 	{
 		m_game->SpawnNewRandomFieryAsteroid();
 	}
