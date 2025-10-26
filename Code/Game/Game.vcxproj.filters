@@ -102,9 +102,6 @@
     <ClInclude Include="Wasp.hpp">
       <Filter>Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="EngineBuildPreferences.hpp">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="FireBullet.hpp">
       <Filter>Gameplay</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="IceWasp.hpp">
       <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\EngineBuildPreferences.hpp">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
