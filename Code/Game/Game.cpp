@@ -1446,14 +1446,9 @@ void Game::UpdateKeyboardInput()
 		g_app->RestartGame();
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'M' ) )
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'B' ) )
 	{
-		if( m_waveNumber < 5 )
-		{
-			g_engine->m_audio->StartSound( audio_waveStart, false, 0.5f );
-			SpawnWave();
-			m_waveNumber++;
-		}
+		DebugGarbageAllEnemies();
 	}
 }
 
@@ -1568,6 +1563,29 @@ void Game::DebugDrawWorldBounds() const
 	DebugDrawLine( Vec2( 0.f, WORLD_SIZE_Y ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
 	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( 0.f, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
 	DebugDrawLine( Vec2( WORLD_SIZE_X, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
+}
+
+//-----------------------------------------------------------------------------------------------
+void Game::DebugGarbageAllEnemies()
+{
+	for( int beetleIndex = 0; beetleIndex < MAX_BEETLES; beetleIndex++ )
+	{
+		Beetle*& beetle = m_beetles[ beetleIndex ];
+
+		if( beetle )
+		{
+			beetle->m_isGarbage = true;
+		}
+	}
+
+	for( int waspIndex = 0; waspIndex < MAX_WASPS; waspIndex++ )
+	{
+		Wasp*& wasp = m_wasps[ waspIndex ];
+		if( wasp )
+		{
+			wasp->m_isGarbage = true;
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------------------------

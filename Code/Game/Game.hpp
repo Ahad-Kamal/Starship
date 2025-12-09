@@ -106,6 +106,8 @@ private:
 
 	void DebugRenderEntities() const;
 	void DebugDrawWorldBounds() const;
+
+	void DebugGarbageAllEnemies();
 	void DeleteGarbageEntities();
 
 public:
