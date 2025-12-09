@@ -1445,6 +1445,16 @@ void Game::UpdateKeyboardInput()
 	{
 		g_app->RestartGame();
 	}
+
+	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'M' ) )
+	{
+		if( m_waveNumber < 5 )
+		{
+			g_engine->m_audio->StartSound( audio_waveStart, false, 0.5f );
+			SpawnWave();
+			m_waveNumber++;
+		}
+	}
 }
 
 void Game::UpdateControllerInput()

@@ -15,6 +15,7 @@ Keyboard Controls:
 - W to shoot a Fire Bullet
 - R to shoot an Ice Bullet
 - N to respawn player ship (only works if player ship is dead)
+- M to go to the next wave
 - I to spawn a new asteroid
 - P to pause
 - T to slow rate of time
@@ -37,6 +38,8 @@ Known Issues
 
 No known compile errors or warnings. There was an issue with the game crashing upon game over or game victory that I was encountering. The thing is though is that this crash was inconsistent. I believe I've solved the issue and I haven't encountered this issue since submitting Starship Playable, but letting you know in case it happens to you.
 
+(Dec 8th)
+Another potential issue is that sometimes enemies may get stuck offscreen, I couldn't fix this bug and it isn't consistent, but I added a debug key to go the next wave in case this happens
 
 Deep Learning
 
