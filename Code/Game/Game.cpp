@@ -49,9 +49,6 @@ void Game::Startup()
 
 	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
-	
-	g_engine->m_render->SetBlendMode( BlendMode::ALPHA );
-	g_engine->m_render->SetStatesIfChanged();
 
 	InitializeStartTriangleVerts();
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
