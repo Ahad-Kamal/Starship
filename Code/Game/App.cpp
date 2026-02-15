@@ -181,6 +181,7 @@ void App::UpdateKeyboardInput()
 			m_pauseNextFrame = true;
 			m_isPaused = false;
 		}
+		g_game->m_gameClock->StepSingleFrame();
 	}
 
 }
