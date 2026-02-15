@@ -13,10 +13,14 @@ class PlayerShip;
 class Asteroid;
 class Bullet;
 class Entity;
+class Clock;
 class Beetle;
 class Wasp;
 class Debris;
 class Explosion;
+
+//-----------------------------------------------------------------------------------------------
+extern Game* g_game;
 extern RandomNumberGenerator* g_rng;
 
 
@@ -35,7 +39,7 @@ public:
 	Game( App* owner );
 	~Game();
 	void Startup();
-	void Update( float deltaSeconds );
+	void Update();
 	void Render() const;
 	void Shutdown();
 
@@ -59,6 +63,8 @@ public:
 	
 	Vec2 GetRandomOffScreenPosition() const;
 	void AddCameraShake( float shakeAmount );
+
+	void SetGameMusicSpeed( float speed );
 
 private:
 	void UpdateStates();
@@ -113,6 +119,8 @@ private:
 public:
 	Camera* m_worldCamera;
 	Camera* m_screenCamera;
+
+	Clock*  m_gameClock;
 
 	GameState m_currentState = GAME_STATE_INVALID;
 	GameState m_nextState = GAME_STATE_ATTRACT;

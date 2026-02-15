@@ -18,20 +18,23 @@ public:
 	~App();
 
 	void RunFrame();
-	void Update( float deltaSeconds );
+	void Update();
 	void Render() const;
 
-	void SetIsQuitting();
+	void SetIsQuitting( bool quit );
 	bool IsQuitting() const;
+
+	static bool Event_Quit( EventArgs& args );
+
 	void UpdateKeyboardInput();
 	void RestartGame();
 
 public:
-	Game* m_game = nullptr;
 	float m_lastFrameTime = 0.f;
 	bool m_isQuitting = false;
 	bool m_isPaused = false;
 	bool m_pauseNextFrame = false;
 	bool m_isSlowMo = false;
+	bool m_isFastMo = false;
 	bool m_pauseAfterNextUpdate = false;
 };

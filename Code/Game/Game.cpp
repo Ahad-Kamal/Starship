@@ -1,4 +1,6 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
+#include "Engine/Core/Clock.hpp"
+#include "Engine/Core/Timer.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
@@ -26,6 +28,7 @@
 
 
 //-----------------------------------------------------------------------------------------------
+Game* g_game = nullptr;
 RandomNumberGenerator* g_rng = nullptr;
 
 //-----------------------------------------------------------------------------------------------
@@ -44,11 +47,15 @@ Game::~Game()
 //-----------------------------------------------------------------------------------------------
 void Game::Startup()
 {
+	m_gameClock = new Clock( Clock::GetSystemClock() );
+
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
 
 	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
+
+	g_engine->m_devConsole->PrintCommandsToConsole();
 
 	InitializeStartTriangleVerts();
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
@@ -63,8 +70,10 @@ void Game::Startup()
 }
 
 //-----------------------------------------------------------------------------------------------
-void Game::Update( float deltaSeconds )
+void Game::Update()
 {
+	float deltaSeconds = static_cast<float>( m_gameClock->GetDeltaSeconds() );
+
 	UpdateStates();
 	UpdateKeyboardInput();
 	UpdateControllerInput();
@@ -184,6 +193,13 @@ void Game::Shutdown()
 			explosion = nullptr;
 		}
 	}
+
+	delete m_gameClock;
+	m_gameClock = nullptr;
+
+	g_engine->m_audio->StopSound( m_music );
+
+	g_engine->m_devConsole->ClearLog();
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -1482,6 +1498,12 @@ void Game::InitializeStartTriangleVerts()
 	{
 		m_startVerts[ vertIndex ].m_color = Rgba8( 0, 255, 0 );
 	}
+}
+
+//-----------------------------------------------------------------------------------------------
+void Game::SetGameMusicSpeed( float speed )
+{
+	g_engine->m_audio->SetSoundPlaybackSpeed( m_music, speed );
 }
 
 //-----------------------------------------------------------------------------------------------

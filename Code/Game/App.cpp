@@ -5,6 +5,7 @@
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Core/Time.hpp"
+#include "Engine/Core/Clock.hpp"
 #include "Game/App.hpp"
 #include "Game/Game.hpp"
 #include "Game/PlayerShip.hpp"
@@ -25,7 +26,10 @@ App::App()
 	config.m_windowConfig.m_windowTitle = "Starship Gold";
 
 	g_engine = new Engine( config );
-	m_game = new Game( this );
+
+	SubscribeEventCallbackFunction( "Quit", Event_Quit );
+
+	g_game = new Game( this );
 	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 
 	CreateSounds();
@@ -34,8 +38,8 @@ App::App()
 //-----------------------------------------------------------------------------------------------
 App::~App()
 {
-	delete m_game;
-	m_game = nullptr;
+	delete g_game;
+	g_game = nullptr;
 
 	delete g_engine;
 	g_engine = nullptr;
@@ -44,23 +48,19 @@ App::~App()
 //-----------------------------------------------------------------------------------------------
 void App::RunFrame()
 {
-	float timeNow = static_cast<float>( GetCurrentTimeSeconds() );
-	float deltaSeconds = timeNow - m_lastFrameTime;
-	m_lastFrameTime = timeNow;
-	deltaSeconds = GetClamped( deltaSeconds, 0.f, 0.1f );
+	Clock::TickSystemClock();
 
 	// One "frame" of the game.  Generally: Input, Update, Render.  We call this 60+ times per second.
 	g_engine->BeginFrame(); // Allow engine subsystems to do pre-frame stuff
-	Update( deltaSeconds );		
+	Update();		
 	Render();		
 	g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
 }
 
 //-----------------------------------------------------------------------------------------------
-void App::Update(float deltaSeconds)
+void App::Update()
 {
 	g_engine->m_input->BeginFrame();
-
 
 	if( m_pauseNextFrame )
 	{
@@ -70,69 +70,107 @@ void App::Update(float deltaSeconds)
 
 	if( m_isPaused )
 	{
-		deltaSeconds = 0;
+		g_game->SetGameMusicSpeed( 0.f );
 	}
 
 	if( m_isSlowMo )
 	{
-		deltaSeconds *= 0.1f;
+		g_game->SetGameMusicSpeed( 0.8f );
 	}
 
-	m_game->Update( deltaSeconds );
+	if( m_isFastMo )
+	{
+		g_game->SetGameMusicSpeed( 1.2f );
+	}
+
+	if( !m_isPaused && !m_isSlowMo && !m_isFastMo )
+	{
+		g_game->SetGameMusicSpeed( 1.f );
+	}
+
+
+	g_game->Update();
 }
 
+//-----------------------------------------------------------------------------------------------
 void App::Render() const
 {
-	g_engine->m_render->BeginCamera( *m_game->m_worldCamera );
+	g_engine->m_render->BeginCamera( *g_game->m_worldCamera );
 	
 	g_engine->m_render->ClearScreen( g_clearColor );
 
-	m_game->Render();
+	g_game->Render();
 
-	g_engine->m_render->EndCamera( *m_game->m_worldCamera );
+	g_engine->m_render->EndCamera( *g_game->m_worldCamera );
 }
 
-void App::SetIsQuitting()
+//-----------------------------------------------------------------------------------------------
+void App::SetIsQuitting( bool quit )
 {
-
+	m_isQuitting = quit;
 }
 
+//-----------------------------------------------------------------------------------------------
 bool App::IsQuitting() const
 {
 	return m_isQuitting;
 }
 
+//-----------------------------------------------------------------------------------------------
+bool App::Event_Quit( [[maybe_unused]] EventArgs& args )
+{
+	g_app->SetIsQuitting( true );
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------------
 void App::UpdateKeyboardInput()
 {
-	if( m_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_F8 ) )
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_F8 ) )
 	{
 		RestartGame();
 	}
 
-	if( m_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'P' ) )
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'P' ) )
 	{
 		if( !m_isPaused )
 		{
 			m_isPaused = true;
+			g_game->m_gameClock->Pause();
 		}
 		else
 		{
 			m_isPaused = false;
 			m_pauseNextFrame = false;
+			g_game->m_gameClock->Unpause();
 		}
 	}
 
-	if( m_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'T' ) )
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'T' ) )
 	{
 		m_isSlowMo = true;
+		g_game->m_gameClock->SetTimeScale( 0.1 );
 	}
 
-	if( m_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustReleased( 'T' ) )
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustReleased( 'T' ) )
 	{
 		m_isSlowMo = false;
+		g_game->m_gameClock->SetTimeScale( 1.0 );
 	}
 
-	if( m_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'O' ) )
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'Y' ) )
+	{
+		m_isFastMo = true;
+		g_game->m_gameClock->SetTimeScale( 4.0 );
+	}
+
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustReleased( 'Y' ) )
+	{
+		m_isFastMo = false;
+		g_game->m_gameClock->SetTimeScale( 1.0 );
+	}
+
+	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( 'O' ) )
 	{
 		if( !m_isPaused )
 		{
@@ -147,13 +185,15 @@ void App::UpdateKeyboardInput()
 
 }
 
+//-----------------------------------------------------------------------------------------------
 void App::RestartGame()
 {
-	m_game->Shutdown();
+	g_engine->m_render->BindTexture( nullptr );
+	g_game->Shutdown();
 
-	delete m_game;
-	m_game = nullptr;
+	delete g_game;
+	g_game = nullptr;
 
-	m_game = new Game( this );
+	g_game = new Game( this );
 }
 
