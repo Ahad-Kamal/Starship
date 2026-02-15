@@ -14,6 +14,7 @@ class Asteroid;
 class Bullet;
 class Entity;
 class Clock;
+class Timer;
 class Beetle;
 class Wasp;
 class Debris;
@@ -110,11 +111,16 @@ private:
 
 	void InitializeStartTriangleVerts();
 
+	void AddCommandsToDevConsole();
+	void AddControlsToDevConsole();
+
 	void DebugRenderEntities() const;
 	void DebugDrawWorldBounds() const;
 
 	void DebugGarbageAllEnemies();
 	void DeleteGarbageEntities();
+
+	static bool Event_SetTimeScale( EventArgs& args );
 
 public:
 	Camera* m_worldCamera;
@@ -157,7 +163,9 @@ private:
 	int m_numWaspsPerWave[ NUM_WAVES ]			= { 0, 0, 1, 1, 3 };
 	int m_numFireWaspsPerWave[ NUM_WAVES ]		= { 0, 0, 1, 1, 3 };
 	int m_numIceWaspsPerWave[ NUM_WAVES ]		= { 0, 0, 1, 1, 3 };
-	int m_endGameTimer = 0;
+
+	Timer* m_endGameTimer;
+
 
 	float m_screenShakeAmount = 0.f;
 	bool m_isShaking = false;

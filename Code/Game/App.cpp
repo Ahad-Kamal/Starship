@@ -184,6 +184,10 @@ void App::UpdateKeyboardInput()
 		g_game->m_gameClock->StepSingleFrame();
 	}
 
+	if( g_engine->m_input->WasKeyJustPressed( KEYCODE_GRAVE_ACCENT ) )
+	{
+		g_engine->m_devConsole->SetMode( DevConsoleMode::OPEN_FULL );
+	}
 }
 
 //-----------------------------------------------------------------------------------------------

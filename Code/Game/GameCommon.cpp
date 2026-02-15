@@ -77,6 +77,7 @@ void DebugDrawRing(Vec2 const& center, float radius, float thickness, Rgba8 cons
 		verts[ vertIndexF ].m_color = color;
 	}
 
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_VERTS, verts );
 }
 
@@ -118,6 +119,7 @@ void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, R
 	}
 
 	// Draw vertexes
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_VERTS, verts );
 }
 
@@ -173,6 +175,7 @@ void DrawFadedRing( Vec2 center, float innerRadius, float outerRadius, Rgba8 inn
 		verts[ vertIndexF ].m_color = outerColor;
 	}
 
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_VERTS, verts );
 }
 

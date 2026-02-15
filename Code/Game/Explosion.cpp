@@ -46,6 +46,7 @@ void Explosion::Render() const
 
 	DrawGlow( m_position, m_color, alphaFloat, m_cosmeticRadius * 2.f );
 	TransformVertexArrayXY3D( NUM_EXPLOSION_VERTS, tempWorldVerts, 1.f, m_orientationDegrees, m_position );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_EXPLOSION_VERTS, tempWorldVerts );
 
 }

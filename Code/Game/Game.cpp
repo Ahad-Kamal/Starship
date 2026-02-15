@@ -1,6 +1,8 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
 #include "Engine/Core/Clock.hpp"
 #include "Engine/Core/Timer.hpp"
+#include "Engine/Core/DevConsole.hpp"
+#include "Engine/Core/NamedStrings.hpp"
 #include "Engine/Math/Vec2.hpp"
 #include "Engine/Math/MathUtils.hpp"
 #include "Engine/Math/RandomNumberGenerator.hpp"
@@ -48,6 +50,7 @@ Game::~Game()
 void Game::Startup()
 {
 	m_gameClock = new Clock( Clock::GetSystemClock() );
+	m_endGameTimer = new Timer( 3.0, m_gameClock );
 
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
@@ -55,7 +58,12 @@ void Game::Startup()
 	m_worldCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( WORLD_VIEW_SIZE_X, WORLD_VIEW_SIZE_Y ) );
 	m_screenCamera->SetOrthoView( Vec2( 0.f, 0.f ), Vec2( SCREEN_SIZE_X, SCREEN_SIZE_Y ) );
 
+	SubscribeEventCallbackFunction( "SetTimeScale", Event_SetTimeScale );
+
 	g_engine->m_devConsole->PrintCommandsToConsole();
+	AddCommandsToDevConsole();
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " SetTimeScale scale=value" );
+	AddControlsToDevConsole();
 
 	InitializeStartTriangleVerts();
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
@@ -67,6 +75,8 @@ void Game::Startup()
 	m_playerShip = new PlayerShip( this, worldCenter );
 
 	SpawnWave();
+
+	m_endGameTimer->Start();
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -115,6 +125,13 @@ void Game::Render() const
 	{
 		DebugRenderEntities();
 		DebugDrawWorldBounds();
+	}
+
+	if( g_engine->m_devConsole->IsOpen() )
+	{
+		g_engine->m_render->BeginCamera( *m_screenCamera );
+		AABB2 screenBounds = AABB2( m_screenCamera->GetOrthoBottomLeft(), m_screenCamera->GetOrthoTopRight() );
+		g_engine->m_devConsole->Render( screenBounds );
 	}
 }
 
@@ -193,6 +210,8 @@ void Game::Shutdown()
 			explosion = nullptr;
 		}
 	}
+
+	m_endGameTimer->Stop();
 
 	delete m_gameClock;
 	m_gameClock = nullptr;
@@ -559,30 +578,37 @@ void Game::RenderAttractMode() const
 	}
 
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 80.f, m_shipRotation, Vec2( 300.f, 400.f ) );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
 
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 0.f, Vec2( -300.f, -400.f ) );
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS, tempShipVerts, 1.f, 180.f, Vec2( 1300.f, 400.f ) );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, tempShipVerts );
 
 	// Draw Start Button
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
 
 	// Draw Text
 	std::vector<Vertex> textStarshipDropShadowVerts;
 	AddVertsForTextTriangles2D( textStarshipDropShadowVerts, "Starship", Vec2( 622.f, 699.f ), 40.f, Rgba8( 0, 153, 204 ) );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( (int)textStarshipDropShadowVerts.size(), textStarshipDropShadowVerts.data() );
 
 	std::vector<Vertex> textStarshipVerts;
 	AddVertsForTextTriangles2D( textStarshipVerts, "Starship", Vec2( 620.f, 700.f ), 40.f, Rgba8( 255, 25, 25 ) );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( (int)textStarshipVerts.size(), textStarshipVerts.data() );
 
 	std::vector<Vertex> textGoldDropShadowVerts;
 	AddVertsForTextTriangles2D( textGoldDropShadowVerts, "Gold", Vec2( 862.f, 699.f ), 40.f, Rgba8( 204, 25, 25 ) );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( (int)textGoldDropShadowVerts.size(), textGoldDropShadowVerts.data() );
 
 	std::vector<Vertex> textGoldVerts;
 	AddVertsForTextTriangles2D( textGoldVerts, "Gold", Vec2( 860.f, 700.f ), 40.f, Rgba8( 51, 204, 255 ) );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( (int)textGoldVerts.size(), textGoldVerts.data() );
 
 	g_engine->m_render->EndCamera( *m_screenCamera );
@@ -1203,11 +1229,7 @@ void Game::CheckForGameOver()
 		Debris* debris = m_debris[0];
 		if( !debris->IsAlive() )
 		{
-			if( m_endGameTimer < 60 )
-			{
-				m_endGameTimer++;
-			}
-			else
+			if( m_endGameTimer->HasPeriodElapsed() )
 			{
 				m_nextState = GAME_STATE_ATTRACT;
 				g_app->RestartGame();
@@ -1259,11 +1281,7 @@ void Game::CheckIfWaveNeedsToSpawn()
 		else
 		{
 			g_engine->m_audio->StartSound( audio_victory, false, 0.1f, 0.f, 3.f );
-			if( m_endGameTimer < 320 )
-			{
-				m_endGameTimer++;
-			}
-			else
+			if( m_endGameTimer->HasPeriodElapsed() )
 			{
 				m_nextState = GAME_STATE_ATTRACT;
 				g_app->RestartGame();
@@ -1344,12 +1362,14 @@ void Game::DrawPlayerLives() const
 	if( m_playerShip->m_lives > 1 )
 	{
 		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 8.f, 90.f, Vec2( 20.f, 780.f ) );
+		g_engine->m_render->BindTexture( nullptr );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
 	}
 
 	for( int currentLife = 1; currentLife < m_playerShip->m_lives - 1; currentLife++ )
 	{
 		TransformVertexArrayXY3D( NUM_SHIP_VERTS, verts, 1.f, 0.f, Vec2( 40.f, 0.f ) );
+		g_engine->m_render->BindTexture( nullptr );
 		g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS, verts );
 	}
 
@@ -1414,6 +1434,7 @@ void Game::RenderStars() const
 		vert.m_pos.y += farStarDisplacement.y;
 		vert.m_color = Rgba8( 100, 100, 100 );
 	}
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, tempStarVerts );
 
 	Vec2 nearStarDisplacement = -0.5f * displacementCenterToPlayer;
@@ -1425,6 +1446,7 @@ void Game::RenderStars() const
 		vert.m_pos.y += nearStarDisplacement.y;
 		vert.m_color = Rgba8( 255, 255, 255 );
 	}
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_STAR_VERTS, tempStarVerts );
 }
 
@@ -1498,6 +1520,32 @@ void Game::InitializeStartTriangleVerts()
 	{
 		m_startVerts[ vertIndex ].m_color = Rgba8( 0, 255, 0 );
 	}
+}
+
+//-----------------------------------------------------------------------------------------------
+void Game::AddCommandsToDevConsole()
+{
+	g_engine->m_devConsole->m_validCommands.push_back( "SetTimeScale" );
+}
+
+//-----------------------------------------------------------------------------------------------
+void Game::AddControlsToDevConsole()
+{
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MAJOR, "Controls" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " E to accelerate" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " S to turn left" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " F to turn right" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " W to shoot a Fire Bullet" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " R to shoot an Ice Bullet" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " N to respawn player ship" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " B to kill all enemies" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " I to spawn a new asteroid" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " P to pause" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " T to slow rate of time" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " O to run a single frame" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " F1 to toggle debug rendering" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " F8 to reset game" );
+
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -1678,4 +1726,13 @@ void Game::DeleteGarbageEntities()
 			explosion = nullptr;
 		}
 	}
+}
+
+//-----------------------------------------------------------------------------------------------
+bool Game::Event_SetTimeScale( EventArgs& args )
+{
+	float timeScale = static_cast<float>( args.GetValue( "scale", 1.f ) );
+	g_game->m_gameClock->SetTimeScale( timeScale );
+
+	return true;
 }

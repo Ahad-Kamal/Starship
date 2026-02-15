@@ -78,6 +78,7 @@ void PlayerShip::Render() const
 
 	DrawGlow( m_position, Rgba8( 255, 255, 255 ), 0.2f, 5.f  );
 	TransformVertexArrayXY3D( NUM_SHIP_VERTS_TOTAL, tempShipWorldVerts, 1.f, m_orientationDegrees, m_position );
+	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( NUM_SHIP_VERTS_TOTAL, tempShipWorldVerts );
 }
 
