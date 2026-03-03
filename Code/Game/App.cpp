@@ -32,6 +32,10 @@ App::App()
 	g_game = new Game( this );
 	m_lastFrameTime = static_cast<float>( GetCurrentTimeSeconds() );
 
+	g_engine->m_render->SetModelConstants();
+	g_engine->m_render->SetRasterizerState( RasterizerMode::SOLID_CULL_NONE );
+	g_engine->m_render->SetRasterizerStateIfChanged();
+
 	CreateSounds();
 }
 
